@@ -52,7 +52,8 @@ public class TransferResource extends BaseResource
 			// Create new entries in the transfer log
 			context.insertInto(TRANSFER_LOGS, TRANSFER_LOGS.CONTAINER_ID, TRANSFER_LOGS.SOURCE_ID, TRANSFER_LOGS.TARGET_ID, TRANSFER_LOGS.USER_ID)
 				   .select(DSL.select(CONTAINERS.ID, CONTAINERS.PARENT_CONTAINER_ID, DSL.inline(transfer.getTargetId(), Integer.class), DSL.inline(sessionUser.getId(), Integer.class))
-							  .from(CONTAINERS).where(CONTAINERS.PARENT_CONTAINER_ID.eq(transfer.getSourceId()))
+							  .from(CONTAINERS)
+							  .where(CONTAINERS.PARENT_CONTAINER_ID.eq(transfer.getSourceId()))
 				   )
 				   .execute();
 

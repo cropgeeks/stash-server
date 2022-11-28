@@ -83,7 +83,7 @@ CREATE TABLE `containers`  (
   `parent_container_id` int(11) NULL DEFAULT NULL,
   `is_active` tinyint(1) NOT NULL DEFAULT 1,
   `trial_id` int(11) NULL DEFAULT NULL,
-  `project_id` int(11) NOT NULL,
+  `project_id` int(11) NULL DEFAULT NULL,
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
