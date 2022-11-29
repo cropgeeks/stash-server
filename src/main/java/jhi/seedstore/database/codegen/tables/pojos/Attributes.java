@@ -4,12 +4,14 @@
 package jhi.seedstore.database.codegen.tables.pojos;
 
 
-import jhi.seedstore.database.codegen.enums.AttributesDatatype;
-import lombok.*;
-import lombok.experimental.Accessors;
-
 import java.io.Serializable;
 import java.sql.Timestamp;
+
+import jhi.seedstore.database.codegen.enums.AttributesDatatype;
+
+
+import lombok.*;
+import lombok.experimental.Accessors;
 
 // @formatter:off
 /**

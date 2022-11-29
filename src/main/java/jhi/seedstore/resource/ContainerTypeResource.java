@@ -81,7 +81,7 @@ public class ContainerTypeResource extends BaseResource
 			record.store();
 
 			// Return the id
-			return Response.ok(record.getId()).build();
+			return Response.ok(record.into(ContainerTypes.class)).build();
 		}
 	}
 

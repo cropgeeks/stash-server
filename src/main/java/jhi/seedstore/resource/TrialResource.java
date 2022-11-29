@@ -85,10 +85,12 @@ public class TrialResource extends BaseResource
 				return Response.status(Response.Status.CONFLICT).build();
 
 			record = context.newRecord(TRIALS, trial);
+			record.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+			record.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
 			record.store();
 
 			// Return the id
-			return Response.ok(record.getId()).build();
+			return Response.ok(record.into(Trials.class)).build();
 		}
 	}
 

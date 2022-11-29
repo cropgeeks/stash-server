@@ -4,11 +4,13 @@
 package jhi.seedstore.database.codegen.tables.pojos;
 
 
+import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Timestamp;
+
+
 import lombok.*;
 import lombok.experimental.Accessors;
-
-import java.io.Serializable;
-import java.sql.*;
 
 // @formatter:off
 /**

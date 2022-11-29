@@ -4,11 +4,15 @@
 package jhi.seedstore.database.codegen.tables.records;
 
 
-import jhi.seedstore.database.codegen.tables.TransferLogs;
-import org.jooq.*;
-import org.jooq.impl.UpdatableRecordImpl;
-
 import java.sql.Timestamp;
+
+import jhi.seedstore.database.codegen.tables.TransferLogs;
+
+import org.jooq.Field;
+import org.jooq.Record1;
+import org.jooq.Record7;
+import org.jooq.Row7;
+import org.jooq.impl.UpdatableRecordImpl;
 
 
 // @formatter:off

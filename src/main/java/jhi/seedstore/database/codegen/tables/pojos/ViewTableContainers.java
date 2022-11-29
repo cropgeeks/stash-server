@@ -4,11 +4,13 @@
 package jhi.seedstore.database.codegen.tables.pojos;
 
 
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.Map;
+
+
 import lombok.*;
 import lombok.experimental.Accessors;
-
-import java.io.Serializable;
-import java.util.Map;
 
 // @formatter:off
 /**
@@ -40,6 +42,7 @@ public class ViewTableContainers implements Serializable {
     private String             projectDescription;
     private Map<String,String> containerAttributes;
     private Long               subContainerCount;
+    private Timestamp          createdOn;
 
     public ViewTableContainers() {}
 
@@ -62,6 +65,7 @@ public class ViewTableContainers implements Serializable {
         this.projectDescription = value.projectDescription;
         this.containerAttributes = value.containerAttributes;
         this.subContainerCount = value.subContainerCount;
+        this.createdOn = value.createdOn;
     }
 
     public ViewTableContainers(
@@ -82,7 +86,8 @@ public class ViewTableContainers implements Serializable {
         String             projectName,
         String             projectDescription,
         Map<String,String> containerAttributes,
-        Long               subContainerCount
+        Long               subContainerCount,
+        Timestamp          createdOn
     ) {
         this.containerId = containerId;
         this.containerBarcode = containerBarcode;
@@ -102,6 +107,7 @@ public class ViewTableContainers implements Serializable {
         this.projectDescription = projectDescription;
         this.containerAttributes = containerAttributes;
         this.subContainerCount = subContainerCount;
+        this.createdOn = createdOn;
     }
 
     @Override
@@ -126,6 +132,7 @@ public class ViewTableContainers implements Serializable {
         sb.append(", ").append(projectDescription);
         sb.append(", ").append(containerAttributes);
         sb.append(", ").append(subContainerCount);
+        sb.append(", ").append(createdOn);
 
         sb.append(")");
         return sb.toString();

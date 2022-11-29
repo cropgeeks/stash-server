@@ -10,10 +10,9 @@ import jhi.seedstore.pojo.ContainerImport;
 import jhi.seedstore.resource.base.ContextResource;
 import jhi.seedstore.util.*;
 import org.jooq.DSLContext;
-import org.jooq.impl.DSL;
 
 import java.sql.*;
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static jhi.seedstore.database.codegen.tables.Containers.*;

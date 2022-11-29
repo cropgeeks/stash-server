@@ -4,7 +4,9 @@
 package jhi.seedstore.database.codegen.enums;
 
 
-import org.jooq.*;
+import org.jooq.Catalog;
+import org.jooq.EnumType;
+import org.jooq.Schema;
 
 
 // @formatter:off

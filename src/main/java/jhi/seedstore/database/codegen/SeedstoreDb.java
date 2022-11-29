@@ -4,11 +4,23 @@
 package jhi.seedstore.database.codegen;
 
 
-import jhi.seedstore.database.codegen.tables.*;
-import org.jooq.*;
-import org.jooq.impl.SchemaImpl;
+import java.util.Arrays;
+import java.util.List;
 
-import java.util.*;
+import jhi.seedstore.database.codegen.tables.Attributes;
+import jhi.seedstore.database.codegen.tables.ContainerAttributes;
+import jhi.seedstore.database.codegen.tables.ContainerTypes;
+import jhi.seedstore.database.codegen.tables.Containers;
+import jhi.seedstore.database.codegen.tables.Projects;
+import jhi.seedstore.database.codegen.tables.TransferLogs;
+import jhi.seedstore.database.codegen.tables.Trials;
+import jhi.seedstore.database.codegen.tables.Users;
+import jhi.seedstore.database.codegen.tables.ViewTableContainers;
+import jhi.seedstore.database.codegen.tables.ViewTableTransfers;
+
+import org.jooq.Catalog;
+import org.jooq.Table;
+import org.jooq.impl.SchemaImpl;
 
 
 // @formatter:off

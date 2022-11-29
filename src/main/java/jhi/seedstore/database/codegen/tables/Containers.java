@@ -4,13 +4,24 @@
 package jhi.seedstore.database.codegen.tables;
 
 
+import java.sql.Timestamp;
+
 import jhi.seedstore.database.codegen.SeedstoreDb;
 import jhi.seedstore.database.codegen.tables.records.ContainersRecord;
-import org.jooq.*;
-import org.jooq.impl.Internal;
-import org.jooq.impl.*;
 
-import java.sql.Timestamp;
+import org.jooq.Field;
+import org.jooq.Identity;
+import org.jooq.Name;
+import org.jooq.Row10;
+import org.jooq.Schema;
+import org.jooq.Table;
+import org.jooq.TableField;
+import org.jooq.TableOptions;
+import org.jooq.UniqueKey;
+import org.jooq.impl.DSL;
+import org.jooq.impl.Internal;
+import org.jooq.impl.SQLDataType;
+import org.jooq.impl.TableImpl;
 
 
 // @formatter:off
@@ -73,7 +84,7 @@ public class Containers extends TableImpl<ContainersRecord> {
     /**
      * The column <code>seedstore_db.containers.project_id</code>.
      */
-    public final TableField<ContainersRecord, Integer> PROJECT_ID = createField(DSL.name("project_id"), SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<ContainersRecord, Integer> PROJECT_ID = createField(DSL.name("project_id"), SQLDataType.INTEGER, this, "");
 
     /**
      * The column <code>seedstore_db.containers.created_on</code>.

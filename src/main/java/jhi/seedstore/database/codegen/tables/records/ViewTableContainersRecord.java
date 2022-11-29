@@ -4,11 +4,15 @@
 package jhi.seedstore.database.codegen.tables.records;
 
 
-import jhi.seedstore.database.codegen.tables.ViewTableContainers;
-import org.jooq.*;
-import org.jooq.impl.TableRecordImpl;
-
+import java.sql.Timestamp;
 import java.util.Map;
+
+import jhi.seedstore.database.codegen.tables.ViewTableContainers;
+
+import org.jooq.Field;
+import org.jooq.Record19;
+import org.jooq.Row19;
+import org.jooq.impl.TableRecordImpl;
 
 
 // @formatter:off
@@ -16,7 +20,7 @@ import java.util.Map;
  * VIEW
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContainersRecord> implements Record18<Integer, String, String, Integer, String, String, Integer, String, String, Boolean, Integer, String, String, Integer, String, String, Map<String,String>, Long> {
+public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContainersRecord> implements Record19<Integer, String, String, Integer, String, String, Integer, String, String, Boolean, Integer, String, String, Integer, String, String, Map<String,String>, Long, Timestamp> {
 
     private static final long serialVersionUID = 1L;
 
@@ -296,18 +300,32 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
         return (Long) get(17);
     }
 
+    /**
+     * Setter for <code>seedstore_db.view_table_containers.created_on</code>.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(18, value);
+    }
+
+    /**
+     * Getter for <code>seedstore_db.view_table_containers.created_on</code>.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(18);
+    }
+
     // -------------------------------------------------------------------------
-    // Record18 type implementation
+    // Record19 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row18<Integer, String, String, Integer, String, String, Integer, String, String, Boolean, Integer, String, String, Integer, String, String, Map<String,String>, Long> fieldsRow() {
-        return (Row18) super.fieldsRow();
+    public Row19<Integer, String, String, Integer, String, String, Integer, String, String, Boolean, Integer, String, String, Integer, String, String, Map<String,String>, Long, Timestamp> fieldsRow() {
+        return (Row19) super.fieldsRow();
     }
 
     @Override
-    public Row18<Integer, String, String, Integer, String, String, Integer, String, String, Boolean, Integer, String, String, Integer, String, String, Map<String,String>, Long> valuesRow() {
-        return (Row18) super.valuesRow();
+    public Row19<Integer, String, String, Integer, String, String, Integer, String, String, Boolean, Integer, String, String, Integer, String, String, Map<String,String>, Long, Timestamp> valuesRow() {
+        return (Row19) super.valuesRow();
     }
 
     @Override
@@ -401,6 +419,11 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
     }
 
     @Override
+    public Field<Timestamp> field19() {
+        return ViewTableContainers.VIEW_TABLE_CONTAINERS.CREATED_ON;
+    }
+
+    @Override
     public Integer component1() {
         return getContainerId();
     }
@@ -491,6 +514,11 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
     }
 
     @Override
+    public Timestamp component19() {
+        return getCreatedOn();
+    }
+
+    @Override
     public Integer value1() {
         return getContainerId();
     }
@@ -578,6 +606,11 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
     @Override
     public Long value18() {
         return getSubContainerCount();
+    }
+
+    @Override
+    public Timestamp value19() {
+        return getCreatedOn();
     }
 
     @Override
@@ -689,7 +722,13 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
     }
 
     @Override
-    public ViewTableContainersRecord values(Integer value1, String value2, String value3, Integer value4, String value5, String value6, Integer value7, String value8, String value9, Boolean value10, Integer value11, String value12, String value13, Integer value14, String value15, String value16, Map<String,String> value17, Long value18) {
+    public ViewTableContainersRecord value19(Timestamp value) {
+        setCreatedOn(value);
+        return this;
+    }
+
+    @Override
+    public ViewTableContainersRecord values(Integer value1, String value2, String value3, Integer value4, String value5, String value6, Integer value7, String value8, String value9, Boolean value10, Integer value11, String value12, String value13, Integer value14, String value15, String value16, Map<String,String> value17, Long value18, Timestamp value19) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -708,6 +747,7 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
         value16(value16);
         value17(value17);
         value18(value18);
+        value19(value19);
         return this;
     }
 
@@ -725,7 +765,7 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
     /**
      * Create a detached, initialised ViewTableContainersRecord
      */
-    public ViewTableContainersRecord(Integer containerId, String containerBarcode, String containerDescription, Integer containerTypeId, String containerTypeName, String containerTypeDescription, Integer parentId, String parentBarcode, String parentDescription, Boolean containerIsActive, Integer trialId, String trialName, String trialDescription, Integer projectId, String projectName, String projectDescription, Map<String,String> containerAttributes, Long subContainerCount) {
+    public ViewTableContainersRecord(Integer containerId, String containerBarcode, String containerDescription, Integer containerTypeId, String containerTypeName, String containerTypeDescription, Integer parentId, String parentBarcode, String parentDescription, Boolean containerIsActive, Integer trialId, String trialName, String trialDescription, Integer projectId, String projectName, String projectDescription, Map<String,String> containerAttributes, Long subContainerCount, Timestamp createdOn) {
         super(ViewTableContainers.VIEW_TABLE_CONTAINERS);
 
         setContainerId(containerId);
@@ -746,6 +786,7 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
         setProjectDescription(projectDescription);
         setContainerAttributes(containerAttributes);
         setSubContainerCount(subContainerCount);
+        setCreatedOn(createdOn);
     }
 
     /**
@@ -773,6 +814,7 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
             setProjectDescription(value.getProjectDescription());
             setContainerAttributes(value.getContainerAttributes());
             setSubContainerCount(value.getSubContainerCount());
+            setCreatedOn(value.getCreatedOn());
         }
     }
     // @formatter:on
