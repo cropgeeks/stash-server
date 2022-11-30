@@ -4,7 +4,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import jhi.seedstore.Database;
-import jhi.seedstore.database.codegen.tables.pojos.ViewTableTransfers;
+import jhi.seedstore.database.codegen.tables.pojos.*;
 import jhi.seedstore.database.codegen.tables.records.ContainersRecord;
 import jhi.seedstore.pojo.*;
 import jhi.seedstore.resource.base.BaseResource;
@@ -17,6 +17,7 @@ import java.util.*;
 
 import static jhi.seedstore.database.codegen.tables.Containers.*;
 import static jhi.seedstore.database.codegen.tables.TransferLogs.*;
+import static jhi.seedstore.database.codegen.tables.ViewTableTransferEvents.*;
 import static jhi.seedstore.database.codegen.tables.ViewTableTransfers.*;
 
 @Path("transfer")
@@ -88,6 +89,37 @@ public class TransferResource extends BaseResource
 			List<ViewTableTransfers> result = setPaginationAndOrderBy(from)
 				.fetch()
 				.into(ViewTableTransfers.class);
+
+			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
+
+			return new PaginatedResult<>(result, count);
+		}
+	}
+
+	@POST
+	@Path("/event/table")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public PaginatedResult<List<ViewTableTransferEvents>> postContainerEventTable(PaginatedRequest request)
+		throws SQLException
+	{
+		processRequest(request);
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+			SelectSelectStep<Record> select = context.select();
+
+			if (previousCount == -1)
+				select.hint("SQL_CALC_FOUND_ROWS");
+
+			SelectJoinStep<Record> from = select.from(VIEW_TABLE_TRANSFER_EVENTS);
+
+			// Filter here!
+			filter(from, filters);
+
+			List<ViewTableTransferEvents> result = setPaginationAndOrderBy(from)
+				.fetch()
+				.into(ViewTableTransferEvents.class);
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
