@@ -26,6 +26,7 @@ public class ContainerTypes implements Serializable {
     private Integer   id;
     private String    name;
     private String    description;
+    private String    icon;
     private Timestamp createdOn;
     private Timestamp updatedOn;
 
@@ -35,6 +36,7 @@ public class ContainerTypes implements Serializable {
         this.id = value.id;
         this.name = value.name;
         this.description = value.description;
+        this.icon = value.icon;
         this.createdOn = value.createdOn;
         this.updatedOn = value.updatedOn;
     }
@@ -43,12 +45,14 @@ public class ContainerTypes implements Serializable {
         Integer   id,
         String    name,
         String    description,
+        String    icon,
         Timestamp createdOn,
         Timestamp updatedOn
     ) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.icon = icon;
         this.createdOn = createdOn;
         this.updatedOn = updatedOn;
     }
@@ -60,6 +64,7 @@ public class ContainerTypes implements Serializable {
         sb.append(id);
         sb.append(", ").append(name);
         sb.append(", ").append(description);
+        sb.append(", ").append(icon);
         sb.append(", ").append(createdOn);
         sb.append(", ").append(updatedOn);
 

@@ -62,6 +62,7 @@ CREATE TABLE `container_types`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `icon` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
@@ -78,7 +79,7 @@ DROP TABLE IF EXISTS `containers`;
 CREATE TABLE `containers`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `barcode` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `container_type_id` int(11) NOT NULL,
   `parent_container_id` int(11) NULL DEFAULT NULL,
   `is_active` tinyint(1) NOT NULL DEFAULT 1,

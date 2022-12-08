@@ -6,7 +6,9 @@ package jhi.seedstore.database.codegen.tables.pojos;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Map;
+import java.util.Arrays;
+
+import jhi.seedstore.pojo.ContainerAttributeValue;
 
 
 import lombok.*;
@@ -24,25 +26,26 @@ public class ViewTableContainers implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer            containerId;
-    private String             containerBarcode;
-    private String             containerDescription;
-    private Integer            containerTypeId;
-    private String             containerTypeName;
-    private String             containerTypeDescription;
-    private Integer            parentId;
-    private String             parentBarcode;
-    private String             parentDescription;
-    private Boolean            containerIsActive;
-    private Integer            trialId;
-    private String             trialName;
-    private String             trialDescription;
-    private Integer            projectId;
-    private String             projectName;
-    private String             projectDescription;
-    private Map<String,String> containerAttributes;
-    private Long               subContainerCount;
-    private Timestamp          createdOn;
+    private Integer                   containerId;
+    private String                    containerBarcode;
+    private String                    containerDescription;
+    private Integer                   containerTypeId;
+    private String                    containerTypeName;
+    private String                    containerTypeDescription;
+    private String                    containerTypeIcon;
+    private Integer                   parentId;
+    private String                    parentBarcode;
+    private String                    parentDescription;
+    private Boolean                   containerIsActive;
+    private Integer                   trialId;
+    private String                    trialName;
+    private String                    trialDescription;
+    private Integer                   projectId;
+    private String                    projectName;
+    private String                    projectDescription;
+    private ContainerAttributeValue[] containerAttributes;
+    private Long                      subContainerCount;
+    private Timestamp                 createdOn;
 
     public ViewTableContainers() {}
 
@@ -53,6 +56,7 @@ public class ViewTableContainers implements Serializable {
         this.containerTypeId = value.containerTypeId;
         this.containerTypeName = value.containerTypeName;
         this.containerTypeDescription = value.containerTypeDescription;
+        this.containerTypeIcon = value.containerTypeIcon;
         this.parentId = value.parentId;
         this.parentBarcode = value.parentBarcode;
         this.parentDescription = value.parentDescription;
@@ -69,25 +73,26 @@ public class ViewTableContainers implements Serializable {
     }
 
     public ViewTableContainers(
-        Integer            containerId,
-        String             containerBarcode,
-        String             containerDescription,
-        Integer            containerTypeId,
-        String             containerTypeName,
-        String             containerTypeDescription,
-        Integer            parentId,
-        String             parentBarcode,
-        String             parentDescription,
-        Boolean            containerIsActive,
-        Integer            trialId,
-        String             trialName,
-        String             trialDescription,
-        Integer            projectId,
-        String             projectName,
-        String             projectDescription,
-        Map<String,String> containerAttributes,
-        Long               subContainerCount,
-        Timestamp          createdOn
+        Integer                   containerId,
+        String                    containerBarcode,
+        String                    containerDescription,
+        Integer                   containerTypeId,
+        String                    containerTypeName,
+        String                    containerTypeDescription,
+        String                    containerTypeIcon,
+        Integer                   parentId,
+        String                    parentBarcode,
+        String                    parentDescription,
+        Boolean                   containerIsActive,
+        Integer                   trialId,
+        String                    trialName,
+        String                    trialDescription,
+        Integer                   projectId,
+        String                    projectName,
+        String                    projectDescription,
+        ContainerAttributeValue[] containerAttributes,
+        Long                      subContainerCount,
+        Timestamp                 createdOn
     ) {
         this.containerId = containerId;
         this.containerBarcode = containerBarcode;
@@ -95,6 +100,7 @@ public class ViewTableContainers implements Serializable {
         this.containerTypeId = containerTypeId;
         this.containerTypeName = containerTypeName;
         this.containerTypeDescription = containerTypeDescription;
+        this.containerTypeIcon = containerTypeIcon;
         this.parentId = parentId;
         this.parentBarcode = parentBarcode;
         this.parentDescription = parentDescription;
@@ -120,6 +126,7 @@ public class ViewTableContainers implements Serializable {
         sb.append(", ").append(containerTypeId);
         sb.append(", ").append(containerTypeName);
         sb.append(", ").append(containerTypeDescription);
+        sb.append(", ").append(containerTypeIcon);
         sb.append(", ").append(parentId);
         sb.append(", ").append(parentBarcode);
         sb.append(", ").append(parentDescription);
@@ -130,7 +137,7 @@ public class ViewTableContainers implements Serializable {
         sb.append(", ").append(projectId);
         sb.append(", ").append(projectName);
         sb.append(", ").append(projectDescription);
-        sb.append(", ").append(containerAttributes);
+        sb.append(", ").append(Arrays.toString(containerAttributes));
         sb.append(", ").append(subContainerCount);
         sb.append(", ").append(createdOn);
 

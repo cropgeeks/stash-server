@@ -5,13 +5,13 @@ package jhi.seedstore.database.codegen.tables.records;
 
 
 import java.sql.Timestamp;
-import java.util.Map;
 
 import jhi.seedstore.database.codegen.tables.ViewTableContainers;
+import jhi.seedstore.pojo.ContainerAttributeValue;
 
 import org.jooq.Field;
-import org.jooq.Record19;
-import org.jooq.Row19;
+import org.jooq.Record20;
+import org.jooq.Row20;
 import org.jooq.impl.TableRecordImpl;
 
 
@@ -20,7 +20,7 @@ import org.jooq.impl.TableRecordImpl;
  * VIEW
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContainersRecord> implements Record19<Integer, String, String, Integer, String, String, Integer, String, String, Boolean, Integer, String, String, Integer, String, String, Map<String,String>, Long, Timestamp> {
+public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContainersRecord> implements Record20<Integer, String, String, Integer, String, String, String, Integer, String, String, Boolean, Integer, String, String, Integer, String, String, ContainerAttributeValue[], Long, Timestamp> {
 
     private static final long serialVersionUID = 1L;
 
@@ -119,17 +119,33 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
     }
 
     /**
+     * Setter for
+     * <code>seedstore_db.view_table_containers.container_type_icon</code>.
+     */
+    public void setContainerTypeIcon(String value) {
+        set(6, value);
+    }
+
+    /**
+     * Getter for
+     * <code>seedstore_db.view_table_containers.container_type_icon</code>.
+     */
+    public String getContainerTypeIcon() {
+        return (String) get(6);
+    }
+
+    /**
      * Setter for <code>seedstore_db.view_table_containers.parent_id</code>.
      */
     public void setParentId(Integer value) {
-        set(6, value);
+        set(7, value);
     }
 
     /**
      * Getter for <code>seedstore_db.view_table_containers.parent_id</code>.
      */
     public Integer getParentId() {
-        return (Integer) get(6);
+        return (Integer) get(7);
     }
 
     /**
@@ -137,7 +153,7 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
      * <code>seedstore_db.view_table_containers.parent_barcode</code>.
      */
     public void setParentBarcode(String value) {
-        set(7, value);
+        set(8, value);
     }
 
     /**
@@ -145,7 +161,7 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
      * <code>seedstore_db.view_table_containers.parent_barcode</code>.
      */
     public String getParentBarcode() {
-        return (String) get(7);
+        return (String) get(8);
     }
 
     /**
@@ -153,7 +169,7 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
      * <code>seedstore_db.view_table_containers.parent_description</code>.
      */
     public void setParentDescription(String value) {
-        set(8, value);
+        set(9, value);
     }
 
     /**
@@ -161,7 +177,7 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
      * <code>seedstore_db.view_table_containers.parent_description</code>.
      */
     public String getParentDescription() {
-        return (String) get(8);
+        return (String) get(9);
     }
 
     /**
@@ -169,7 +185,7 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
      * <code>seedstore_db.view_table_containers.container_is_active</code>.
      */
     public void setContainerIsActive(Boolean value) {
-        set(9, value);
+        set(10, value);
     }
 
     /**
@@ -177,35 +193,35 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
      * <code>seedstore_db.view_table_containers.container_is_active</code>.
      */
     public Boolean getContainerIsActive() {
-        return (Boolean) get(9);
+        return (Boolean) get(10);
     }
 
     /**
      * Setter for <code>seedstore_db.view_table_containers.trial_id</code>.
      */
     public void setTrialId(Integer value) {
-        set(10, value);
+        set(11, value);
     }
 
     /**
      * Getter for <code>seedstore_db.view_table_containers.trial_id</code>.
      */
     public Integer getTrialId() {
-        return (Integer) get(10);
+        return (Integer) get(11);
     }
 
     /**
      * Setter for <code>seedstore_db.view_table_containers.trial_name</code>.
      */
     public void setTrialName(String value) {
-        set(11, value);
+        set(12, value);
     }
 
     /**
      * Getter for <code>seedstore_db.view_table_containers.trial_name</code>.
      */
     public String getTrialName() {
-        return (String) get(11);
+        return (String) get(12);
     }
 
     /**
@@ -213,7 +229,7 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
      * <code>seedstore_db.view_table_containers.trial_description</code>.
      */
     public void setTrialDescription(String value) {
-        set(12, value);
+        set(13, value);
     }
 
     /**
@@ -221,35 +237,35 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
      * <code>seedstore_db.view_table_containers.trial_description</code>.
      */
     public String getTrialDescription() {
-        return (String) get(12);
+        return (String) get(13);
     }
 
     /**
      * Setter for <code>seedstore_db.view_table_containers.project_id</code>.
      */
     public void setProjectId(Integer value) {
-        set(13, value);
+        set(14, value);
     }
 
     /**
      * Getter for <code>seedstore_db.view_table_containers.project_id</code>.
      */
     public Integer getProjectId() {
-        return (Integer) get(13);
+        return (Integer) get(14);
     }
 
     /**
      * Setter for <code>seedstore_db.view_table_containers.project_name</code>.
      */
     public void setProjectName(String value) {
-        set(14, value);
+        set(15, value);
     }
 
     /**
      * Getter for <code>seedstore_db.view_table_containers.project_name</code>.
      */
     public String getProjectName() {
-        return (String) get(14);
+        return (String) get(15);
     }
 
     /**
@@ -257,7 +273,7 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
      * <code>seedstore_db.view_table_containers.project_description</code>.
      */
     public void setProjectDescription(String value) {
-        set(15, value);
+        set(16, value);
     }
 
     /**
@@ -265,23 +281,23 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
      * <code>seedstore_db.view_table_containers.project_description</code>.
      */
     public String getProjectDescription() {
-        return (String) get(15);
+        return (String) get(16);
     }
 
     /**
      * Setter for
      * <code>seedstore_db.view_table_containers.container_attributes</code>.
      */
-    public void setContainerAttributes(Map<String,String> value) {
-        set(16, value);
+    public void setContainerAttributes(ContainerAttributeValue[] value) {
+        set(17, value);
     }
 
     /**
      * Getter for
      * <code>seedstore_db.view_table_containers.container_attributes</code>.
      */
-    public Map<String,String> getContainerAttributes() {
-        return (Map<String,String>) get(16);
+    public ContainerAttributeValue[] getContainerAttributes() {
+        return (ContainerAttributeValue[]) get(17);
     }
 
     /**
@@ -289,7 +305,7 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
      * <code>seedstore_db.view_table_containers.sub_container_count</code>.
      */
     public void setSubContainerCount(Long value) {
-        set(17, value);
+        set(18, value);
     }
 
     /**
@@ -297,35 +313,35 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
      * <code>seedstore_db.view_table_containers.sub_container_count</code>.
      */
     public Long getSubContainerCount() {
-        return (Long) get(17);
+        return (Long) get(18);
     }
 
     /**
      * Setter for <code>seedstore_db.view_table_containers.created_on</code>.
      */
     public void setCreatedOn(Timestamp value) {
-        set(18, value);
+        set(19, value);
     }
 
     /**
      * Getter for <code>seedstore_db.view_table_containers.created_on</code>.
      */
     public Timestamp getCreatedOn() {
-        return (Timestamp) get(18);
+        return (Timestamp) get(19);
     }
 
     // -------------------------------------------------------------------------
-    // Record19 type implementation
+    // Record20 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row19<Integer, String, String, Integer, String, String, Integer, String, String, Boolean, Integer, String, String, Integer, String, String, Map<String,String>, Long, Timestamp> fieldsRow() {
-        return (Row19) super.fieldsRow();
+    public Row20<Integer, String, String, Integer, String, String, String, Integer, String, String, Boolean, Integer, String, String, Integer, String, String, ContainerAttributeValue[], Long, Timestamp> fieldsRow() {
+        return (Row20) super.fieldsRow();
     }
 
     @Override
-    public Row19<Integer, String, String, Integer, String, String, Integer, String, String, Boolean, Integer, String, String, Integer, String, String, Map<String,String>, Long, Timestamp> valuesRow() {
-        return (Row19) super.valuesRow();
+    public Row20<Integer, String, String, Integer, String, String, String, Integer, String, String, Boolean, Integer, String, String, Integer, String, String, ContainerAttributeValue[], Long, Timestamp> valuesRow() {
+        return (Row20) super.valuesRow();
     }
 
     @Override
@@ -359,67 +375,72 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
     }
 
     @Override
-    public Field<Integer> field7() {
+    public Field<String> field7() {
+        return ViewTableContainers.VIEW_TABLE_CONTAINERS.CONTAINER_TYPE_ICON;
+    }
+
+    @Override
+    public Field<Integer> field8() {
         return ViewTableContainers.VIEW_TABLE_CONTAINERS.PARENT_ID;
     }
 
     @Override
-    public Field<String> field8() {
+    public Field<String> field9() {
         return ViewTableContainers.VIEW_TABLE_CONTAINERS.PARENT_BARCODE;
     }
 
     @Override
-    public Field<String> field9() {
+    public Field<String> field10() {
         return ViewTableContainers.VIEW_TABLE_CONTAINERS.PARENT_DESCRIPTION;
     }
 
     @Override
-    public Field<Boolean> field10() {
+    public Field<Boolean> field11() {
         return ViewTableContainers.VIEW_TABLE_CONTAINERS.CONTAINER_IS_ACTIVE;
     }
 
     @Override
-    public Field<Integer> field11() {
+    public Field<Integer> field12() {
         return ViewTableContainers.VIEW_TABLE_CONTAINERS.TRIAL_ID;
     }
 
     @Override
-    public Field<String> field12() {
+    public Field<String> field13() {
         return ViewTableContainers.VIEW_TABLE_CONTAINERS.TRIAL_NAME;
     }
 
     @Override
-    public Field<String> field13() {
+    public Field<String> field14() {
         return ViewTableContainers.VIEW_TABLE_CONTAINERS.TRIAL_DESCRIPTION;
     }
 
     @Override
-    public Field<Integer> field14() {
+    public Field<Integer> field15() {
         return ViewTableContainers.VIEW_TABLE_CONTAINERS.PROJECT_ID;
     }
 
     @Override
-    public Field<String> field15() {
+    public Field<String> field16() {
         return ViewTableContainers.VIEW_TABLE_CONTAINERS.PROJECT_NAME;
     }
 
     @Override
-    public Field<String> field16() {
+    public Field<String> field17() {
         return ViewTableContainers.VIEW_TABLE_CONTAINERS.PROJECT_DESCRIPTION;
     }
 
     @Override
-    public Field<Map<String,String>> field17() {
+    public Field<ContainerAttributeValue[]> field18() {
         return ViewTableContainers.VIEW_TABLE_CONTAINERS.CONTAINER_ATTRIBUTES;
     }
 
     @Override
-    public Field<Long> field18() {
+    public Field<Long> field19() {
         return ViewTableContainers.VIEW_TABLE_CONTAINERS.SUB_CONTAINER_COUNT;
     }
 
     @Override
-    public Field<Timestamp> field19() {
+    public Field<Timestamp> field20() {
         return ViewTableContainers.VIEW_TABLE_CONTAINERS.CREATED_ON;
     }
 
@@ -454,67 +475,72 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
     }
 
     @Override
-    public Integer component7() {
+    public String component7() {
+        return getContainerTypeIcon();
+    }
+
+    @Override
+    public Integer component8() {
         return getParentId();
     }
 
     @Override
-    public String component8() {
+    public String component9() {
         return getParentBarcode();
     }
 
     @Override
-    public String component9() {
+    public String component10() {
         return getParentDescription();
     }
 
     @Override
-    public Boolean component10() {
+    public Boolean component11() {
         return getContainerIsActive();
     }
 
     @Override
-    public Integer component11() {
+    public Integer component12() {
         return getTrialId();
     }
 
     @Override
-    public String component12() {
+    public String component13() {
         return getTrialName();
     }
 
     @Override
-    public String component13() {
+    public String component14() {
         return getTrialDescription();
     }
 
     @Override
-    public Integer component14() {
+    public Integer component15() {
         return getProjectId();
     }
 
     @Override
-    public String component15() {
+    public String component16() {
         return getProjectName();
     }
 
     @Override
-    public String component16() {
+    public String component17() {
         return getProjectDescription();
     }
 
     @Override
-    public Map<String,String> component17() {
+    public ContainerAttributeValue[] component18() {
         return getContainerAttributes();
     }
 
     @Override
-    public Long component18() {
+    public Long component19() {
         return getSubContainerCount();
     }
 
     @Override
-    public Timestamp component19() {
+    public Timestamp component20() {
         return getCreatedOn();
     }
 
@@ -549,67 +575,72 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
     }
 
     @Override
-    public Integer value7() {
+    public String value7() {
+        return getContainerTypeIcon();
+    }
+
+    @Override
+    public Integer value8() {
         return getParentId();
     }
 
     @Override
-    public String value8() {
+    public String value9() {
         return getParentBarcode();
     }
 
     @Override
-    public String value9() {
+    public String value10() {
         return getParentDescription();
     }
 
     @Override
-    public Boolean value10() {
+    public Boolean value11() {
         return getContainerIsActive();
     }
 
     @Override
-    public Integer value11() {
+    public Integer value12() {
         return getTrialId();
     }
 
     @Override
-    public String value12() {
+    public String value13() {
         return getTrialName();
     }
 
     @Override
-    public String value13() {
+    public String value14() {
         return getTrialDescription();
     }
 
     @Override
-    public Integer value14() {
+    public Integer value15() {
         return getProjectId();
     }
 
     @Override
-    public String value15() {
+    public String value16() {
         return getProjectName();
     }
 
     @Override
-    public String value16() {
+    public String value17() {
         return getProjectDescription();
     }
 
     @Override
-    public Map<String,String> value17() {
+    public ContainerAttributeValue[] value18() {
         return getContainerAttributes();
     }
 
     @Override
-    public Long value18() {
+    public Long value19() {
         return getSubContainerCount();
     }
 
     @Override
-    public Timestamp value19() {
+    public Timestamp value20() {
         return getCreatedOn();
     }
 
@@ -650,85 +681,91 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
     }
 
     @Override
-    public ViewTableContainersRecord value7(Integer value) {
+    public ViewTableContainersRecord value7(String value) {
+        setContainerTypeIcon(value);
+        return this;
+    }
+
+    @Override
+    public ViewTableContainersRecord value8(Integer value) {
         setParentId(value);
         return this;
     }
 
     @Override
-    public ViewTableContainersRecord value8(String value) {
+    public ViewTableContainersRecord value9(String value) {
         setParentBarcode(value);
         return this;
     }
 
     @Override
-    public ViewTableContainersRecord value9(String value) {
+    public ViewTableContainersRecord value10(String value) {
         setParentDescription(value);
         return this;
     }
 
     @Override
-    public ViewTableContainersRecord value10(Boolean value) {
+    public ViewTableContainersRecord value11(Boolean value) {
         setContainerIsActive(value);
         return this;
     }
 
     @Override
-    public ViewTableContainersRecord value11(Integer value) {
+    public ViewTableContainersRecord value12(Integer value) {
         setTrialId(value);
         return this;
     }
 
     @Override
-    public ViewTableContainersRecord value12(String value) {
+    public ViewTableContainersRecord value13(String value) {
         setTrialName(value);
         return this;
     }
 
     @Override
-    public ViewTableContainersRecord value13(String value) {
+    public ViewTableContainersRecord value14(String value) {
         setTrialDescription(value);
         return this;
     }
 
     @Override
-    public ViewTableContainersRecord value14(Integer value) {
+    public ViewTableContainersRecord value15(Integer value) {
         setProjectId(value);
         return this;
     }
 
     @Override
-    public ViewTableContainersRecord value15(String value) {
+    public ViewTableContainersRecord value16(String value) {
         setProjectName(value);
         return this;
     }
 
     @Override
-    public ViewTableContainersRecord value16(String value) {
+    public ViewTableContainersRecord value17(String value) {
         setProjectDescription(value);
         return this;
     }
 
     @Override
-    public ViewTableContainersRecord value17(Map<String,String> value) {
+    public ViewTableContainersRecord value18(ContainerAttributeValue[] value) {
         setContainerAttributes(value);
         return this;
     }
 
     @Override
-    public ViewTableContainersRecord value18(Long value) {
+    public ViewTableContainersRecord value19(Long value) {
         setSubContainerCount(value);
         return this;
     }
 
     @Override
-    public ViewTableContainersRecord value19(Timestamp value) {
+    public ViewTableContainersRecord value20(Timestamp value) {
         setCreatedOn(value);
         return this;
     }
 
     @Override
-    public ViewTableContainersRecord values(Integer value1, String value2, String value3, Integer value4, String value5, String value6, Integer value7, String value8, String value9, Boolean value10, Integer value11, String value12, String value13, Integer value14, String value15, String value16, Map<String,String> value17, Long value18, Timestamp value19) {
+    public ViewTableContainersRecord values(Integer value1, String value2, String value3, Integer value4, String value5, String value6, String value7, Integer value8, String value9, String value10, Boolean value11, Integer value12, String value13, String value14, Integer value15, String value16, String value17, ContainerAttributeValue[] value18, Long value19, Timestamp value20) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -748,6 +785,7 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
         value17(value17);
         value18(value18);
         value19(value19);
+        value20(value20);
         return this;
     }
 
@@ -765,7 +803,7 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
     /**
      * Create a detached, initialised ViewTableContainersRecord
      */
-    public ViewTableContainersRecord(Integer containerId, String containerBarcode, String containerDescription, Integer containerTypeId, String containerTypeName, String containerTypeDescription, Integer parentId, String parentBarcode, String parentDescription, Boolean containerIsActive, Integer trialId, String trialName, String trialDescription, Integer projectId, String projectName, String projectDescription, Map<String,String> containerAttributes, Long subContainerCount, Timestamp createdOn) {
+    public ViewTableContainersRecord(Integer containerId, String containerBarcode, String containerDescription, Integer containerTypeId, String containerTypeName, String containerTypeDescription, String containerTypeIcon, Integer parentId, String parentBarcode, String parentDescription, Boolean containerIsActive, Integer trialId, String trialName, String trialDescription, Integer projectId, String projectName, String projectDescription, ContainerAttributeValue[] containerAttributes, Long subContainerCount, Timestamp createdOn) {
         super(ViewTableContainers.VIEW_TABLE_CONTAINERS);
 
         setContainerId(containerId);
@@ -774,6 +812,7 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
         setContainerTypeId(containerTypeId);
         setContainerTypeName(containerTypeName);
         setContainerTypeDescription(containerTypeDescription);
+        setContainerTypeIcon(containerTypeIcon);
         setParentId(parentId);
         setParentBarcode(parentBarcode);
         setParentDescription(parentDescription);
@@ -802,6 +841,7 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
             setContainerTypeId(value.getContainerTypeId());
             setContainerTypeName(value.getContainerTypeName());
             setContainerTypeDescription(value.getContainerTypeDescription());
+            setContainerTypeIcon(value.getContainerTypeIcon());
             setParentId(value.getParentId());
             setParentBarcode(value.getParentBarcode());
             setParentDescription(value.getParentDescription());

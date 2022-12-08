@@ -12,7 +12,7 @@ import jhi.seedstore.database.codegen.tables.records.ContainerTypesRecord;
 import org.jooq.Field;
 import org.jooq.Identity;
 import org.jooq.Name;
-import org.jooq.Row5;
+import org.jooq.Row6;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -60,6 +60,11 @@ public class ContainerTypes extends TableImpl<ContainerTypesRecord> {
      * The column <code>seedstore_db.container_types.description</code>.
      */
     public final TableField<ContainerTypesRecord, String> DESCRIPTION = createField(DSL.name("description"), SQLDataType.CLOB, this, "");
+
+    /**
+     * The column <code>seedstore_db.container_types.icon</code>.
+     */
+    public final TableField<ContainerTypesRecord, String> ICON = createField(DSL.name("icon"), SQLDataType.CLOB, this, "");
 
     /**
      * The column <code>seedstore_db.container_types.created_on</code>.
@@ -144,12 +149,12 @@ public class ContainerTypes extends TableImpl<ContainerTypesRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row5 type methods
+    // Row6 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row5<Integer, String, String, Timestamp, Timestamp> fieldsRow() {
-        return (Row5) super.fieldsRow();
+    public Row6<Integer, String, String, String, Timestamp, Timestamp> fieldsRow() {
+        return (Row6) super.fieldsRow();
     }
     // @formatter:on
 }

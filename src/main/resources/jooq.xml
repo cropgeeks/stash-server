@@ -32,10 +32,10 @@
 
             <forcedTypes>
                 <forcedType>
-                    <binding>jhi.seedstore.database.binding.ContainerAttributeBinding</binding>
+                    <binding>jhi.seedstore.database.binding.ContainerAttributeValueBinding</binding>
                     <expression>.*(view_table_containers).*\.(container_attributes)</expression>
                     <types>.*json.*</types>
-                    <userType>java.util.Map&lt;String,String&gt;</userType>
+                    <userType>jhi.seedstore.pojo.ContainerAttributeValue[]</userType>
                 </forcedType>
                 <forcedType>
                     <expression>.*</expression>
