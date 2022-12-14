@@ -59,12 +59,12 @@ public class TransferLogs extends TableImpl<TransferLogsRecord> {
     /**
      * The column <code>seedstore_db.transfer_logs.source_id</code>.
      */
-    public final TableField<TransferLogsRecord, Integer> SOURCE_ID = createField(DSL.name("source_id"), SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<TransferLogsRecord, Integer> SOURCE_ID = createField(DSL.name("source_id"), SQLDataType.INTEGER, this, "");
 
     /**
      * The column <code>seedstore_db.transfer_logs.target_id</code>.
      */
-    public final TableField<TransferLogsRecord, Integer> TARGET_ID = createField(DSL.name("target_id"), SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<TransferLogsRecord, Integer> TARGET_ID = createField(DSL.name("target_id"), SQLDataType.INTEGER, this, "");
 
     /**
      * The column <code>seedstore_db.transfer_logs.user_id</code>.

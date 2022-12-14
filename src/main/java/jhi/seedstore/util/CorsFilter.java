@@ -10,7 +10,6 @@ import java.io.IOException;
 @PreMatching
 public class CorsFilter implements ContainerRequestFilter, ContainerResponseFilter
 {
-
 	/**
 	 * Method for ContainerRequestFilter.
 	 */

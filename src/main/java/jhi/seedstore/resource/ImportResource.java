@@ -71,17 +71,15 @@ public class ImportResource extends ContextResource
 				if (existing == null || target == null)
 					return Response.status(Response.Status.NOT_FOUND).build();
 
+				TransferLogsRecord tl = context.newRecord(TRANSFER_LOGS);
+				tl.setContainerId(existing.getId());
 				if (existing.getParentContainerId() != null)
-				{
-					TransferLogsRecord tl = context.newRecord(TRANSFER_LOGS);
-					tl.setContainerId(existing.getId());
 					tl.setSourceId(existing.getParentContainerId());
-					tl.setTargetId(target.getId());
-					tl.setUserId(sessionUser.getId());
-					tl.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-					tl.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
-					tl.store();
-				}
+				tl.setTargetId(target.getId());
+				tl.setUserId(sessionUser.getId());
+				tl.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+				tl.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
+				tl.store();
 
 				existing.setParentContainerId(cImport.getParentContainerId());
 				existing.store(CONTAINERS.PARENT_CONTAINER_ID);

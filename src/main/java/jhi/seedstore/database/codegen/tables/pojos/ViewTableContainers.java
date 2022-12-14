@@ -36,6 +36,10 @@ public class ViewTableContainers implements Serializable {
     private Integer                   parentId;
     private String                    parentBarcode;
     private String                    parentDescription;
+    private Integer                   parentContainerTypeId;
+    private String                    parentContainerTypeName;
+    private String                    parentContainerTypeDescription;
+    private String                    parentContainerTypeIcon;
     private Boolean                   containerIsActive;
     private Integer                   trialId;
     private String                    trialName;
@@ -60,6 +64,10 @@ public class ViewTableContainers implements Serializable {
         this.parentId = value.parentId;
         this.parentBarcode = value.parentBarcode;
         this.parentDescription = value.parentDescription;
+        this.parentContainerTypeId = value.parentContainerTypeId;
+        this.parentContainerTypeName = value.parentContainerTypeName;
+        this.parentContainerTypeDescription = value.parentContainerTypeDescription;
+        this.parentContainerTypeIcon = value.parentContainerTypeIcon;
         this.containerIsActive = value.containerIsActive;
         this.trialId = value.trialId;
         this.trialName = value.trialName;
@@ -83,6 +91,10 @@ public class ViewTableContainers implements Serializable {
         Integer                   parentId,
         String                    parentBarcode,
         String                    parentDescription,
+        Integer                   parentContainerTypeId,
+        String                    parentContainerTypeName,
+        String                    parentContainerTypeDescription,
+        String                    parentContainerTypeIcon,
         Boolean                   containerIsActive,
         Integer                   trialId,
         String                    trialName,
@@ -104,6 +116,10 @@ public class ViewTableContainers implements Serializable {
         this.parentId = parentId;
         this.parentBarcode = parentBarcode;
         this.parentDescription = parentDescription;
+        this.parentContainerTypeId = parentContainerTypeId;
+        this.parentContainerTypeName = parentContainerTypeName;
+        this.parentContainerTypeDescription = parentContainerTypeDescription;
+        this.parentContainerTypeIcon = parentContainerTypeIcon;
         this.containerIsActive = containerIsActive;
         this.trialId = trialId;
         this.trialName = trialName;
@@ -130,6 +146,10 @@ public class ViewTableContainers implements Serializable {
         sb.append(", ").append(parentId);
         sb.append(", ").append(parentBarcode);
         sb.append(", ").append(parentDescription);
+        sb.append(", ").append(parentContainerTypeId);
+        sb.append(", ").append(parentContainerTypeName);
+        sb.append(", ").append(parentContainerTypeDescription);
+        sb.append(", ").append(parentContainerTypeIcon);
         sb.append(", ").append(containerIsActive);
         sb.append(", ").append(trialId);
         sb.append(", ").append(trialName);

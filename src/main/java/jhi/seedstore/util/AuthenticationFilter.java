@@ -112,13 +112,20 @@ public class AuthenticationFilter implements ContainerRequestFilter
 			}
 		});
 
-		Class<?> resourceClass = resourceInfo.getResourceClass();
-		boolean isClassFree = resourceClass.getAnnotation(PermitAll.class) != null;
+//		Class<?> resourceClass = resourceInfo.getResourceClass();
+//		boolean isClassFree = resourceClass.getAnnotation(PermitAll.class) != null;
+//
+//		Method resourceMethod = resourceInfo.getResourceMethod();
+//		boolean isMethodFree = resourceMethod.getAnnotation(PermitAll.class) != null;
 
-		Method resourceMethod = resourceInfo.getResourceMethod();
-		boolean isMethodFree = resourceMethod.getAnnotation(PermitAll.class) != null;
-
-		validateToken(token);
+		try
+		{
+			validateToken(token);
+		}
+		catch (Exception e)
+		{
+			abortWithUnauthorized(requestContext);
+		}
 	}
 
 	/**

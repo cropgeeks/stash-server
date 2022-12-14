@@ -13,7 +13,6 @@ import jhi.seedstore.pojo.ContainerAttributeValue;
 
 import org.jooq.Field;
 import org.jooq.Name;
-import org.jooq.Row20;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -60,7 +59,7 @@ public class ViewTableContainers extends TableImpl<ViewTableContainersRecord> {
      * The column
      * <code>seedstore_db.view_table_containers.container_description</code>.
      */
-    public final TableField<ViewTableContainersRecord, String> CONTAINER_DESCRIPTION = createField(DSL.name("container_description"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+    public final TableField<ViewTableContainersRecord, String> CONTAINER_DESCRIPTION = createField(DSL.name("container_description"), SQLDataType.VARCHAR(255), this, "");
 
     /**
      * The column
@@ -102,6 +101,30 @@ public class ViewTableContainers extends TableImpl<ViewTableContainersRecord> {
      * <code>seedstore_db.view_table_containers.parent_description</code>.
      */
     public final TableField<ViewTableContainersRecord, String> PARENT_DESCRIPTION = createField(DSL.name("parent_description"), SQLDataType.VARCHAR(255), this, "");
+
+    /**
+     * The column
+     * <code>seedstore_db.view_table_containers.parent_container_type_id</code>.
+     */
+    public final TableField<ViewTableContainersRecord, Integer> PARENT_CONTAINER_TYPE_ID = createField(DSL.name("parent_container_type_id"), SQLDataType.INTEGER.defaultValue(DSL.inline("0", SQLDataType.INTEGER)), this, "");
+
+    /**
+     * The column
+     * <code>seedstore_db.view_table_containers.parent_container_type_name</code>.
+     */
+    public final TableField<ViewTableContainersRecord, String> PARENT_CONTAINER_TYPE_NAME = createField(DSL.name("parent_container_type_name"), SQLDataType.VARCHAR(255), this, "");
+
+    /**
+     * The column
+     * <code>seedstore_db.view_table_containers.parent_container_type_description</code>.
+     */
+    public final TableField<ViewTableContainersRecord, String> PARENT_CONTAINER_TYPE_DESCRIPTION = createField(DSL.name("parent_container_type_description"), SQLDataType.CLOB, this, "");
+
+    /**
+     * The column
+     * <code>seedstore_db.view_table_containers.parent_container_type_icon</code>.
+     */
+    public final TableField<ViewTableContainersRecord, String> PARENT_CONTAINER_TYPE_ICON = createField(DSL.name("parent_container_type_icon"), SQLDataType.CLOB, this, "");
 
     /**
      * The column
@@ -163,7 +186,7 @@ public class ViewTableContainers extends TableImpl<ViewTableContainersRecord> {
     }
 
     private ViewTableContainers(Name alias, Table<ViewTableContainersRecord> aliased, Field<?>[] parameters) {
-        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `view_table_containers` as select `c`.`id` AS `container_id`,`c`.`barcode` AS `container_barcode`,`c`.`description` AS `container_description`,`seedstore`.`container_types`.`id` AS `container_type_id`,`seedstore`.`container_types`.`name` AS `container_type_name`,`seedstore`.`container_types`.`description` AS `container_type_description`,`seedstore`.`container_types`.`icon` AS `container_type_icon`,`cp`.`id` AS `parent_id`,`cp`.`barcode` AS `parent_barcode`,`cp`.`description` AS `parent_description`,`c`.`is_active` AS `container_is_active`,`seedstore`.`trials`.`id` AS `trial_id`,`seedstore`.`trials`.`name` AS `trial_name`,`seedstore`.`trials`.`description` AS `trial_description`,`seedstore`.`projects`.`id` AS `project_id`,`seedstore`.`projects`.`name` AS `project_name`,`seedstore`.`projects`.`description` AS `project_description`,(select json_arrayagg(json_object('attributeId',`seedstore`.`attributes`.`id`,'attributeName',`seedstore`.`attributes`.`name`,'attributeValue',`seedstore`.`container_attributes`.`attribute_value`)) from (`seedstore`.`container_attributes` left join `seedstore`.`attributes` on((`seedstore`.`attributes`.`id` = `seedstore`.`container_attributes`.`attribute_id`))) where (`seedstore`.`container_attributes`.`container_id` = `c`.`id`)) AS `container_attributes`,(select count(1) from `seedstore`.`containers` `sc` where (`sc`.`parent_container_id` = `c`.`id`)) AS `sub_container_count`,`c`.`created_on` AS `created_on` from ((((`seedstore`.`containers` `c` left join `seedstore`.`containers` `cp` on((`c`.`parent_container_id` = `cp`.`id`))) left join `seedstore`.`container_types` on((`c`.`container_type_id` = `seedstore`.`container_types`.`id`))) left join `seedstore`.`trials` on((`seedstore`.`trials`.`id` = `c`.`trial_id`))) left join `seedstore`.`projects` on((`seedstore`.`projects`.`id` = `c`.`project_id`)))"));
+        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `view_table_containers` as select `c`.`id` AS `container_id`,`c`.`barcode` AS `container_barcode`,`c`.`description` AS `container_description`,`ct`.`id` AS `container_type_id`,`ct`.`name` AS `container_type_name`,`ct`.`description` AS `container_type_description`,`ct`.`icon` AS `container_type_icon`,`cp`.`id` AS `parent_id`,`cp`.`barcode` AS `parent_barcode`,`cp`.`description` AS `parent_description`,`ctp`.`id` AS `parent_container_type_id`,`ctp`.`name` AS `parent_container_type_name`,`ctp`.`description` AS `parent_container_type_description`,`ctp`.`icon` AS `parent_container_type_icon`,`c`.`is_active` AS `container_is_active`,`seedstore`.`trials`.`id` AS `trial_id`,`seedstore`.`trials`.`name` AS `trial_name`,`seedstore`.`trials`.`description` AS `trial_description`,`seedstore`.`projects`.`id` AS `project_id`,`seedstore`.`projects`.`name` AS `project_name`,`seedstore`.`projects`.`description` AS `project_description`,(select json_arrayagg(json_object('attributeId',`seedstore`.`attributes`.`id`,'attributeName',`seedstore`.`attributes`.`name`,'attributeValue',`seedstore`.`container_attributes`.`attribute_value`)) from (`seedstore`.`container_attributes` left join `seedstore`.`attributes` on((`seedstore`.`attributes`.`id` = `seedstore`.`container_attributes`.`attribute_id`))) where (`seedstore`.`container_attributes`.`container_id` = `c`.`id`)) AS `container_attributes`,(select count(1) from `seedstore`.`containers` `sc` where (`sc`.`parent_container_id` = `c`.`id`)) AS `sub_container_count`,`c`.`created_on` AS `created_on` from (((((`seedstore`.`containers` `c` left join `seedstore`.`containers` `cp` on((`c`.`parent_container_id` = `cp`.`id`))) left join `seedstore`.`container_types` `ct` on((`c`.`container_type_id` = `ct`.`id`))) left join `seedstore`.`container_types` `ctp` on((`cp`.`container_type_id` = `ctp`.`id`))) left join `seedstore`.`trials` on((`seedstore`.`trials`.`id` = `c`.`trial_id`))) left join `seedstore`.`projects` on((`seedstore`.`projects`.`id` = `c`.`project_id`)))"));
     }
 
     /**
@@ -218,15 +241,6 @@ public class ViewTableContainers extends TableImpl<ViewTableContainersRecord> {
     @Override
     public ViewTableContainers rename(Name name) {
         return new ViewTableContainers(name, null);
-    }
-
-    // -------------------------------------------------------------------------
-    // Row20 type methods
-    // -------------------------------------------------------------------------
-
-    @Override
-    public Row20<Integer, String, String, Integer, String, String, String, Integer, String, String, Boolean, Integer, String, String, Integer, String, String, ContainerAttributeValue[], Long, Timestamp> fieldsRow() {
-        return (Row20) super.fieldsRow();
     }
     // @formatter:on
 }

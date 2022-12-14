@@ -7,6 +7,8 @@ package jhi.seedstore.database.codegen.tables.pojos;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import jhi.seedstore.database.codegen.enums.UsersUserType;
+
 
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -23,11 +25,13 @@ public class Users implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer   id;
-    private String    name;
-    private String    emailAddress;
-    private Timestamp createdOn;
-    private Timestamp updatedOn;
+    private Integer       id;
+    private String        name;
+    private String        emailAddress;
+    private String        passwordHash;
+    private UsersUserType userType;
+    private Timestamp     createdOn;
+    private Timestamp     updatedOn;
 
     public Users() {}
 
@@ -35,20 +39,26 @@ public class Users implements Serializable {
         this.id = value.id;
         this.name = value.name;
         this.emailAddress = value.emailAddress;
+        this.passwordHash = value.passwordHash;
+        this.userType = value.userType;
         this.createdOn = value.createdOn;
         this.updatedOn = value.updatedOn;
     }
 
     public Users(
-        Integer   id,
-        String    name,
-        String    emailAddress,
-        Timestamp createdOn,
-        Timestamp updatedOn
+        Integer       id,
+        String        name,
+        String        emailAddress,
+        String        passwordHash,
+        UsersUserType userType,
+        Timestamp     createdOn,
+        Timestamp     updatedOn
     ) {
         this.id = id;
         this.name = name;
         this.emailAddress = emailAddress;
+        this.passwordHash = passwordHash;
+        this.userType = userType;
         this.createdOn = createdOn;
         this.updatedOn = updatedOn;
     }
@@ -60,6 +70,8 @@ public class Users implements Serializable {
         sb.append(id);
         sb.append(", ").append(name);
         sb.append(", ").append(emailAddress);
+        sb.append(", ").append(passwordHash);
+        sb.append(", ").append(userType);
         sb.append(", ").append(createdOn);
         sb.append(", ").append(updatedOn);
 

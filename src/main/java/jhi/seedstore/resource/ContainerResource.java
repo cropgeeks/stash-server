@@ -10,6 +10,7 @@ import jhi.seedstore.pojo.*;
 import jhi.seedstore.resource.base.BaseResource;
 import jhi.seedstore.util.*;
 import org.jooq.*;
+import org.jooq.impl.DSL;
 
 import java.sql.*;
 import java.text.*;
@@ -21,6 +22,7 @@ import static jhi.seedstore.database.codegen.tables.ContainerAttributes.*;
 import static jhi.seedstore.database.codegen.tables.ContainerTypes.*;
 import static jhi.seedstore.database.codegen.tables.Containers.*;
 import static jhi.seedstore.database.codegen.tables.Projects.*;
+import static jhi.seedstore.database.codegen.tables.TransferLogs.*;
 import static jhi.seedstore.database.codegen.tables.Trials.*;
 import static jhi.seedstore.database.codegen.tables.ViewTableContainers.*;
 
@@ -45,6 +47,40 @@ public class ContainerResource extends BaseResource
 				from.where(VIEW_TABLE_CONTAINERS.CONTAINER_ID.eq(containerId));
 
 			return from.fetchAnyInto(ViewTableContainers.class);
+		}
+	}
+
+	@GET
+	@Path("/{containerId:\\d+}/clear")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response emptyContainer(@PathParam("containerId") Integer containerId)
+		throws SQLException
+	{
+		if (containerId == null)
+			return Response.status(Response.Status.NOT_FOUND).build();
+
+		AuthenticationFilter.UserDetails sessionUser = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			// Add transfer log entries to indicate they've been removed from their parent
+			context.insertInto(TRANSFER_LOGS, TRANSFER_LOGS.CONTAINER_ID, TRANSFER_LOGS.SOURCE_ID, TRANSFER_LOGS.TARGET_ID, TRANSFER_LOGS.USER_ID)
+				   .select(DSL.select(CONTAINERS.ID, CONTAINERS.PARENT_CONTAINER_ID, DSL.inline(null, Integer.class), DSL.inline(sessionUser.getId(), Integer.class))
+							  .from(CONTAINERS)
+							  .where(CONTAINERS.PARENT_CONTAINER_ID.eq(containerId))
+				   )
+				   .execute();
+
+			// Set them to inactive
+			context.update(CONTAINERS)
+				   .set(CONTAINERS.IS_ACTIVE, false)
+				   .setNull(CONTAINERS.PARENT_CONTAINER_ID)
+				   .where(CONTAINERS.PARENT_CONTAINER_ID.eq(containerId)).execute();
+
+			return Response.ok().build();
 		}
 	}
 
@@ -142,7 +178,8 @@ public class ContainerResource extends BaseResource
 									}
 									break;
 								case date:
-									try {
+									try
+									{
 										sdf.parse(a.getAttributeValue());
 									}
 									catch (ParseException e)

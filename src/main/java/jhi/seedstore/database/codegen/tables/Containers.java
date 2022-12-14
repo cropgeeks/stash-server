@@ -59,7 +59,7 @@ public class Containers extends TableImpl<ContainersRecord> {
     /**
      * The column <code>seedstore_db.containers.description</code>.
      */
-    public final TableField<ContainersRecord, String> DESCRIPTION = createField(DSL.name("description"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+    public final TableField<ContainersRecord, String> DESCRIPTION = createField(DSL.name("description"), SQLDataType.VARCHAR(255), this, "");
 
     /**
      * The column <code>seedstore_db.containers.container_type_id</code>.

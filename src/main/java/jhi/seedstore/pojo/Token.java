@@ -34,7 +34,6 @@ public class Token
 	private String  imageToken;
 	private Integer id;
 	private String  fullName;
-	private String  email;
 	private Long    lifetime;
 	private Long    createdOn;
 }

@@ -18,12 +18,20 @@ package jhi.seedstore.resource;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
+import jhi.seedstore.Database;
+import jhi.seedstore.database.codegen.enums.UsersUserType;
+import jhi.seedstore.database.codegen.tables.records.UsersRecord;
 import jhi.seedstore.pojo.*;
 import jhi.seedstore.resource.base.ContextResource;
 import jhi.seedstore.util.*;
+import jhi.seedstore.util.auth.BCrypt;
+import org.jooq.DSLContext;
 
 import java.io.IOException;
+import java.sql.*;
 import java.util.*;
+
+import static jhi.seedstore.database.codegen.tables.Users.*;
 
 /**
  * @author Sebastian Raubach
@@ -33,12 +41,25 @@ public class TokenResource extends ContextResource
 {
 	public static Integer SALT = 10;
 
+	@POST
+	@Path("/check")
+	@Secured
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response checkToken(Token token) {
+		AuthenticationFilter.UserDetails sessionUser = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+
+		if (token != null && !StringUtils.isEmpty(token.getToken()) && Objects.equals(token.getToken(), sessionUser.getToken()))
+			return Response.status(Response.Status.OK).build();
+		else
+			return Response.status(Response.Status.UNAUTHORIZED).build();
+	}
+
 	@DELETE
 	@Secured
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response deleteToken(LoginDetails user)
-		throws IOException
 	{
 		if (user == null)
 		{
@@ -72,24 +93,43 @@ public class TokenResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response postToken(LoginDetails request)
-		throws IOException
+		throws SQLException
 	{
+		if (request == null || StringUtils.isAnyEmpty(request.getUsername(), request.getPassword()))
+			return Response.status(Response.Status.BAD_REQUEST).build();
+
 		String token;
 		String imageToken;
+		UsersRecord user;
+		boolean matches;
 
-		// TODO
-		if (true)
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			user = context.selectFrom(USERS)
+									  .where(USERS.EMAIL_ADDRESS.eq(request.getUsername()))
+									  .and(USERS.USER_TYPE.eq(UsersUserType.active))
+									  .fetchAny();
+
+			if (user == null)
+				return Response.status(Response.Status.FORBIDDEN).build();
+
+			matches = BCrypt.checkpw(request.getPassword(), user.getPasswordHash());
+		}
+
+		if (matches)
 		{
 			token = UUID.randomUUID().toString();
 			imageToken = UUID.randomUUID().toString();
-			AuthenticationFilter.addToken(this.req, this.resp, token, imageToken, /* TODO */-1000);
+			AuthenticationFilter.addToken(this.req, this.resp, token, imageToken, user.getId());
 		}
 		else
 		{
 			return Response.status(Response.Status.FORBIDDEN).build();
 		}
 
-		return Response.ok(new Token(token, imageToken, /* TODO */-1000, null, null, AuthenticationFilter.AGE, System.currentTimeMillis()))
+		return Response.ok(new Token(token, imageToken, user.getId(), user.getName(), AuthenticationFilter.AGE, System.currentTimeMillis()))
 					   .build();
 	}
 }
