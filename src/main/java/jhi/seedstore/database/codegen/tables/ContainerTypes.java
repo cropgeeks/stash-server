@@ -64,7 +64,7 @@ public class ContainerTypes extends TableImpl<ContainerTypesRecord> {
     /**
      * The column <code>seedstore_db.container_types.icon</code>.
      */
-    public final TableField<ContainerTypesRecord, String> ICON = createField(DSL.name("icon"), SQLDataType.CLOB, this, "");
+    public final TableField<ContainerTypesRecord, byte[]> ICON = createField(DSL.name("icon"), SQLDataType.BLOB, this, "");
 
     /**
      * The column <code>seedstore_db.container_types.created_on</code>.
@@ -153,7 +153,7 @@ public class ContainerTypes extends TableImpl<ContainerTypesRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row6<Integer, String, String, String, Timestamp, Timestamp> fieldsRow() {
+    public Row6<Integer, String, String, byte[], Timestamp, Timestamp> fieldsRow() {
         return (Row6) super.fieldsRow();
     }
     // @formatter:on

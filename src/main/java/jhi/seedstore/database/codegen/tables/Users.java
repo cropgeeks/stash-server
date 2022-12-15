@@ -13,7 +13,7 @@ import jhi.seedstore.database.codegen.tables.records.UsersRecord;
 import org.jooq.Field;
 import org.jooq.Identity;
 import org.jooq.Name;
-import org.jooq.Row7;
+import org.jooq.Row8;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -66,6 +66,11 @@ public class Users extends TableImpl<UsersRecord> {
      * The column <code>seedstore_db.users.password_hash</code>.
      */
     public final TableField<UsersRecord, String> PASSWORD_HASH = createField(DSL.name("password_hash"), SQLDataType.VARCHAR(60), this, "");
+
+    /**
+     * The column <code>seedstore_db.users.icon</code>.
+     */
+    public final TableField<UsersRecord, byte[]> ICON = createField(DSL.name("icon"), SQLDataType.BLOB, this, "");
 
     /**
      * The column <code>seedstore_db.users.user_type</code>.
@@ -153,12 +158,12 @@ public class Users extends TableImpl<UsersRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row7 type methods
+    // Row8 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row7<Integer, String, String, String, UsersUserType, Timestamp, Timestamp> fieldsRow() {
-        return (Row7) super.fieldsRow();
+    public Row8<Integer, String, String, String, byte[], UsersUserType, Timestamp, Timestamp> fieldsRow() {
+        return (Row8) super.fieldsRow();
     }
     // @formatter:on
 }

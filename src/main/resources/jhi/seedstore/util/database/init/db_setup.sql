@@ -187,6 +187,7 @@ CREATE TABLE `users`  (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `email_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `password_hash` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `icon` mediumblob NULL,
   `user_type` enum('active','reference') NOT NULL DEFAULT 'reference',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
