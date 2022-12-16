@@ -26,7 +26,7 @@ public class ContainerTypes implements Serializable {
     private Integer   id;
     private String    name;
     private String    description;
-    private byte[]    icon;
+    private String    icon;
     private Timestamp createdOn;
     private Timestamp updatedOn;
 
@@ -45,7 +45,7 @@ public class ContainerTypes implements Serializable {
         Integer   id,
         String    name,
         String    description,
-        byte[]    icon,
+        String    icon,
         Timestamp createdOn,
         Timestamp updatedOn
     ) {
@@ -64,7 +64,7 @@ public class ContainerTypes implements Serializable {
         sb.append(id);
         sb.append(", ").append(name);
         sb.append(", ").append(description);
-        sb.append(", ").append("[binary...]");
+        sb.append(", ").append(icon);
         sb.append(", ").append(createdOn);
         sb.append(", ").append(updatedOn);
 

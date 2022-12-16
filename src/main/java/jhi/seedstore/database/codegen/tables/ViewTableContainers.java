@@ -83,7 +83,7 @@ public class ViewTableContainers extends TableImpl<ViewTableContainersRecord> {
      * The column
      * <code>seedstore_db.view_table_containers.container_type_icon</code>.
      */
-    public final TableField<ViewTableContainersRecord, byte[]> CONTAINER_TYPE_ICON = createField(DSL.name("container_type_icon"), SQLDataType.BLOB, this, "");
+    public final TableField<ViewTableContainersRecord, String> CONTAINER_TYPE_ICON = createField(DSL.name("container_type_icon"), SQLDataType.CLOB, this, "");
 
     /**
      * The column <code>seedstore_db.view_table_containers.parent_id</code>.
@@ -124,7 +124,7 @@ public class ViewTableContainers extends TableImpl<ViewTableContainersRecord> {
      * The column
      * <code>seedstore_db.view_table_containers.parent_container_type_icon</code>.
      */
-    public final TableField<ViewTableContainersRecord, byte[]> PARENT_CONTAINER_TYPE_ICON = createField(DSL.name("parent_container_type_icon"), SQLDataType.BLOB, this, "");
+    public final TableField<ViewTableContainersRecord, String> PARENT_CONTAINER_TYPE_ICON = createField(DSL.name("parent_container_type_icon"), SQLDataType.CLOB, this, "");
 
     /**
      * The column

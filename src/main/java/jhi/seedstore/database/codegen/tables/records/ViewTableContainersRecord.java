@@ -119,7 +119,7 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
      * Setter for
      * <code>seedstore_db.view_table_containers.container_type_icon</code>.
      */
-    public void setContainerTypeIcon(byte[] value) {
+    public void setContainerTypeIcon(String value) {
         set(6, value);
     }
 
@@ -127,8 +127,8 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
      * Getter for
      * <code>seedstore_db.view_table_containers.container_type_icon</code>.
      */
-    public byte[] getContainerTypeIcon() {
-        return (byte[]) get(6);
+    public String getContainerTypeIcon() {
+        return (String) get(6);
     }
 
     /**
@@ -229,7 +229,7 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
      * Setter for
      * <code>seedstore_db.view_table_containers.parent_container_type_icon</code>.
      */
-    public void setParentContainerTypeIcon(byte[] value) {
+    public void setParentContainerTypeIcon(String value) {
         set(13, value);
     }
 
@@ -237,8 +237,8 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
      * Getter for
      * <code>seedstore_db.view_table_containers.parent_container_type_icon</code>.
      */
-    public byte[] getParentContainerTypeIcon() {
-        return (byte[]) get(13);
+    public String getParentContainerTypeIcon() {
+        return (String) get(13);
     }
 
     /**
@@ -405,7 +405,7 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
     /**
      * Create a detached, initialised ViewTableContainersRecord
      */
-    public ViewTableContainersRecord(Integer containerId, String containerBarcode, String containerDescription, Integer containerTypeId, String containerTypeName, String containerTypeDescription, byte[] containerTypeIcon, Integer parentId, String parentBarcode, String parentDescription, Integer parentContainerTypeId, String parentContainerTypeName, String parentContainerTypeDescription, byte[] parentContainerTypeIcon, Boolean containerIsActive, Integer trialId, String trialName, String trialDescription, Integer projectId, String projectName, String projectDescription, ContainerAttributeValue[] containerAttributes, Long subContainerCount, Timestamp createdOn) {
+    public ViewTableContainersRecord(Integer containerId, String containerBarcode, String containerDescription, Integer containerTypeId, String containerTypeName, String containerTypeDescription, String containerTypeIcon, Integer parentId, String parentBarcode, String parentDescription, Integer parentContainerTypeId, String parentContainerTypeName, String parentContainerTypeDescription, String parentContainerTypeIcon, Boolean containerIsActive, Integer trialId, String trialName, String trialDescription, Integer projectId, String projectName, String projectDescription, ContainerAttributeValue[] containerAttributes, Long subContainerCount, Timestamp createdOn) {
         super(ViewTableContainers.VIEW_TABLE_CONTAINERS);
 
         setContainerId(containerId);

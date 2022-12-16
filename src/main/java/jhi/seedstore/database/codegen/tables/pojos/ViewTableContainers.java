@@ -32,14 +32,14 @@ public class ViewTableContainers implements Serializable {
     private Integer                   containerTypeId;
     private String                    containerTypeName;
     private String                    containerTypeDescription;
-    private byte[]                    containerTypeIcon;
+    private String                    containerTypeIcon;
     private Integer                   parentId;
     private String                    parentBarcode;
     private String                    parentDescription;
     private Integer                   parentContainerTypeId;
     private String                    parentContainerTypeName;
     private String                    parentContainerTypeDescription;
-    private byte[]                    parentContainerTypeIcon;
+    private String                    parentContainerTypeIcon;
     private Boolean                   containerIsActive;
     private Integer                   trialId;
     private String                    trialName;
@@ -87,14 +87,14 @@ public class ViewTableContainers implements Serializable {
         Integer                   containerTypeId,
         String                    containerTypeName,
         String                    containerTypeDescription,
-        byte[]                    containerTypeIcon,
+        String                    containerTypeIcon,
         Integer                   parentId,
         String                    parentBarcode,
         String                    parentDescription,
         Integer                   parentContainerTypeId,
         String                    parentContainerTypeName,
         String                    parentContainerTypeDescription,
-        byte[]                    parentContainerTypeIcon,
+        String                    parentContainerTypeIcon,
         Boolean                   containerIsActive,
         Integer                   trialId,
         String                    trialName,
@@ -142,14 +142,14 @@ public class ViewTableContainers implements Serializable {
         sb.append(", ").append(containerTypeId);
         sb.append(", ").append(containerTypeName);
         sb.append(", ").append(containerTypeDescription);
-        sb.append(", ").append("[binary...]");
+        sb.append(", ").append(containerTypeIcon);
         sb.append(", ").append(parentId);
         sb.append(", ").append(parentBarcode);
         sb.append(", ").append(parentDescription);
         sb.append(", ").append(parentContainerTypeId);
         sb.append(", ").append(parentContainerTypeName);
         sb.append(", ").append(parentContainerTypeDescription);
-        sb.append(", ").append("[binary...]");
+        sb.append(", ").append(parentContainerTypeIcon);
         sb.append(", ").append(containerIsActive);
         sb.append(", ").append(trialId);
         sb.append(", ").append(trialName);

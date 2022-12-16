@@ -4,8 +4,8 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import jhi.seedstore.Database;
-import jhi.seedstore.database.codegen.tables.pojos.*;
-import jhi.seedstore.database.codegen.tables.records.*;
+import jhi.seedstore.database.codegen.tables.pojos.ContainerTypes;
+import jhi.seedstore.database.codegen.tables.records.ContainerTypesRecord;
 import jhi.seedstore.pojo.*;
 import jhi.seedstore.resource.base.BaseResource;
 import jhi.seedstore.util.*;
@@ -15,10 +15,6 @@ import java.sql.*;
 import java.util.List;
 
 import static jhi.seedstore.database.codegen.tables.ContainerTypes.*;
-import static jhi.seedstore.database.codegen.tables.Containers.*;
-import static jhi.seedstore.database.codegen.tables.Projects.*;
-import static jhi.seedstore.database.codegen.tables.Trials.*;
-import static jhi.seedstore.database.codegen.tables.ViewTableContainers.*;
 
 @Path("containertype")
 @Secured
