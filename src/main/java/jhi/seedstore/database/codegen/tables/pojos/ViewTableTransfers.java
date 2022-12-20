@@ -34,6 +34,7 @@ public class ViewTableTransfers implements Serializable {
     private String    targetBarcode;
     private String    targetDescription;
     private Integer   userId;
+    private String    userName;
     private Timestamp createdOn;
     private Timestamp updatedOn;
 
@@ -51,6 +52,7 @@ public class ViewTableTransfers implements Serializable {
         this.targetBarcode = value.targetBarcode;
         this.targetDescription = value.targetDescription;
         this.userId = value.userId;
+        this.userName = value.userName;
         this.createdOn = value.createdOn;
         this.updatedOn = value.updatedOn;
     }
@@ -67,6 +69,7 @@ public class ViewTableTransfers implements Serializable {
         String    targetBarcode,
         String    targetDescription,
         Integer   userId,
+        String    userName,
         Timestamp createdOn,
         Timestamp updatedOn
     ) {
@@ -81,6 +84,7 @@ public class ViewTableTransfers implements Serializable {
         this.targetBarcode = targetBarcode;
         this.targetDescription = targetDescription;
         this.userId = userId;
+        this.userName = userName;
         this.createdOn = createdOn;
         this.updatedOn = updatedOn;
     }
@@ -100,6 +104,7 @@ public class ViewTableTransfers implements Serializable {
         sb.append(", ").append(targetBarcode);
         sb.append(", ").append(targetDescription);
         sb.append(", ").append(userId);
+        sb.append(", ").append(userName);
         sb.append(", ").append(createdOn);
         sb.append(", ").append(updatedOn);
 

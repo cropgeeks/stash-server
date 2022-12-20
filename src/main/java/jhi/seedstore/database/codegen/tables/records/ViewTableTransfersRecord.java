@@ -9,8 +9,8 @@ import java.sql.Timestamp;
 import jhi.seedstore.database.codegen.tables.ViewTableTransfers;
 
 import org.jooq.Field;
-import org.jooq.Record13;
-import org.jooq.Row13;
+import org.jooq.Record14;
+import org.jooq.Row14;
 import org.jooq.impl.TableRecordImpl;
 
 
@@ -19,7 +19,7 @@ import org.jooq.impl.TableRecordImpl;
  * VIEW
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ViewTableTransfersRecord extends TableRecordImpl<ViewTableTransfersRecord> implements Record13<Integer, Integer, String, String, Integer, String, String, Integer, String, String, Integer, Timestamp, Timestamp> {
+public class ViewTableTransfersRecord extends TableRecordImpl<ViewTableTransfersRecord> implements Record14<Integer, Integer, String, String, Integer, String, String, Integer, String, String, Integer, String, Timestamp, Timestamp> {
 
     private static final long serialVersionUID = 1L;
 
@@ -188,45 +188,59 @@ public class ViewTableTransfersRecord extends TableRecordImpl<ViewTableTransfers
     }
 
     /**
+     * Setter for <code>seedstore_db.view_table_transfers.user_name</code>.
+     */
+    public void setUserName(String value) {
+        set(11, value);
+    }
+
+    /**
+     * Getter for <code>seedstore_db.view_table_transfers.user_name</code>.
+     */
+    public String getUserName() {
+        return (String) get(11);
+    }
+
+    /**
      * Setter for <code>seedstore_db.view_table_transfers.created_on</code>.
      */
     public void setCreatedOn(Timestamp value) {
-        set(11, value);
+        set(12, value);
     }
 
     /**
      * Getter for <code>seedstore_db.view_table_transfers.created_on</code>.
      */
     public Timestamp getCreatedOn() {
-        return (Timestamp) get(11);
+        return (Timestamp) get(12);
     }
 
     /**
      * Setter for <code>seedstore_db.view_table_transfers.updated_on</code>.
      */
     public void setUpdatedOn(Timestamp value) {
-        set(12, value);
+        set(13, value);
     }
 
     /**
      * Getter for <code>seedstore_db.view_table_transfers.updated_on</code>.
      */
     public Timestamp getUpdatedOn() {
-        return (Timestamp) get(12);
+        return (Timestamp) get(13);
     }
 
     // -------------------------------------------------------------------------
-    // Record13 type implementation
+    // Record14 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row13<Integer, Integer, String, String, Integer, String, String, Integer, String, String, Integer, Timestamp, Timestamp> fieldsRow() {
-        return (Row13) super.fieldsRow();
+    public Row14<Integer, Integer, String, String, Integer, String, String, Integer, String, String, Integer, String, Timestamp, Timestamp> fieldsRow() {
+        return (Row14) super.fieldsRow();
     }
 
     @Override
-    public Row13<Integer, Integer, String, String, Integer, String, String, Integer, String, String, Integer, Timestamp, Timestamp> valuesRow() {
-        return (Row13) super.valuesRow();
+    public Row14<Integer, Integer, String, String, Integer, String, String, Integer, String, String, Integer, String, Timestamp, Timestamp> valuesRow() {
+        return (Row14) super.valuesRow();
     }
 
     @Override
@@ -285,12 +299,17 @@ public class ViewTableTransfersRecord extends TableRecordImpl<ViewTableTransfers
     }
 
     @Override
-    public Field<Timestamp> field12() {
-        return ViewTableTransfers.VIEW_TABLE_TRANSFERS.CREATED_ON;
+    public Field<String> field12() {
+        return ViewTableTransfers.VIEW_TABLE_TRANSFERS.USER_NAME;
     }
 
     @Override
     public Field<Timestamp> field13() {
+        return ViewTableTransfers.VIEW_TABLE_TRANSFERS.CREATED_ON;
+    }
+
+    @Override
+    public Field<Timestamp> field14() {
         return ViewTableTransfers.VIEW_TABLE_TRANSFERS.UPDATED_ON;
     }
 
@@ -350,12 +369,17 @@ public class ViewTableTransfersRecord extends TableRecordImpl<ViewTableTransfers
     }
 
     @Override
-    public Timestamp component12() {
-        return getCreatedOn();
+    public String component12() {
+        return getUserName();
     }
 
     @Override
     public Timestamp component13() {
+        return getCreatedOn();
+    }
+
+    @Override
+    public Timestamp component14() {
         return getUpdatedOn();
     }
 
@@ -415,12 +439,17 @@ public class ViewTableTransfersRecord extends TableRecordImpl<ViewTableTransfers
     }
 
     @Override
-    public Timestamp value12() {
-        return getCreatedOn();
+    public String value12() {
+        return getUserName();
     }
 
     @Override
     public Timestamp value13() {
+        return getCreatedOn();
+    }
+
+    @Override
+    public Timestamp value14() {
         return getUpdatedOn();
     }
 
@@ -491,19 +520,25 @@ public class ViewTableTransfersRecord extends TableRecordImpl<ViewTableTransfers
     }
 
     @Override
-    public ViewTableTransfersRecord value12(Timestamp value) {
-        setCreatedOn(value);
+    public ViewTableTransfersRecord value12(String value) {
+        setUserName(value);
         return this;
     }
 
     @Override
     public ViewTableTransfersRecord value13(Timestamp value) {
+        setCreatedOn(value);
+        return this;
+    }
+
+    @Override
+    public ViewTableTransfersRecord value14(Timestamp value) {
         setUpdatedOn(value);
         return this;
     }
 
     @Override
-    public ViewTableTransfersRecord values(Integer value1, Integer value2, String value3, String value4, Integer value5, String value6, String value7, Integer value8, String value9, String value10, Integer value11, Timestamp value12, Timestamp value13) {
+    public ViewTableTransfersRecord values(Integer value1, Integer value2, String value3, String value4, Integer value5, String value6, String value7, Integer value8, String value9, String value10, Integer value11, String value12, Timestamp value13, Timestamp value14) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -517,6 +552,7 @@ public class ViewTableTransfersRecord extends TableRecordImpl<ViewTableTransfers
         value11(value11);
         value12(value12);
         value13(value13);
+        value14(value14);
         return this;
     }
 
@@ -534,7 +570,7 @@ public class ViewTableTransfersRecord extends TableRecordImpl<ViewTableTransfers
     /**
      * Create a detached, initialised ViewTableTransfersRecord
      */
-    public ViewTableTransfersRecord(Integer transferLogId, Integer containerId, String containerBarcode, String containerDescription, Integer sourceId, String sourceBarcode, String sourceDescription, Integer targetId, String targetBarcode, String targetDescription, Integer userId, Timestamp createdOn, Timestamp updatedOn) {
+    public ViewTableTransfersRecord(Integer transferLogId, Integer containerId, String containerBarcode, String containerDescription, Integer sourceId, String sourceBarcode, String sourceDescription, Integer targetId, String targetBarcode, String targetDescription, Integer userId, String userName, Timestamp createdOn, Timestamp updatedOn) {
         super(ViewTableTransfers.VIEW_TABLE_TRANSFERS);
 
         setTransferLogId(transferLogId);
@@ -548,6 +584,7 @@ public class ViewTableTransfersRecord extends TableRecordImpl<ViewTableTransfers
         setTargetBarcode(targetBarcode);
         setTargetDescription(targetDescription);
         setUserId(userId);
+        setUserName(userName);
         setCreatedOn(createdOn);
         setUpdatedOn(updatedOn);
     }
@@ -570,6 +607,7 @@ public class ViewTableTransfersRecord extends TableRecordImpl<ViewTableTransfers
             setTargetBarcode(value.getTargetBarcode());
             setTargetDescription(value.getTargetDescription());
             setUserId(value.getUserId());
+            setUserName(value.getUserName());
             setCreatedOn(value.getCreatedOn());
             setUpdatedOn(value.getUpdatedOn());
         }

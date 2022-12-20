@@ -11,7 +11,7 @@ import jhi.seedstore.database.codegen.tables.records.ViewTableTransfersRecord;
 
 import org.jooq.Field;
 import org.jooq.Name;
-import org.jooq.Row13;
+import org.jooq.Row14;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -101,7 +101,12 @@ public class ViewTableTransfers extends TableImpl<ViewTableTransfersRecord> {
     /**
      * The column <code>seedstore_db.view_table_transfers.user_id</code>.
      */
-    public final TableField<ViewTableTransfersRecord, Integer> USER_ID = createField(DSL.name("user_id"), SQLDataType.INTEGER, this, "");
+    public final TableField<ViewTableTransfersRecord, Integer> USER_ID = createField(DSL.name("user_id"), SQLDataType.INTEGER.defaultValue(DSL.inline("0", SQLDataType.INTEGER)), this, "");
+
+    /**
+     * The column <code>seedstore_db.view_table_transfers.user_name</code>.
+     */
+    public final TableField<ViewTableTransfersRecord, String> USER_NAME = createField(DSL.name("user_name"), SQLDataType.VARCHAR(255), this, "");
 
     /**
      * The column <code>seedstore_db.view_table_transfers.created_on</code>.
@@ -118,7 +123,7 @@ public class ViewTableTransfers extends TableImpl<ViewTableTransfersRecord> {
     }
 
     private ViewTableTransfers(Name alias, Table<ViewTableTransfersRecord> aliased, Field<?>[] parameters) {
-        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `view_table_transfers` as select `seedstore`.`transfer_logs`.`id` AS `transfer_log_id`,`c`.`id` AS `container_id`,`c`.`barcode` AS `container_barcode`,`c`.`description` AS `container_description`,`s`.`id` AS `source_id`,`s`.`barcode` AS `source_barcode`,`s`.`description` AS `source_description`,`t`.`id` AS `target_id`,`t`.`barcode` AS `target_barcode`,`t`.`description` AS `target_description`,`seedstore`.`transfer_logs`.`user_id` AS `user_id`,`seedstore`.`transfer_logs`.`created_on` AS `created_on`,`seedstore`.`transfer_logs`.`updated_on` AS `updated_on` from (((`seedstore`.`transfer_logs` left join `seedstore`.`containers` `c` on((`c`.`id` = `seedstore`.`transfer_logs`.`container_id`))) left join `seedstore`.`containers` `s` on((`s`.`id` = `seedstore`.`transfer_logs`.`source_id`))) left join `seedstore`.`containers` `t` on((`t`.`id` = `seedstore`.`transfer_logs`.`target_id`)))"));
+        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `view_table_transfers` as select `seedstore`.`transfer_logs`.`id` AS `transfer_log_id`,`c`.`id` AS `container_id`,`c`.`barcode` AS `container_barcode`,`c`.`description` AS `container_description`,`s`.`id` AS `source_id`,`s`.`barcode` AS `source_barcode`,`s`.`description` AS `source_description`,`t`.`id` AS `target_id`,`t`.`barcode` AS `target_barcode`,`t`.`description` AS `target_description`,`seedstore`.`users`.`id` AS `user_id`,`seedstore`.`users`.`name` AS `user_name`,`seedstore`.`transfer_logs`.`created_on` AS `created_on`,`seedstore`.`transfer_logs`.`updated_on` AS `updated_on` from ((((`seedstore`.`transfer_logs` left join `seedstore`.`containers` `c` on((`c`.`id` = `seedstore`.`transfer_logs`.`container_id`))) left join `seedstore`.`containers` `s` on((`s`.`id` = `seedstore`.`transfer_logs`.`source_id`))) left join `seedstore`.`containers` `t` on((`t`.`id` = `seedstore`.`transfer_logs`.`target_id`))) left join `seedstore`.`users` on((`seedstore`.`transfer_logs`.`user_id` = `seedstore`.`users`.`id`)))"));
     }
 
     /**
@@ -176,12 +181,12 @@ public class ViewTableTransfers extends TableImpl<ViewTableTransfersRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row13 type methods
+    // Row14 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row13<Integer, Integer, String, String, Integer, String, String, Integer, String, String, Integer, Timestamp, Timestamp> fieldsRow() {
-        return (Row13) super.fieldsRow();
+    public Row14<Integer, Integer, String, String, Integer, String, String, Integer, String, String, Integer, String, Timestamp, Timestamp> fieldsRow() {
+        return (Row14) super.fieldsRow();
     }
     // @formatter:on
 }

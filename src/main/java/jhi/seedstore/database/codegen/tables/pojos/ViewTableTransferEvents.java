@@ -6,6 +6,7 @@ package jhi.seedstore.database.codegen.tables.pojos;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Arrays;
 
 
 import lombok.*;
@@ -23,15 +24,17 @@ public class ViewTableTransferEvents implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Date    date;
-    private Integer sourceId;
-    private String  sourceBarcode;
-    private String  sourceType;
-    private Integer targetId;
-    private String  targetBarcode;
-    private String  targetType;
-    private Integer userId;
-    private Long    containerCount;
+    private Date      date;
+    private Integer   sourceId;
+    private String    sourceBarcode;
+    private String    sourceType;
+    private Integer   targetId;
+    private String    targetBarcode;
+    private String    targetType;
+    private Integer   userId;
+    private String    userName;
+    private Long      containerCount;
+    private Integer[] containerIds;
 
     public ViewTableTransferEvents() {}
 
@@ -44,19 +47,23 @@ public class ViewTableTransferEvents implements Serializable {
         this.targetBarcode = value.targetBarcode;
         this.targetType = value.targetType;
         this.userId = value.userId;
+        this.userName = value.userName;
         this.containerCount = value.containerCount;
+        this.containerIds = value.containerIds;
     }
 
     public ViewTableTransferEvents(
-        Date    date,
-        Integer sourceId,
-        String  sourceBarcode,
-        String  sourceType,
-        Integer targetId,
-        String  targetBarcode,
-        String  targetType,
-        Integer userId,
-        Long    containerCount
+        Date      date,
+        Integer   sourceId,
+        String    sourceBarcode,
+        String    sourceType,
+        Integer   targetId,
+        String    targetBarcode,
+        String    targetType,
+        Integer   userId,
+        String    userName,
+        Long      containerCount,
+        Integer[] containerIds
     ) {
         this.date = date;
         this.sourceId = sourceId;
@@ -66,7 +73,9 @@ public class ViewTableTransferEvents implements Serializable {
         this.targetBarcode = targetBarcode;
         this.targetType = targetType;
         this.userId = userId;
+        this.userName = userName;
         this.containerCount = containerCount;
+        this.containerIds = containerIds;
     }
 
     @Override
@@ -81,7 +90,9 @@ public class ViewTableTransferEvents implements Serializable {
         sb.append(", ").append(targetBarcode);
         sb.append(", ").append(targetType);
         sb.append(", ").append(userId);
+        sb.append(", ").append(userName);
         sb.append(", ").append(containerCount);
+        sb.append(", ").append(Arrays.toString(containerIds));
 
         sb.append(")");
         return sb.toString();

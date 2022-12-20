@@ -115,7 +115,7 @@ public class TransferResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_TRANSFER_EVENTS);
 
 			// Filter here!
-			filter(from, filters);
+			filter(from, filters, true);
 
 			List<ViewTableTransferEvents> result = setPaginationAndOrderBy(from)
 				.fetch()

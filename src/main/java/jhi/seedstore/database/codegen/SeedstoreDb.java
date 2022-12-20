@@ -18,6 +18,7 @@ import jhi.seedstore.database.codegen.tables.Users;
 import jhi.seedstore.database.codegen.tables.ViewTableContainers;
 import jhi.seedstore.database.codegen.tables.ViewTableTransferEvents;
 import jhi.seedstore.database.codegen.tables.ViewTableTransfers;
+import jhi.seedstore.database.codegen.tables.ViewTableUsers;
 
 import org.jooq.Catalog;
 import org.jooq.Table;
@@ -64,7 +65,8 @@ public class SeedstoreDb extends SchemaImpl {
             Users.USERS,
             ViewTableContainers.VIEW_TABLE_CONTAINERS,
             ViewTableTransferEvents.VIEW_TABLE_TRANSFER_EVENTS,
-            ViewTableTransfers.VIEW_TABLE_TRANSFERS
+            ViewTableTransfers.VIEW_TABLE_TRANSFERS,
+            ViewTableUsers.VIEW_TABLE_USERS
         );
     }
     // @formatter:on
