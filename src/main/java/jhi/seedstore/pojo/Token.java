@@ -32,6 +32,7 @@ public class Token
 {
 	private String  token;
 	private String  imageToken;
+	private String  userType;
 	private Integer id;
 	private String  fullName;
 	private Long    lifetime;

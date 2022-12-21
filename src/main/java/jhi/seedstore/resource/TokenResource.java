@@ -109,7 +109,7 @@ public class TokenResource extends ContextResource
 
 			user = context.selectFrom(USERS)
 									  .where(USERS.EMAIL_ADDRESS.eq(request.getUsername()))
-									  .and(USERS.USER_TYPE.eq(UsersUserType.active))
+									  .and(USERS.USER_TYPE.notEqual(UsersUserType.reference))
 									  .fetchAny();
 
 			if (user == null)
@@ -122,14 +122,14 @@ public class TokenResource extends ContextResource
 		{
 			token = UUID.randomUUID().toString();
 			imageToken = UUID.randomUUID().toString();
-			AuthenticationFilter.addToken(this.req, this.resp, token, imageToken, user.getId());
+			AuthenticationFilter.addToken(this.req, this.resp, token, imageToken, user.getId(), user.getUserType());
 		}
 		else
 		{
 			return Response.status(Response.Status.FORBIDDEN).build();
 		}
 
-		return Response.ok(new Token(token, imageToken, user.getId(), user.getName(), AuthenticationFilter.AGE, System.currentTimeMillis()))
+		return Response.ok(new Token(token, imageToken, user.getUserType().getLiteral(), user.getId(), user.getName(), AuthenticationFilter.AGE, System.currentTimeMillis()))
 					   .build();
 	}
 }

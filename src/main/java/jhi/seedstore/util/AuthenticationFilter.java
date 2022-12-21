@@ -1,7 +1,6 @@
 package jhi.seedstore.util;
 
 import jakarta.annotation.Priority;
-import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.*;
@@ -9,9 +8,9 @@ import jakarta.ws.rs.Priorities;
 import jakarta.ws.rs.container.*;
 import jakarta.ws.rs.core.*;
 import jakarta.ws.rs.ext.Provider;
+import jhi.seedstore.database.codegen.enums.UsersUserType;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
@@ -87,7 +86,7 @@ public class AuthenticationFilter implements ContainerRequestFilter
 
 				if (details == null)
 				{
-					details = new UserDetails(-1000, null, null, AGE);
+					details = new UserDetails(-1000, UsersUserType.regular, null, null, AGE);
 				}
 
 				return details;
@@ -197,13 +196,14 @@ public class AuthenticationFilter implements ContainerRequestFilter
 		}
 	}
 
-	public static void addToken(HttpServletRequest request, HttpServletResponse response, String token, String imageToken, Integer userId)
+	public static void addToken(HttpServletRequest request, HttpServletResponse response, String token, String imageToken, Integer userId, UsersUserType type)
 	{
 		setCookie(token, request, response);
 		UserDetails details = new UserDetails();
 		details.timestamp = System.currentTimeMillis();
 		details.imageToken = imageToken;
 		details.token = token;
+		details.type = type;
 		details.id = userId;
 		tokenToUserDetails.put(token, details);
 		imageTokenToUserDetails.put(details.imageToken, details);
@@ -337,18 +337,20 @@ public class AuthenticationFilter implements ContainerRequestFilter
 
 	public static class UserDetails implements Principal
 	{
-		private Integer id;
-		private String  token;
-		private String  imageToken;
-		private Long    timestamp;
+		private Integer       id;
+		private UsersUserType type;
+		private String        token;
+		private String        imageToken;
+		private Long          timestamp;
 
 		public UserDetails()
 		{
 		}
 
-		public UserDetails(Integer id, String token, String imageToken, Long timestamp)
+		public UserDetails(Integer id, UsersUserType type, String token, String imageToken, Long timestamp)
 		{
 			this.id = id;
+			this.type = type;
 			this.token = token;
 			this.imageToken = imageToken;
 			this.timestamp = timestamp;
@@ -357,6 +359,11 @@ public class AuthenticationFilter implements ContainerRequestFilter
 		public Integer getId()
 		{
 			return id;
+		}
+
+		public UsersUserType getType()
+		{
+			return type;
 		}
 
 		public String getToken()
@@ -379,10 +386,26 @@ public class AuthenticationFilter implements ContainerRequestFilter
 		{
 			return "UserDetails{" +
 				"id=" + id +
+				", type=" + type +
 				", token='" + token + '\'' +
 				", imageToken='" + imageToken + '\'' +
 				", timestamp=" + timestamp +
 				'}';
+		}
+
+		public boolean isAtLeast(UsersUserType atLeast)
+		{
+			switch (atLeast)
+			{
+				case admin:
+					return type == UsersUserType.admin;
+				case regular:
+					return type == UsersUserType.admin || type == UsersUserType.regular;
+				case reference:
+					return type == UsersUserType.admin || type == UsersUserType.regular || type == UsersUserType.reference;
+			}
+
+			return false;
 		}
 
 		@Override

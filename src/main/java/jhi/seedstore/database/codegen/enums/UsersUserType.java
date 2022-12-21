@@ -16,7 +16,9 @@ import org.jooq.Schema;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public enum UsersUserType implements EnumType {
 
-    active("active"),
+    admin("admin"),
+
+    regular("regular"),
 
     reference("reference");
 
