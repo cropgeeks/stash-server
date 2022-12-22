@@ -20,7 +20,9 @@ public enum ViewTableUsersUserType implements EnumType {
 
     regular("regular"),
 
-    reference("reference");
+    reference("reference"),
+
+    inactive("inactive");
 
     private final String literal;
 

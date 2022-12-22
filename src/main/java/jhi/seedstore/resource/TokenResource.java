@@ -109,13 +109,18 @@ public class TokenResource extends ContextResource
 
 			user = context.selectFrom(USERS)
 									  .where(USERS.EMAIL_ADDRESS.eq(request.getUsername()))
-									  .and(USERS.USER_TYPE.notEqual(UsersUserType.reference))
+									  .and(USERS.USER_TYPE.notIn(UsersUserType.reference, UsersUserType.inactive))
 									  .fetchAny();
 
 			if (user == null)
 				return Response.status(Response.Status.FORBIDDEN).build();
 
 			matches = BCrypt.checkpw(request.getPassword(), user.getPasswordHash());
+
+			if (matches) {
+				user.setLastLogin(new Timestamp(System.currentTimeMillis()));
+				user.store(USERS.LAST_LOGIN);
+			}
 		}
 
 		if (matches)

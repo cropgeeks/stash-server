@@ -31,6 +31,7 @@ public class Users implements Serializable {
     private String        passwordHash;
     private byte[]        icon;
     private UsersUserType userType;
+    private Timestamp     lastLogin;
     private Timestamp     createdOn;
     private Timestamp     updatedOn;
 
@@ -43,6 +44,7 @@ public class Users implements Serializable {
         this.passwordHash = value.passwordHash;
         this.icon = value.icon;
         this.userType = value.userType;
+        this.lastLogin = value.lastLogin;
         this.createdOn = value.createdOn;
         this.updatedOn = value.updatedOn;
     }
@@ -54,6 +56,7 @@ public class Users implements Serializable {
         String        passwordHash,
         byte[]        icon,
         UsersUserType userType,
+        Timestamp     lastLogin,
         Timestamp     createdOn,
         Timestamp     updatedOn
     ) {
@@ -63,6 +66,7 @@ public class Users implements Serializable {
         this.passwordHash = passwordHash;
         this.icon = icon;
         this.userType = userType;
+        this.lastLogin = lastLogin;
         this.createdOn = createdOn;
         this.updatedOn = updatedOn;
     }
@@ -77,6 +81,7 @@ public class Users implements Serializable {
         sb.append(", ").append(passwordHash);
         sb.append(", ").append("[binary...]");
         sb.append(", ").append(userType);
+        sb.append(", ").append(lastLogin);
         sb.append(", ").append(createdOn);
         sb.append(", ").append(updatedOn);
 

@@ -13,7 +13,7 @@ import jhi.seedstore.database.codegen.tables.records.UsersRecord;
 import org.jooq.Field;
 import org.jooq.Identity;
 import org.jooq.Name;
-import org.jooq.Row8;
+import org.jooq.Row9;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -76,6 +76,11 @@ public class Users extends TableImpl<UsersRecord> {
      * The column <code>seedstore_db.users.user_type</code>.
      */
     public final TableField<UsersRecord, UsersUserType> USER_TYPE = createField(DSL.name("user_type"), SQLDataType.VARCHAR(9).nullable(false).defaultValue(DSL.inline("reference", SQLDataType.VARCHAR)).asEnumDataType(jhi.seedstore.database.codegen.enums.UsersUserType.class), this, "");
+
+    /**
+     * The column <code>seedstore_db.users.last_login</code>.
+     */
+    public final TableField<UsersRecord, Timestamp> LAST_LOGIN = createField(DSL.name("last_login"), SQLDataType.TIMESTAMP(0), this, "");
 
     /**
      * The column <code>seedstore_db.users.created_on</code>.
@@ -158,12 +163,12 @@ public class Users extends TableImpl<UsersRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row8 type methods
+    // Row9 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<Integer, String, String, String, byte[], UsersUserType, Timestamp, Timestamp> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Row9<Integer, String, String, String, byte[], UsersUserType, Timestamp, Timestamp, Timestamp> fieldsRow() {
+        return (Row9) super.fieldsRow();
     }
     // @formatter:on
 }

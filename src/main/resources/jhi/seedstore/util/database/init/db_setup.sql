@@ -188,7 +188,8 @@ CREATE TABLE `users`  (
   `email_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `password_hash` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `icon` mediumblob NULL,
-  `user_type` enum('admin','regular','reference') NOT NULL DEFAULT 'reference',
+  `user_type` enum('admin','regular','reference','inactive') NOT NULL DEFAULT 'reference',
+  `last_login` datetime NULL,
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
