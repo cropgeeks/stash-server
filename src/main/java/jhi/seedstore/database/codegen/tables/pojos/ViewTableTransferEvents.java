@@ -5,7 +5,7 @@ package jhi.seedstore.database.codegen.tables.pojos;
 
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Arrays;
 
 
@@ -24,7 +24,8 @@ public class ViewTableTransferEvents implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Date      date;
+    private String    eventId;
+    private Timestamp timestamp;
     private Integer   sourceId;
     private String    sourceBarcode;
     private String    sourceType;
@@ -39,7 +40,8 @@ public class ViewTableTransferEvents implements Serializable {
     public ViewTableTransferEvents() {}
 
     public ViewTableTransferEvents(ViewTableTransferEvents value) {
-        this.date = value.date;
+        this.eventId = value.eventId;
+        this.timestamp = value.timestamp;
         this.sourceId = value.sourceId;
         this.sourceBarcode = value.sourceBarcode;
         this.sourceType = value.sourceType;
@@ -53,7 +55,8 @@ public class ViewTableTransferEvents implements Serializable {
     }
 
     public ViewTableTransferEvents(
-        Date      date,
+        String    eventId,
+        Timestamp timestamp,
         Integer   sourceId,
         String    sourceBarcode,
         String    sourceType,
@@ -65,7 +68,8 @@ public class ViewTableTransferEvents implements Serializable {
         Long      containerCount,
         Integer[] containerIds
     ) {
-        this.date = date;
+        this.eventId = eventId;
+        this.timestamp = timestamp;
         this.sourceId = sourceId;
         this.sourceBarcode = sourceBarcode;
         this.sourceType = sourceType;
@@ -82,7 +86,8 @@ public class ViewTableTransferEvents implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder("ViewTableTransferEvents (");
 
-        sb.append(date);
+        sb.append(eventId);
+        sb.append(", ").append(timestamp);
         sb.append(", ").append(sourceId);
         sb.append(", ").append(sourceBarcode);
         sb.append(", ").append(sourceType);

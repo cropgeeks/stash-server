@@ -10,7 +10,6 @@ import jhi.seedstore.database.codegen.SeedstoreDb;
 import jhi.seedstore.database.codegen.tables.records.TransferLogsRecord;
 
 import org.jooq.Field;
-import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Row7;
 import org.jooq.Schema;
@@ -47,9 +46,9 @@ public class TransferLogs extends TableImpl<TransferLogsRecord> {
     }
 
     /**
-     * The column <code>seedstore_db.transfer_logs.id</code>.
+     * The column <code>seedstore_db.transfer_logs.transfer_event_id</code>.
      */
-    public final TableField<TransferLogsRecord, Integer> ID = createField(DSL.name("id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+    public final TableField<TransferLogsRecord, String> TRANSFER_EVENT_ID = createField(DSL.name("transfer_event_id"), SQLDataType.VARCHAR(64).nullable(false), this, "");
 
     /**
      * The column <code>seedstore_db.transfer_logs.container_id</code>.
@@ -116,13 +115,8 @@ public class TransferLogs extends TableImpl<TransferLogsRecord> {
     }
 
     @Override
-    public Identity<TransferLogsRecord, Integer> getIdentity() {
-        return (Identity<TransferLogsRecord, Integer>) super.getIdentity();
-    }
-
-    @Override
     public UniqueKey<TransferLogsRecord> getPrimaryKey() {
-        return Internal.createUniqueKey(TransferLogs.TRANSFER_LOGS, DSL.name("KEY_transfer_logs_PRIMARY"), new TableField[] { TransferLogs.TRANSFER_LOGS.ID }, true);
+        return Internal.createUniqueKey(TransferLogs.TRANSFER_LOGS, DSL.name("KEY_transfer_logs_PRIMARY"), new TableField[] { TransferLogs.TRANSFER_LOGS.TRANSFER_EVENT_ID, TransferLogs.TRANSFER_LOGS.CONTAINER_ID }, true);
     }
 
     @Override
@@ -156,7 +150,7 @@ public class TransferLogs extends TableImpl<TransferLogsRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row7<Integer, Integer, Integer, Integer, Integer, Timestamp, Timestamp> fieldsRow() {
+    public Row7<String, Integer, Integer, Integer, Integer, Timestamp, Timestamp> fieldsRow() {
         return (Row7) super.fieldsRow();
     }
     // @formatter:on

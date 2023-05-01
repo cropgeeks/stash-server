@@ -4,13 +4,13 @@
 package jhi.seedstore.database.codegen.tables.records;
 
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import jhi.seedstore.database.codegen.tables.ViewTableTransferEvents;
 
 import org.jooq.Field;
-import org.jooq.Record11;
-import org.jooq.Row11;
+import org.jooq.Record12;
+import org.jooq.Row12;
 import org.jooq.impl.TableRecordImpl;
 
 
@@ -19,22 +19,38 @@ import org.jooq.impl.TableRecordImpl;
  * VIEW
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ViewTableTransferEventsRecord extends TableRecordImpl<ViewTableTransferEventsRecord> implements Record11<Date, Integer, String, String, Integer, String, String, Integer, String, Long, Integer[]> {
+public class ViewTableTransferEventsRecord extends TableRecordImpl<ViewTableTransferEventsRecord> implements Record12<String, Timestamp, Integer, String, String, Integer, String, String, Integer, String, Long, Integer[]> {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>seedstore_db.view_table_transfer_events.date</code>.
+     * Setter for <code>seedstore_db.view_table_transfer_events.event_id</code>.
      */
-    public void setDate(Date value) {
+    public void setEventId(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>seedstore_db.view_table_transfer_events.date</code>.
+     * Getter for <code>seedstore_db.view_table_transfer_events.event_id</code>.
      */
-    public Date getDate() {
-        return (Date) get(0);
+    public String getEventId() {
+        return (String) get(0);
+    }
+
+    /**
+     * Setter for
+     * <code>seedstore_db.view_table_transfer_events.timestamp</code>.
+     */
+    public void setTimestamp(Timestamp value) {
+        set(1, value);
+    }
+
+    /**
+     * Getter for
+     * <code>seedstore_db.view_table_transfer_events.timestamp</code>.
+     */
+    public Timestamp getTimestamp() {
+        return (Timestamp) get(1);
     }
 
     /**
@@ -42,7 +58,7 @@ public class ViewTableTransferEventsRecord extends TableRecordImpl<ViewTableTran
      * <code>seedstore_db.view_table_transfer_events.source_id</code>.
      */
     public void setSourceId(Integer value) {
-        set(1, value);
+        set(2, value);
     }
 
     /**
@@ -50,7 +66,7 @@ public class ViewTableTransferEventsRecord extends TableRecordImpl<ViewTableTran
      * <code>seedstore_db.view_table_transfer_events.source_id</code>.
      */
     public Integer getSourceId() {
-        return (Integer) get(1);
+        return (Integer) get(2);
     }
 
     /**
@@ -58,7 +74,7 @@ public class ViewTableTransferEventsRecord extends TableRecordImpl<ViewTableTran
      * <code>seedstore_db.view_table_transfer_events.source_barcode</code>.
      */
     public void setSourceBarcode(String value) {
-        set(2, value);
+        set(3, value);
     }
 
     /**
@@ -66,7 +82,7 @@ public class ViewTableTransferEventsRecord extends TableRecordImpl<ViewTableTran
      * <code>seedstore_db.view_table_transfer_events.source_barcode</code>.
      */
     public String getSourceBarcode() {
-        return (String) get(2);
+        return (String) get(3);
     }
 
     /**
@@ -74,7 +90,7 @@ public class ViewTableTransferEventsRecord extends TableRecordImpl<ViewTableTran
      * <code>seedstore_db.view_table_transfer_events.source_type</code>.
      */
     public void setSourceType(String value) {
-        set(3, value);
+        set(4, value);
     }
 
     /**
@@ -82,7 +98,7 @@ public class ViewTableTransferEventsRecord extends TableRecordImpl<ViewTableTran
      * <code>seedstore_db.view_table_transfer_events.source_type</code>.
      */
     public String getSourceType() {
-        return (String) get(3);
+        return (String) get(4);
     }
 
     /**
@@ -90,7 +106,7 @@ public class ViewTableTransferEventsRecord extends TableRecordImpl<ViewTableTran
      * <code>seedstore_db.view_table_transfer_events.target_id</code>.
      */
     public void setTargetId(Integer value) {
-        set(4, value);
+        set(5, value);
     }
 
     /**
@@ -98,7 +114,7 @@ public class ViewTableTransferEventsRecord extends TableRecordImpl<ViewTableTran
      * <code>seedstore_db.view_table_transfer_events.target_id</code>.
      */
     public Integer getTargetId() {
-        return (Integer) get(4);
+        return (Integer) get(5);
     }
 
     /**
@@ -106,7 +122,7 @@ public class ViewTableTransferEventsRecord extends TableRecordImpl<ViewTableTran
      * <code>seedstore_db.view_table_transfer_events.target_barcode</code>.
      */
     public void setTargetBarcode(String value) {
-        set(5, value);
+        set(6, value);
     }
 
     /**
@@ -114,7 +130,7 @@ public class ViewTableTransferEventsRecord extends TableRecordImpl<ViewTableTran
      * <code>seedstore_db.view_table_transfer_events.target_barcode</code>.
      */
     public String getTargetBarcode() {
-        return (String) get(5);
+        return (String) get(6);
     }
 
     /**
@@ -122,7 +138,7 @@ public class ViewTableTransferEventsRecord extends TableRecordImpl<ViewTableTran
      * <code>seedstore_db.view_table_transfer_events.target_type</code>.
      */
     public void setTargetType(String value) {
-        set(6, value);
+        set(7, value);
     }
 
     /**
@@ -130,21 +146,21 @@ public class ViewTableTransferEventsRecord extends TableRecordImpl<ViewTableTran
      * <code>seedstore_db.view_table_transfer_events.target_type</code>.
      */
     public String getTargetType() {
-        return (String) get(6);
+        return (String) get(7);
     }
 
     /**
      * Setter for <code>seedstore_db.view_table_transfer_events.user_id</code>.
      */
     public void setUserId(Integer value) {
-        set(7, value);
+        set(8, value);
     }
 
     /**
      * Getter for <code>seedstore_db.view_table_transfer_events.user_id</code>.
      */
     public Integer getUserId() {
-        return (Integer) get(7);
+        return (Integer) get(8);
     }
 
     /**
@@ -152,7 +168,7 @@ public class ViewTableTransferEventsRecord extends TableRecordImpl<ViewTableTran
      * <code>seedstore_db.view_table_transfer_events.user_name</code>.
      */
     public void setUserName(String value) {
-        set(8, value);
+        set(9, value);
     }
 
     /**
@@ -160,7 +176,7 @@ public class ViewTableTransferEventsRecord extends TableRecordImpl<ViewTableTran
      * <code>seedstore_db.view_table_transfer_events.user_name</code>.
      */
     public String getUserName() {
-        return (String) get(8);
+        return (String) get(9);
     }
 
     /**
@@ -168,7 +184,7 @@ public class ViewTableTransferEventsRecord extends TableRecordImpl<ViewTableTran
      * <code>seedstore_db.view_table_transfer_events.container_count</code>.
      */
     public void setContainerCount(Long value) {
-        set(9, value);
+        set(10, value);
     }
 
     /**
@@ -176,7 +192,7 @@ public class ViewTableTransferEventsRecord extends TableRecordImpl<ViewTableTran
      * <code>seedstore_db.view_table_transfer_events.container_count</code>.
      */
     public Long getContainerCount() {
-        return (Long) get(9);
+        return (Long) get(10);
     }
 
     /**
@@ -184,7 +200,7 @@ public class ViewTableTransferEventsRecord extends TableRecordImpl<ViewTableTran
      * <code>seedstore_db.view_table_transfer_events.container_ids</code>.
      */
     public void setContainerIds(Integer[] value) {
-        set(10, value);
+        set(11, value);
     }
 
     /**
@@ -192,256 +208,277 @@ public class ViewTableTransferEventsRecord extends TableRecordImpl<ViewTableTran
      * <code>seedstore_db.view_table_transfer_events.container_ids</code>.
      */
     public Integer[] getContainerIds() {
-        return (Integer[]) get(10);
+        return (Integer[]) get(11);
     }
 
     // -------------------------------------------------------------------------
-    // Record11 type implementation
+    // Record12 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row11<Date, Integer, String, String, Integer, String, String, Integer, String, Long, Integer[]> fieldsRow() {
-        return (Row11) super.fieldsRow();
+    public Row12<String, Timestamp, Integer, String, String, Integer, String, String, Integer, String, Long, Integer[]> fieldsRow() {
+        return (Row12) super.fieldsRow();
     }
 
     @Override
-    public Row11<Date, Integer, String, String, Integer, String, String, Integer, String, Long, Integer[]> valuesRow() {
-        return (Row11) super.valuesRow();
+    public Row12<String, Timestamp, Integer, String, String, Integer, String, String, Integer, String, Long, Integer[]> valuesRow() {
+        return (Row12) super.valuesRow();
     }
 
     @Override
-    public Field<Date> field1() {
-        return ViewTableTransferEvents.VIEW_TABLE_TRANSFER_EVENTS.DATE;
+    public Field<String> field1() {
+        return ViewTableTransferEvents.VIEW_TABLE_TRANSFER_EVENTS.EVENT_ID;
     }
 
     @Override
-    public Field<Integer> field2() {
+    public Field<Timestamp> field2() {
+        return ViewTableTransferEvents.VIEW_TABLE_TRANSFER_EVENTS.TIMESTAMP;
+    }
+
+    @Override
+    public Field<Integer> field3() {
         return ViewTableTransferEvents.VIEW_TABLE_TRANSFER_EVENTS.SOURCE_ID;
     }
 
     @Override
-    public Field<String> field3() {
+    public Field<String> field4() {
         return ViewTableTransferEvents.VIEW_TABLE_TRANSFER_EVENTS.SOURCE_BARCODE;
     }
 
     @Override
-    public Field<String> field4() {
+    public Field<String> field5() {
         return ViewTableTransferEvents.VIEW_TABLE_TRANSFER_EVENTS.SOURCE_TYPE;
     }
 
     @Override
-    public Field<Integer> field5() {
+    public Field<Integer> field6() {
         return ViewTableTransferEvents.VIEW_TABLE_TRANSFER_EVENTS.TARGET_ID;
     }
 
     @Override
-    public Field<String> field6() {
+    public Field<String> field7() {
         return ViewTableTransferEvents.VIEW_TABLE_TRANSFER_EVENTS.TARGET_BARCODE;
     }
 
     @Override
-    public Field<String> field7() {
+    public Field<String> field8() {
         return ViewTableTransferEvents.VIEW_TABLE_TRANSFER_EVENTS.TARGET_TYPE;
     }
 
     @Override
-    public Field<Integer> field8() {
+    public Field<Integer> field9() {
         return ViewTableTransferEvents.VIEW_TABLE_TRANSFER_EVENTS.USER_ID;
     }
 
     @Override
-    public Field<String> field9() {
+    public Field<String> field10() {
         return ViewTableTransferEvents.VIEW_TABLE_TRANSFER_EVENTS.USER_NAME;
     }
 
     @Override
-    public Field<Long> field10() {
+    public Field<Long> field11() {
         return ViewTableTransferEvents.VIEW_TABLE_TRANSFER_EVENTS.CONTAINER_COUNT;
     }
 
     @Override
-    public Field<Integer[]> field11() {
+    public Field<Integer[]> field12() {
         return ViewTableTransferEvents.VIEW_TABLE_TRANSFER_EVENTS.CONTAINER_IDS;
     }
 
     @Override
-    public Date component1() {
-        return getDate();
+    public String component1() {
+        return getEventId();
     }
 
     @Override
-    public Integer component2() {
+    public Timestamp component2() {
+        return getTimestamp();
+    }
+
+    @Override
+    public Integer component3() {
         return getSourceId();
-    }
-
-    @Override
-    public String component3() {
-        return getSourceBarcode();
     }
 
     @Override
     public String component4() {
-        return getSourceType();
-    }
-
-    @Override
-    public Integer component5() {
-        return getTargetId();
-    }
-
-    @Override
-    public String component6() {
-        return getTargetBarcode();
-    }
-
-    @Override
-    public String component7() {
-        return getTargetType();
-    }
-
-    @Override
-    public Integer component8() {
-        return getUserId();
-    }
-
-    @Override
-    public String component9() {
-        return getUserName();
-    }
-
-    @Override
-    public Long component10() {
-        return getContainerCount();
-    }
-
-    @Override
-    public Integer[] component11() {
-        return getContainerIds();
-    }
-
-    @Override
-    public Date value1() {
-        return getDate();
-    }
-
-    @Override
-    public Integer value2() {
-        return getSourceId();
-    }
-
-    @Override
-    public String value3() {
         return getSourceBarcode();
     }
 
     @Override
-    public String value4() {
+    public String component5() {
         return getSourceType();
     }
 
     @Override
-    public Integer value5() {
+    public Integer component6() {
         return getTargetId();
     }
 
     @Override
-    public String value6() {
+    public String component7() {
         return getTargetBarcode();
     }
 
     @Override
-    public String value7() {
+    public String component8() {
         return getTargetType();
     }
 
     @Override
-    public Integer value8() {
+    public Integer component9() {
         return getUserId();
     }
 
     @Override
-    public String value9() {
+    public String component10() {
         return getUserName();
     }
 
     @Override
-    public Long value10() {
+    public Long component11() {
         return getContainerCount();
     }
 
     @Override
-    public Integer[] value11() {
+    public Integer[] component12() {
         return getContainerIds();
     }
 
     @Override
-    public ViewTableTransferEventsRecord value1(Date value) {
-        setDate(value);
+    public String value1() {
+        return getEventId();
+    }
+
+    @Override
+    public Timestamp value2() {
+        return getTimestamp();
+    }
+
+    @Override
+    public Integer value3() {
+        return getSourceId();
+    }
+
+    @Override
+    public String value4() {
+        return getSourceBarcode();
+    }
+
+    @Override
+    public String value5() {
+        return getSourceType();
+    }
+
+    @Override
+    public Integer value6() {
+        return getTargetId();
+    }
+
+    @Override
+    public String value7() {
+        return getTargetBarcode();
+    }
+
+    @Override
+    public String value8() {
+        return getTargetType();
+    }
+
+    @Override
+    public Integer value9() {
+        return getUserId();
+    }
+
+    @Override
+    public String value10() {
+        return getUserName();
+    }
+
+    @Override
+    public Long value11() {
+        return getContainerCount();
+    }
+
+    @Override
+    public Integer[] value12() {
+        return getContainerIds();
+    }
+
+    @Override
+    public ViewTableTransferEventsRecord value1(String value) {
+        setEventId(value);
         return this;
     }
 
     @Override
-    public ViewTableTransferEventsRecord value2(Integer value) {
+    public ViewTableTransferEventsRecord value2(Timestamp value) {
+        setTimestamp(value);
+        return this;
+    }
+
+    @Override
+    public ViewTableTransferEventsRecord value3(Integer value) {
         setSourceId(value);
         return this;
     }
 
     @Override
-    public ViewTableTransferEventsRecord value3(String value) {
+    public ViewTableTransferEventsRecord value4(String value) {
         setSourceBarcode(value);
         return this;
     }
 
     @Override
-    public ViewTableTransferEventsRecord value4(String value) {
+    public ViewTableTransferEventsRecord value5(String value) {
         setSourceType(value);
         return this;
     }
 
     @Override
-    public ViewTableTransferEventsRecord value5(Integer value) {
+    public ViewTableTransferEventsRecord value6(Integer value) {
         setTargetId(value);
         return this;
     }
 
     @Override
-    public ViewTableTransferEventsRecord value6(String value) {
+    public ViewTableTransferEventsRecord value7(String value) {
         setTargetBarcode(value);
         return this;
     }
 
     @Override
-    public ViewTableTransferEventsRecord value7(String value) {
+    public ViewTableTransferEventsRecord value8(String value) {
         setTargetType(value);
         return this;
     }
 
     @Override
-    public ViewTableTransferEventsRecord value8(Integer value) {
+    public ViewTableTransferEventsRecord value9(Integer value) {
         setUserId(value);
         return this;
     }
 
     @Override
-    public ViewTableTransferEventsRecord value9(String value) {
+    public ViewTableTransferEventsRecord value10(String value) {
         setUserName(value);
         return this;
     }
 
     @Override
-    public ViewTableTransferEventsRecord value10(Long value) {
+    public ViewTableTransferEventsRecord value11(Long value) {
         setContainerCount(value);
         return this;
     }
 
     @Override
-    public ViewTableTransferEventsRecord value11(Integer[] value) {
+    public ViewTableTransferEventsRecord value12(Integer[] value) {
         setContainerIds(value);
         return this;
     }
 
     @Override
-    public ViewTableTransferEventsRecord values(Date value1, Integer value2, String value3, String value4, Integer value5, String value6, String value7, Integer value8, String value9, Long value10, Integer[] value11) {
+    public ViewTableTransferEventsRecord values(String value1, Timestamp value2, Integer value3, String value4, String value5, Integer value6, String value7, String value8, Integer value9, String value10, Long value11, Integer[] value12) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -453,6 +490,7 @@ public class ViewTableTransferEventsRecord extends TableRecordImpl<ViewTableTran
         value9(value9);
         value10(value10);
         value11(value11);
+        value12(value12);
         return this;
     }
 
@@ -470,10 +508,11 @@ public class ViewTableTransferEventsRecord extends TableRecordImpl<ViewTableTran
     /**
      * Create a detached, initialised ViewTableTransferEventsRecord
      */
-    public ViewTableTransferEventsRecord(Date date, Integer sourceId, String sourceBarcode, String sourceType, Integer targetId, String targetBarcode, String targetType, Integer userId, String userName, Long containerCount, Integer[] containerIds) {
+    public ViewTableTransferEventsRecord(String eventId, Timestamp timestamp, Integer sourceId, String sourceBarcode, String sourceType, Integer targetId, String targetBarcode, String targetType, Integer userId, String userName, Long containerCount, Integer[] containerIds) {
         super(ViewTableTransferEvents.VIEW_TABLE_TRANSFER_EVENTS);
 
-        setDate(date);
+        setEventId(eventId);
+        setTimestamp(timestamp);
         setSourceId(sourceId);
         setSourceBarcode(sourceBarcode);
         setSourceType(sourceType);
@@ -493,7 +532,8 @@ public class ViewTableTransferEventsRecord extends TableRecordImpl<ViewTableTran
         super(ViewTableTransferEvents.VIEW_TABLE_TRANSFER_EVENTS);
 
         if (value != null) {
-            setDate(value.getDate());
+            setEventId(value.getEventId());
+            setTimestamp(value.getTimestamp());
             setSourceId(value.getSourceId());
             setSourceBarcode(value.getSourceBarcode());
             setSourceType(value.getSourceType());

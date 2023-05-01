@@ -4,7 +4,7 @@
 package jhi.seedstore.database.codegen.tables;
 
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import jhi.seedstore.database.binding.IntArrayBinding;
 import jhi.seedstore.database.codegen.SeedstoreDb;
@@ -12,7 +12,7 @@ import jhi.seedstore.database.codegen.tables.records.ViewTableTransferEventsReco
 
 import org.jooq.Field;
 import org.jooq.Name;
-import org.jooq.Row11;
+import org.jooq.Row12;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -46,9 +46,15 @@ public class ViewTableTransferEvents extends TableImpl<ViewTableTransferEventsRe
     }
 
     /**
-     * The column <code>seedstore_db.view_table_transfer_events.date</code>.
+     * The column <code>seedstore_db.view_table_transfer_events.event_id</code>.
      */
-    public final TableField<ViewTableTransferEventsRecord, Date> DATE = createField(DSL.name("date"), SQLDataType.DATE, this, "");
+    public final TableField<ViewTableTransferEventsRecord, String> EVENT_ID = createField(DSL.name("event_id"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+
+    /**
+     * The column
+     * <code>seedstore_db.view_table_transfer_events.timestamp</code>.
+     */
+    public final TableField<ViewTableTransferEventsRecord, Timestamp> TIMESTAMP = createField(DSL.name("timestamp"), SQLDataType.TIMESTAMP(0), this, "");
 
     /**
      * The column
@@ -114,7 +120,7 @@ public class ViewTableTransferEvents extends TableImpl<ViewTableTransferEventsRe
     }
 
     private ViewTableTransferEvents(Name alias, Table<ViewTableTransferEventsRecord> aliased, Field<?>[] parameters) {
-        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `view_table_transfer_events` as select cast(`seedstore`.`transfer_logs`.`created_on` as date) AS `date`,`s`.`id` AS `source_id`,`s`.`barcode` AS `source_barcode`,`st`.`name` AS `source_type`,`t`.`id` AS `target_id`,`t`.`barcode` AS `target_barcode`,`tt`.`name` AS `target_type`,`seedstore`.`users`.`id` AS `user_id`,`seedstore`.`users`.`name` AS `user_name`,count(1) AS `container_count`,json_arrayagg(`seedstore`.`transfer_logs`.`container_id`) AS `container_ids` from (((((`seedstore`.`transfer_logs` left join `seedstore`.`containers` `s` on((`seedstore`.`transfer_logs`.`source_id` = `s`.`id`))) left join `seedstore`.`containers` `t` on((`seedstore`.`transfer_logs`.`target_id` = `t`.`id`))) left join `seedstore`.`container_types` `st` on((`st`.`id` = `s`.`container_type_id`))) left join `seedstore`.`container_types` `tt` on((`tt`.`id` = `t`.`container_type_id`))) left join `seedstore`.`users` on((`seedstore`.`users`.`id` = `seedstore`.`transfer_logs`.`user_id`))) group by `seedstore`.`transfer_logs`.`source_id`,`seedstore`.`transfer_logs`.`target_id`,`seedstore`.`transfer_logs`.`user_id`,cast(`seedstore`.`transfer_logs`.`created_on` as date)"));
+        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `view_table_transfer_events` as select `seedstore`.`transfer_logs`.`transfer_event_id` AS `event_id`,max(`seedstore`.`transfer_logs`.`created_on`) AS `timestamp`,`s`.`id` AS `source_id`,`s`.`barcode` AS `source_barcode`,`st`.`name` AS `source_type`,`t`.`id` AS `target_id`,`t`.`barcode` AS `target_barcode`,`tt`.`name` AS `target_type`,`seedstore`.`users`.`id` AS `user_id`,`seedstore`.`users`.`name` AS `user_name`,count(1) AS `container_count`,json_arrayagg(`seedstore`.`transfer_logs`.`container_id`) AS `container_ids` from (((((`seedstore`.`transfer_logs` left join `seedstore`.`containers` `s` on((`seedstore`.`transfer_logs`.`source_id` = `s`.`id`))) left join `seedstore`.`containers` `t` on((`seedstore`.`transfer_logs`.`target_id` = `t`.`id`))) left join `seedstore`.`container_types` `st` on((`st`.`id` = `s`.`container_type_id`))) left join `seedstore`.`container_types` `tt` on((`tt`.`id` = `t`.`container_type_id`))) left join `seedstore`.`users` on((`seedstore`.`users`.`id` = `seedstore`.`transfer_logs`.`user_id`))) group by `seedstore`.`transfer_logs`.`source_id`,`seedstore`.`transfer_logs`.`target_id`,`seedstore`.`transfer_logs`.`user_id`,`seedstore`.`transfer_logs`.`transfer_event_id`"));
     }
 
     /**
@@ -173,12 +179,12 @@ public class ViewTableTransferEvents extends TableImpl<ViewTableTransferEventsRe
     }
 
     // -------------------------------------------------------------------------
-    // Row11 type methods
+    // Row12 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row11<Date, Integer, String, String, Integer, String, String, Integer, String, Long, Integer[]> fieldsRow() {
-        return (Row11) super.fieldsRow();
+    public Row12<String, Timestamp, Integer, String, String, Integer, String, String, Integer, String, Long, Integer[]> fieldsRow() {
+        return (Row12) super.fieldsRow();
     }
     // @formatter:on
 }

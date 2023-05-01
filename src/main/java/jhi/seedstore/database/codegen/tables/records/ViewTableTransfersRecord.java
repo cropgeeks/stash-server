@@ -19,24 +19,24 @@ import org.jooq.impl.TableRecordImpl;
  * VIEW
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ViewTableTransfersRecord extends TableRecordImpl<ViewTableTransfersRecord> implements Record14<Integer, Integer, String, String, Integer, String, String, Integer, String, String, Integer, String, Timestamp, Timestamp> {
+public class ViewTableTransfersRecord extends TableRecordImpl<ViewTableTransfersRecord> implements Record14<String, Integer, String, String, Integer, String, String, Integer, String, String, Integer, String, Timestamp, Timestamp> {
 
     private static final long serialVersionUID = 1L;
 
     /**
      * Setter for
-     * <code>seedstore_db.view_table_transfers.transfer_log_id</code>.
+     * <code>seedstore_db.view_table_transfers.transfer_event_id</code>.
      */
-    public void setTransferLogId(Integer value) {
+    public void setTransferEventId(String value) {
         set(0, value);
     }
 
     /**
      * Getter for
-     * <code>seedstore_db.view_table_transfers.transfer_log_id</code>.
+     * <code>seedstore_db.view_table_transfers.transfer_event_id</code>.
      */
-    public Integer getTransferLogId() {
-        return (Integer) get(0);
+    public String getTransferEventId() {
+        return (String) get(0);
     }
 
     /**
@@ -234,18 +234,18 @@ public class ViewTableTransfersRecord extends TableRecordImpl<ViewTableTransfers
     // -------------------------------------------------------------------------
 
     @Override
-    public Row14<Integer, Integer, String, String, Integer, String, String, Integer, String, String, Integer, String, Timestamp, Timestamp> fieldsRow() {
+    public Row14<String, Integer, String, String, Integer, String, String, Integer, String, String, Integer, String, Timestamp, Timestamp> fieldsRow() {
         return (Row14) super.fieldsRow();
     }
 
     @Override
-    public Row14<Integer, Integer, String, String, Integer, String, String, Integer, String, String, Integer, String, Timestamp, Timestamp> valuesRow() {
+    public Row14<String, Integer, String, String, Integer, String, String, Integer, String, String, Integer, String, Timestamp, Timestamp> valuesRow() {
         return (Row14) super.valuesRow();
     }
 
     @Override
-    public Field<Integer> field1() {
-        return ViewTableTransfers.VIEW_TABLE_TRANSFERS.TRANSFER_LOG_ID;
+    public Field<String> field1() {
+        return ViewTableTransfers.VIEW_TABLE_TRANSFERS.TRANSFER_EVENT_ID;
     }
 
     @Override
@@ -314,8 +314,8 @@ public class ViewTableTransfersRecord extends TableRecordImpl<ViewTableTransfers
     }
 
     @Override
-    public Integer component1() {
-        return getTransferLogId();
+    public String component1() {
+        return getTransferEventId();
     }
 
     @Override
@@ -384,8 +384,8 @@ public class ViewTableTransfersRecord extends TableRecordImpl<ViewTableTransfers
     }
 
     @Override
-    public Integer value1() {
-        return getTransferLogId();
+    public String value1() {
+        return getTransferEventId();
     }
 
     @Override
@@ -454,8 +454,8 @@ public class ViewTableTransfersRecord extends TableRecordImpl<ViewTableTransfers
     }
 
     @Override
-    public ViewTableTransfersRecord value1(Integer value) {
-        setTransferLogId(value);
+    public ViewTableTransfersRecord value1(String value) {
+        setTransferEventId(value);
         return this;
     }
 
@@ -538,7 +538,7 @@ public class ViewTableTransfersRecord extends TableRecordImpl<ViewTableTransfers
     }
 
     @Override
-    public ViewTableTransfersRecord values(Integer value1, Integer value2, String value3, String value4, Integer value5, String value6, String value7, Integer value8, String value9, String value10, Integer value11, String value12, Timestamp value13, Timestamp value14) {
+    public ViewTableTransfersRecord values(String value1, Integer value2, String value3, String value4, Integer value5, String value6, String value7, Integer value8, String value9, String value10, Integer value11, String value12, Timestamp value13, Timestamp value14) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -570,10 +570,10 @@ public class ViewTableTransfersRecord extends TableRecordImpl<ViewTableTransfers
     /**
      * Create a detached, initialised ViewTableTransfersRecord
      */
-    public ViewTableTransfersRecord(Integer transferLogId, Integer containerId, String containerBarcode, String containerDescription, Integer sourceId, String sourceBarcode, String sourceDescription, Integer targetId, String targetBarcode, String targetDescription, Integer userId, String userName, Timestamp createdOn, Timestamp updatedOn) {
+    public ViewTableTransfersRecord(String transferEventId, Integer containerId, String containerBarcode, String containerDescription, Integer sourceId, String sourceBarcode, String sourceDescription, Integer targetId, String targetBarcode, String targetDescription, Integer userId, String userName, Timestamp createdOn, Timestamp updatedOn) {
         super(ViewTableTransfers.VIEW_TABLE_TRANSFERS);
 
-        setTransferLogId(transferLogId);
+        setTransferEventId(transferEventId);
         setContainerId(containerId);
         setContainerBarcode(containerBarcode);
         setContainerDescription(containerDescription);
@@ -596,7 +596,7 @@ public class ViewTableTransfersRecord extends TableRecordImpl<ViewTableTransfers
         super(ViewTableTransfers.VIEW_TABLE_TRANSFERS);
 
         if (value != null) {
-            setTransferLogId(value.getTransferLogId());
+            setTransferEventId(value.getTransferEventId());
             setContainerId(value.getContainerId());
             setContainerBarcode(value.getContainerBarcode());
             setContainerDescription(value.getContainerDescription());

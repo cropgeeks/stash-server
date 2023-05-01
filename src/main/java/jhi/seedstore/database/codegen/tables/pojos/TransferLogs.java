@@ -23,7 +23,7 @@ public class TransferLogs implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer   id;
+    private String    transferEventId;
     private Integer   containerId;
     private Integer   sourceId;
     private Integer   targetId;
@@ -34,7 +34,7 @@ public class TransferLogs implements Serializable {
     public TransferLogs() {}
 
     public TransferLogs(TransferLogs value) {
-        this.id = value.id;
+        this.transferEventId = value.transferEventId;
         this.containerId = value.containerId;
         this.sourceId = value.sourceId;
         this.targetId = value.targetId;
@@ -44,7 +44,7 @@ public class TransferLogs implements Serializable {
     }
 
     public TransferLogs(
-        Integer   id,
+        String    transferEventId,
         Integer   containerId,
         Integer   sourceId,
         Integer   targetId,
@@ -52,7 +52,7 @@ public class TransferLogs implements Serializable {
         Timestamp createdOn,
         Timestamp updatedOn
     ) {
-        this.id = id;
+        this.transferEventId = transferEventId;
         this.containerId = containerId;
         this.sourceId = sourceId;
         this.targetId = targetId;
@@ -65,7 +65,7 @@ public class TransferLogs implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder("TransferLogs (");
 
-        sb.append(id);
+        sb.append(transferEventId);
         sb.append(", ").append(containerId);
         sb.append(", ").append(sourceId);
         sb.append(", ").append(targetId);

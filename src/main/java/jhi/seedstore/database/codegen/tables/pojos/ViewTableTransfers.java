@@ -23,7 +23,7 @@ public class ViewTableTransfers implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer   transferLogId;
+    private String    transferEventId;
     private Integer   containerId;
     private String    containerBarcode;
     private String    containerDescription;
@@ -41,7 +41,7 @@ public class ViewTableTransfers implements Serializable {
     public ViewTableTransfers() {}
 
     public ViewTableTransfers(ViewTableTransfers value) {
-        this.transferLogId = value.transferLogId;
+        this.transferEventId = value.transferEventId;
         this.containerId = value.containerId;
         this.containerBarcode = value.containerBarcode;
         this.containerDescription = value.containerDescription;
@@ -58,7 +58,7 @@ public class ViewTableTransfers implements Serializable {
     }
 
     public ViewTableTransfers(
-        Integer   transferLogId,
+        String    transferEventId,
         Integer   containerId,
         String    containerBarcode,
         String    containerDescription,
@@ -73,7 +73,7 @@ public class ViewTableTransfers implements Serializable {
         Timestamp createdOn,
         Timestamp updatedOn
     ) {
-        this.transferLogId = transferLogId;
+        this.transferEventId = transferEventId;
         this.containerId = containerId;
         this.containerBarcode = containerBarcode;
         this.containerDescription = containerDescription;
@@ -93,7 +93,7 @@ public class ViewTableTransfers implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder("ViewTableTransfers (");
 
-        sb.append(transferLogId);
+        sb.append(transferEventId);
         sb.append(", ").append(containerId);
         sb.append(", ").append(containerBarcode);
         sb.append(", ").append(containerDescription);
