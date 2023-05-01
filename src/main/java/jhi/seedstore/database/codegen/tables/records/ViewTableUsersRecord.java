@@ -11,8 +11,8 @@ import jhi.seedstore.database.codegen.enums.ViewTableUsersUserType;
 import jhi.seedstore.database.codegen.tables.ViewTableUsers;
 
 import org.jooq.Field;
-import org.jooq.Record6;
-import org.jooq.Row6;
+import org.jooq.Record7;
+import org.jooq.Row7;
 import org.jooq.impl.TableRecordImpl;
 
 
@@ -21,7 +21,7 @@ import org.jooq.impl.TableRecordImpl;
  * VIEW
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ViewTableUsersRecord extends TableRecordImpl<ViewTableUsersRecord> implements Record6<Integer, String, String, ViewTableUsersUserType, Timestamp, Map<String,Integer>> {
+public class ViewTableUsersRecord extends TableRecordImpl<ViewTableUsersRecord> implements Record7<Integer, String, String, ViewTableUsersUserType, Timestamp, Timestamp, Map<String,Integer>> {
 
     private static final long serialVersionUID = 1L;
 
@@ -82,45 +82,59 @@ public class ViewTableUsersRecord extends TableRecordImpl<ViewTableUsersRecord> 
     }
 
     /**
+     * Setter for <code>seedstore_db.view_table_users.last_login</code>.
+     */
+    public void setLastLogin(Timestamp value) {
+        set(4, value);
+    }
+
+    /**
+     * Getter for <code>seedstore_db.view_table_users.last_login</code>.
+     */
+    public Timestamp getLastLogin() {
+        return (Timestamp) get(4);
+    }
+
+    /**
      * Setter for <code>seedstore_db.view_table_users.created_on</code>.
      */
     public void setCreatedOn(Timestamp value) {
-        set(4, value);
+        set(5, value);
     }
 
     /**
      * Getter for <code>seedstore_db.view_table_users.created_on</code>.
      */
     public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
+        return (Timestamp) get(5);
     }
 
     /**
      * Setter for <code>seedstore_db.view_table_users.stats</code>.
      */
     public void setStats(Map<String,Integer> value) {
-        set(5, value);
+        set(6, value);
     }
 
     /**
      * Getter for <code>seedstore_db.view_table_users.stats</code>.
      */
     public Map<String,Integer> getStats() {
-        return (Map<String,Integer>) get(5);
+        return (Map<String,Integer>) get(6);
     }
 
     // -------------------------------------------------------------------------
-    // Record6 type implementation
+    // Record7 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row6<Integer, String, String, ViewTableUsersUserType, Timestamp, Map<String,Integer>> fieldsRow() {
-        return (Row6) super.fieldsRow();
+    public Row7<Integer, String, String, ViewTableUsersUserType, Timestamp, Timestamp, Map<String,Integer>> fieldsRow() {
+        return (Row7) super.fieldsRow();
     }
 
     @Override
-    public Row6<Integer, String, String, ViewTableUsersUserType, Timestamp, Map<String,Integer>> valuesRow() {
-        return (Row6) super.valuesRow();
+    public Row7<Integer, String, String, ViewTableUsersUserType, Timestamp, Timestamp, Map<String,Integer>> valuesRow() {
+        return (Row7) super.valuesRow();
     }
 
     @Override
@@ -145,11 +159,16 @@ public class ViewTableUsersRecord extends TableRecordImpl<ViewTableUsersRecord> 
 
     @Override
     public Field<Timestamp> field5() {
+        return ViewTableUsers.VIEW_TABLE_USERS.LAST_LOGIN;
+    }
+
+    @Override
+    public Field<Timestamp> field6() {
         return ViewTableUsers.VIEW_TABLE_USERS.CREATED_ON;
     }
 
     @Override
-    public Field<Map<String,Integer>> field6() {
+    public Field<Map<String,Integer>> field7() {
         return ViewTableUsers.VIEW_TABLE_USERS.STATS;
     }
 
@@ -175,11 +194,16 @@ public class ViewTableUsersRecord extends TableRecordImpl<ViewTableUsersRecord> 
 
     @Override
     public Timestamp component5() {
+        return getLastLogin();
+    }
+
+    @Override
+    public Timestamp component6() {
         return getCreatedOn();
     }
 
     @Override
-    public Map<String,Integer> component6() {
+    public Map<String,Integer> component7() {
         return getStats();
     }
 
@@ -205,11 +229,16 @@ public class ViewTableUsersRecord extends TableRecordImpl<ViewTableUsersRecord> 
 
     @Override
     public Timestamp value5() {
+        return getLastLogin();
+    }
+
+    @Override
+    public Timestamp value6() {
         return getCreatedOn();
     }
 
     @Override
-    public Map<String,Integer> value6() {
+    public Map<String,Integer> value7() {
         return getStats();
     }
 
@@ -239,24 +268,31 @@ public class ViewTableUsersRecord extends TableRecordImpl<ViewTableUsersRecord> 
 
     @Override
     public ViewTableUsersRecord value5(Timestamp value) {
+        setLastLogin(value);
+        return this;
+    }
+
+    @Override
+    public ViewTableUsersRecord value6(Timestamp value) {
         setCreatedOn(value);
         return this;
     }
 
     @Override
-    public ViewTableUsersRecord value6(Map<String,Integer> value) {
+    public ViewTableUsersRecord value7(Map<String,Integer> value) {
         setStats(value);
         return this;
     }
 
     @Override
-    public ViewTableUsersRecord values(Integer value1, String value2, String value3, ViewTableUsersUserType value4, Timestamp value5, Map<String,Integer> value6) {
+    public ViewTableUsersRecord values(Integer value1, String value2, String value3, ViewTableUsersUserType value4, Timestamp value5, Timestamp value6, Map<String,Integer> value7) {
         value1(value1);
         value2(value2);
         value3(value3);
         value4(value4);
         value5(value5);
         value6(value6);
+        value7(value7);
         return this;
     }
 
@@ -274,13 +310,14 @@ public class ViewTableUsersRecord extends TableRecordImpl<ViewTableUsersRecord> 
     /**
      * Create a detached, initialised ViewTableUsersRecord
      */
-    public ViewTableUsersRecord(Integer id, String name, String emailAddress, ViewTableUsersUserType userType, Timestamp createdOn, Map<String,Integer> stats) {
+    public ViewTableUsersRecord(Integer id, String name, String emailAddress, ViewTableUsersUserType userType, Timestamp lastLogin, Timestamp createdOn, Map<String,Integer> stats) {
         super(ViewTableUsers.VIEW_TABLE_USERS);
 
         setId(id);
         setName(name);
         setEmailAddress(emailAddress);
         setUserType(userType);
+        setLastLogin(lastLogin);
         setCreatedOn(createdOn);
         setStats(stats);
     }
@@ -296,6 +333,7 @@ public class ViewTableUsersRecord extends TableRecordImpl<ViewTableUsersRecord> 
             setName(value.getName());
             setEmailAddress(value.getEmailAddress());
             setUserType(value.getUserType());
+            setLastLogin(value.getLastLogin());
             setCreatedOn(value.getCreatedOn());
             setStats(value.getStats());
         }

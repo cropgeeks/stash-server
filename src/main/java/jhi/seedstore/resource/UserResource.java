@@ -1,5 +1,6 @@
 package jhi.seedstore.resource;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import jhi.seedstore.Database;
@@ -78,6 +79,52 @@ public class UserResource extends BaseResource
 	}
 
 	@PATCH
+	@Path("/{userId:\\d+}/password")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured
+	@PermitAll
+	public Response patchUserPassword(@PathParam("userId") Integer userId, UserPasswordUpdate update)
+		throws SQLException
+	{
+		// Check all parameters have been proviced
+		if (update == null || StringUtils.isAnyEmpty(update.getOldPassword(), update.getNewPassword()))
+			return Response.status(Response.Status.BAD_REQUEST).build();
+
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+
+		// Check the user requesting the change is the same as the one that should be changed
+		if (userDetails != null && !Objects.equals(userDetails.getId(), userId))
+			return Response.status(Response.Status.FORBIDDEN).build();
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			// Check user exists
+			UsersRecord existingUser = context.selectFrom(USERS).where(USERS.ID.eq(userId)).fetchAny();
+
+			if (existingUser == null)
+				return Response.status(Response.Status.NOT_FOUND).build();
+
+			// Check the provided old password matches the database entry
+			boolean correctPassword = BCrypt.checkpw(update.getOldPassword(), existingUser.getPasswordHash());
+			if (!correctPassword)
+				return Response.status(Response.Status.UNAUTHORIZED).build();
+
+			// Hash the new password and store it
+			String hashedPw = BCrypt.hashpw(update.getNewPassword(), BCrypt.gensalt(TokenResource.SALT));
+			existingUser.setPasswordHash(hashedPw);
+			existingUser.store(USERS.PASSWORD_HASH);
+
+			// Invalidate the current token. User has to log in again
+			AuthenticationFilter.removeToken(userDetails.getToken(), req, resp);
+
+			return Response.ok().build();
+		}
+	}
+
+	@PATCH
 	@Path("/{userId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -132,7 +179,7 @@ public class UserResource extends BaseResource
 	@Path("/table")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Secured(UsersUserType.admin)
+	@Secured(UsersUserType.regular)
 	public PaginatedResult<List<ViewTableUsers>> postUserTable(PaginatedRequest request)
 		throws SQLException
 	{

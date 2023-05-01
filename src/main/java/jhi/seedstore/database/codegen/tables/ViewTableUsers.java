@@ -14,7 +14,7 @@ import jhi.seedstore.database.codegen.tables.records.ViewTableUsersRecord;
 
 import org.jooq.Field;
 import org.jooq.Name;
-import org.jooq.Row6;
+import org.jooq.Row7;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -67,6 +67,11 @@ public class ViewTableUsers extends TableImpl<ViewTableUsersRecord> {
     public final TableField<ViewTableUsersRecord, ViewTableUsersUserType> USER_TYPE = createField(DSL.name("user_type"), SQLDataType.VARCHAR(9).nullable(false).defaultValue(DSL.inline("reference", SQLDataType.VARCHAR)).asEnumDataType(jhi.seedstore.database.codegen.enums.ViewTableUsersUserType.class), this, "");
 
     /**
+     * The column <code>seedstore_db.view_table_users.last_login</code>.
+     */
+    public final TableField<ViewTableUsersRecord, Timestamp> LAST_LOGIN = createField(DSL.name("last_login"), SQLDataType.TIMESTAMP(0), this, "");
+
+    /**
      * The column <code>seedstore_db.view_table_users.created_on</code>.
      */
     public final TableField<ViewTableUsersRecord, Timestamp> CREATED_ON = createField(DSL.name("created_on"), SQLDataType.TIMESTAMP(0), this, "");
@@ -81,7 +86,7 @@ public class ViewTableUsers extends TableImpl<ViewTableUsersRecord> {
     }
 
     private ViewTableUsers(Name alias, Table<ViewTableUsersRecord> aliased, Field<?>[] parameters) {
-        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `view_table_users` as select `seedstore`.`users`.`id` AS `id`,`seedstore`.`users`.`name` AS `name`,`seedstore`.`users`.`email_address` AS `email_address`,`seedstore`.`users`.`user_type` AS `user_type`,`seedstore`.`users`.`created_on` AS `created_on`,json_objectagg(ifnull(`t`.`yearmonth`,'null'),`t`.`count`) AS `stats` from (`seedstore`.`users` left join (select `seedstore`.`transfer_logs`.`user_id` AS `user_id`,date_format(`seedstore`.`transfer_logs`.`created_on`,'%Y-%m') AS `yearmonth`,count(1) AS `count` from `seedstore`.`transfer_logs` where ((to_days(now()) - to_days(`seedstore`.`transfer_logs`.`created_on`)) <= 365) group by `seedstore`.`transfer_logs`.`user_id`,date_format(`seedstore`.`transfer_logs`.`created_on`,'%Y-%m')) `t` on((`t`.`user_id` = `seedstore`.`users`.`id`))) group by `seedstore`.`users`.`id`"));
+        super(alias, null, aliased, parameters, DSL.comment("VIEW"), TableOptions.view("create view `view_table_users` as select `seedstore`.`users`.`id` AS `id`,`seedstore`.`users`.`name` AS `name`,`seedstore`.`users`.`email_address` AS `email_address`,`seedstore`.`users`.`user_type` AS `user_type`,`seedstore`.`users`.`last_login` AS `last_login`,`seedstore`.`users`.`created_on` AS `created_on`,json_objectagg(ifnull(`t`.`yearmonth`,'null'),`t`.`count`) AS `stats` from (`seedstore`.`users` left join (select `seedstore`.`transfer_logs`.`user_id` AS `user_id`,date_format(`seedstore`.`transfer_logs`.`created_on`,'%Y-%m') AS `yearmonth`,count(1) AS `count` from `seedstore`.`transfer_logs` where ((to_days(now()) - to_days(`seedstore`.`transfer_logs`.`created_on`)) <= 365) group by `seedstore`.`transfer_logs`.`user_id`,date_format(`seedstore`.`transfer_logs`.`created_on`,'%Y-%m')) `t` on((`t`.`user_id` = `seedstore`.`users`.`id`))) group by `seedstore`.`users`.`id`"));
     }
 
     /**
@@ -139,12 +144,12 @@ public class ViewTableUsers extends TableImpl<ViewTableUsersRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row6 type methods
+    // Row7 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row6<Integer, String, String, ViewTableUsersUserType, Timestamp, Map<String,Integer>> fieldsRow() {
-        return (Row6) super.fieldsRow();
+    public Row7<Integer, String, String, ViewTableUsersUserType, Timestamp, Timestamp, Map<String,Integer>> fieldsRow() {
+        return (Row7) super.fieldsRow();
     }
     // @formatter:on
 }

@@ -30,6 +30,7 @@ public class ViewTableUsers implements Serializable {
     private String                 name;
     private String                 emailAddress;
     private ViewTableUsersUserType userType;
+    private Timestamp              lastLogin;
     private Timestamp              createdOn;
     private Map<String,Integer>    stats;
 
@@ -40,6 +41,7 @@ public class ViewTableUsers implements Serializable {
         this.name = value.name;
         this.emailAddress = value.emailAddress;
         this.userType = value.userType;
+        this.lastLogin = value.lastLogin;
         this.createdOn = value.createdOn;
         this.stats = value.stats;
     }
@@ -49,6 +51,7 @@ public class ViewTableUsers implements Serializable {
         String                 name,
         String                 emailAddress,
         ViewTableUsersUserType userType,
+        Timestamp              lastLogin,
         Timestamp              createdOn,
         Map<String,Integer>    stats
     ) {
@@ -56,6 +59,7 @@ public class ViewTableUsers implements Serializable {
         this.name = name;
         this.emailAddress = emailAddress;
         this.userType = userType;
+        this.lastLogin = lastLogin;
         this.createdOn = createdOn;
         this.stats = stats;
     }
@@ -68,6 +72,7 @@ public class ViewTableUsers implements Serializable {
         sb.append(", ").append(name);
         sb.append(", ").append(emailAddress);
         sb.append(", ").append(userType);
+        sb.append(", ").append(lastLogin);
         sb.append(", ").append(createdOn);
         sb.append(", ").append(stats);
 
