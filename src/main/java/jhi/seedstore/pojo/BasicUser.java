@@ -8,6 +8,7 @@ import lombok.experimental.Accessors;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Accessors(chain = true)
 public class BasicUser
 {

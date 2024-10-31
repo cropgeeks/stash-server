@@ -1,6 +1,5 @@
 package jhi.seedstore.resource;
 
-import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import jhi.seedstore.Database;
@@ -32,7 +31,10 @@ public class UserResource extends BaseResource
 	public Response postUser(BasicUser newUser)
 		throws SQLException
 	{
-		if (newUser == null || newUser.getId() != null || StringUtils.isAnyEmpty(newUser.getName(), newUser.getEmailAddress(), newUser.getPassword()) || newUser.getUserType() == null)
+		if (newUser == null || newUser.getId() != null || StringUtils.isAnyEmpty(newUser.getName(), newUser.getEmailAddress()) || newUser.getUserType() == null)
+			return Response.status(Response.Status.BAD_REQUEST).build();
+
+		if (newUser.getUserType() != UsersUserType.reference && StringUtils.isEmpty(newUser.getPassword()))
 			return Response.status(Response.Status.BAD_REQUEST).build();
 
 		try (Connection conn = Database.getConnection())
@@ -45,9 +47,40 @@ public class UserResource extends BaseResource
 
 			UsersRecord record = context.newRecord(USERS, newUser);
 
-			String hashedPw = BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt(TokenResource.SALT));
-			record.setPasswordHash(hashedPw);
+			if (newUser.getUserType() == UsersUserType.reference)
+			{
+				record.setPasswordHash(null);
+			}
+			else
+			{
+				String hashedPw = BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt(TokenResource.SALT));
+				record.setPasswordHash(hashedPw);
+			}
 			return Response.ok(record.store() > 0).build();
+		}
+	}
+
+	@DELETE
+	@Path("/{userId:\\d}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UsersUserType.admin)
+	public Response deleteUser(@PathParam("userId") Integer userId)
+		throws SQLException
+	{
+		if (userId == null)
+			return Response.status(Response.Status.BAD_REQUEST).build();
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			boolean deleted = context.deleteFrom(USERS).where(USERS.ID.eq(userId)).execute() > 0;
+
+			if (deleted)
+				return Response.ok().build();
+			else
+				return Response.status(Response.Status.NOT_FOUND).build();
 		}
 	}
 
@@ -55,11 +88,18 @@ public class UserResource extends BaseResource
 	@Path("/{userId:\\d+}/img")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UsersUserType.regular)
 	public Response postUserImage(@PathParam("userId") Integer userId, @FormDataParam("image") InputStream fileIs, @FormDataParam("image") FormDataContentDisposition fileDetails)
 		throws SQLException, IOException
 	{
 		if (userId == null || fileIs == null || fileDetails == null)
 			return Response.status(Response.Status.BAD_REQUEST).build();
+
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+
+		// Only the user themselves or an admin can change the image
+		if (userDetails == null || (!Objects.equals(userDetails.getId(), userId) && !userDetails.isAtLeast(UsersUserType.admin)))
+			return Response.status(Response.Status.FORBIDDEN).build();
 
 		if (fileDetails.getSize() >= 4194304)
 			return Response.status(Response.Status.REQUEST_ENTITY_TOO_LARGE).build();
@@ -82,8 +122,7 @@ public class UserResource extends BaseResource
 	@Path("/{userId:\\d+}/password")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Secured
-	@PermitAll
+	@Secured(UsersUserType.regular)
 	public Response patchUserPassword(@PathParam("userId") Integer userId, UserPasswordUpdate update)
 		throws SQLException
 	{

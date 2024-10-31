@@ -214,11 +214,6 @@ public class Database
 		}
 	}
 
-	public static void main(String[] args)
-	{
-		Database.init("localhost", "seedstore", null, "root", null, true);
-	}
-
 	/**
 	 * Creates and returns the database connection string
 	 *
