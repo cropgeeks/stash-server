@@ -4,6 +4,7 @@ import jakarta.ws.rs.*;
 import jhi.seedstore.pojo.*;
 import jhi.seedstore.util.StringUtils;
 import org.jooq.*;
+import org.jooq.Record;
 import org.jooq.impl.DSL;
 
 public abstract class BaseResource extends ContextResource implements IFilteredResource
@@ -28,12 +29,12 @@ public abstract class BaseResource extends ContextResource implements IFilteredR
 	@QueryParam("orderBy")
 	protected String orderBy;
 
-	protected Filter[] filters;
+	protected FilterGroup[] filters;
 
 	protected void processRequest(PaginatedRequest request)
 	{
 		if (request != null)
-			this.filters = request.getFilter();
+			this.filters = request.getFilters();
 
 		try
 		{

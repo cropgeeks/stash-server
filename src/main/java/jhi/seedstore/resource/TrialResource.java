@@ -2,14 +2,17 @@ package jhi.seedstore.resource;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
 import jhi.seedstore.Database;
+import jhi.seedstore.database.codegen.enums.UsersUserType;
 import jhi.seedstore.database.codegen.tables.pojos.*;
 import jhi.seedstore.database.codegen.tables.records.*;
 import jhi.seedstore.pojo.*;
 import jhi.seedstore.resource.base.BaseResource;
 import jhi.seedstore.util.*;
 import org.jooq.*;
+import org.jooq.Record;
 
 import java.sql.*;
 import java.util.List;
@@ -18,14 +21,14 @@ import static jhi.seedstore.database.codegen.tables.Projects.*;
 import static jhi.seedstore.database.codegen.tables.Trials.*;
 
 @Path("trial")
-@Secured
-@PermitAll
 public class TrialResource extends BaseResource
 {
 	@GET
 	@Path("/{trialId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured
+	@PermitAll
 	public Trials getTrial(@PathParam("trialId") Integer trialId)
 		throws SQLException
 	{
@@ -45,6 +48,7 @@ public class TrialResource extends BaseResource
 	@Path("/{trialId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UsersUserType.admin)
 	public Response deleteTrial(@PathParam("trialId") Integer trialId)
 		throws SQLException
 	{
@@ -61,6 +65,7 @@ public class TrialResource extends BaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UsersUserType.admin)
 	public Response postTrial(Trials trial)
 		throws SQLException
 	{
@@ -98,6 +103,8 @@ public class TrialResource extends BaseResource
 	@Path("/table")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured
+	@PermitAll
 	public PaginatedResult<List<Trials>> postContainerTable(PaginatedRequest request)
 		throws SQLException
 	{
@@ -113,7 +120,7 @@ public class TrialResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(TRIALS);
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<Trials> result = setPaginationAndOrderBy(from)
 				.fetch()

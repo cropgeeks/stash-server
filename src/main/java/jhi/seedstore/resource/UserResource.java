@@ -1,6 +1,7 @@
 package jhi.seedstore.resource;
 
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
 import jhi.seedstore.Database;
 import jhi.seedstore.database.codegen.enums.UsersUserType;
@@ -13,6 +14,7 @@ import jhi.seedstore.util.auth.BCrypt;
 import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.media.multipart.*;
 import org.jooq.*;
+import org.jooq.Record;
 
 import java.io.*;
 import java.sql.*;
@@ -115,6 +117,46 @@ public class UserResource extends BaseResource
 
 			record.setIcon(IOUtils.toByteArray(fileIs));
 			return Response.ok(record.store(USERS.ICON) > 0).build();
+		}
+	}
+
+	@PATCH
+	@Path("/{userId:\\d+}/password-forced")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UsersUserType.admin)
+	public Response patchUserPasswordForced(@PathParam("userId") Integer userId, UserPasswordUpdate update)
+			throws SQLException
+	{
+		// Check all parameters have been proviced
+		if (update == null || StringUtils.isEmpty(update.getNewPassword()))
+			return Response.status(Response.Status.BAD_REQUEST).build();
+
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			// Check user exists
+			UsersRecord existingUser = context.selectFrom(USERS).where(USERS.ID.eq(userId)).fetchAny();
+
+			if (existingUser == null)
+				return Response.status(Response.Status.NOT_FOUND).build();
+
+
+			// Hash the new password and store it
+			String hashedPw = BCrypt.hashpw(update.getNewPassword(), BCrypt.gensalt(TokenResource.SALT));
+			existingUser.setPasswordHash(hashedPw);
+			existingUser.store(USERS.PASSWORD_HASH);
+
+			if (Objects.equals(userDetails.getId(), userId))
+			{
+				// Invalidate the current token. User has to log in again
+				AuthenticationFilter.removeToken(userDetails.getToken(), req, resp);
+			}
+
+			return Response.ok().build();
 		}
 	}
 
@@ -234,7 +276,7 @@ public class UserResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_USERS);
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ViewTableUsers> result = setPaginationAndOrderBy(from)
 				.fetch()

@@ -1,9 +1,9 @@
 package jhi.seedstore.resource;
 
-import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import jhi.seedstore.Database;
+import jhi.seedstore.database.codegen.enums.UsersUserType;
 import jhi.seedstore.database.codegen.tables.pojos.ViewTableContainers;
 import jhi.seedstore.database.codegen.tables.records.*;
 import jhi.seedstore.pojo.ContainerImport;
@@ -12,22 +12,20 @@ import jhi.seedstore.util.*;
 import org.jooq.DSLContext;
 
 import java.sql.*;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
 
-import static jhi.seedstore.database.codegen.tables.Containers.*;
-import static jhi.seedstore.database.codegen.tables.TransferLogs.*;
+import static jhi.seedstore.database.codegen.tables.Containers.CONTAINERS;
+import static jhi.seedstore.database.codegen.tables.TransferLogs.TRANSFER_LOGS;
 
 @Path("import")
-@Secured
-@PermitAll
 public class ImportResource extends ContextResource
 {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UsersUserType.regular)
 	public Response postContainerImport(ContainerImport cImport)
-		throws SQLException
+			throws SQLException
 	{
 		AuthenticationFilter.UserDetails sessionUser = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -43,33 +41,33 @@ public class ImportResource extends ContextResource
 			if (parent == null)
 				return Response.status(Response.Status.NOT_FOUND).build();
 
-			List<ViewTableContainers> existingItems = cImport.getItems().stream().filter(c -> c.getContainerId() != null).collect(Collectors.toList());
-			List<ViewTableContainers> newItems = cImport.getItems().stream().filter(c -> c.getContainerId() == null).collect(Collectors.toList());
+			Integer parentId = parent.getId();
+			List<Integer> containersToMove = cImport.getItems().stream().map(ViewTableContainers::getContainerId).filter(Objects::nonNull).toList();
 
-			// Create the new items based on the provided information
-			for (ViewTableContainers n : newItems)
-			{
-				ContainersRecord record = context.newRecord(CONTAINERS);
-				record.setBarcode(n.getContainerBarcode());
-				record.setContainerTypeId(n.getContainerTypeId());
-				record.setParentContainerId(cImport.getParentContainerId());
-				record.setDescription(n.getContainerDescription());
-				record.setIsActive(true);
-				record.setProjectId(n.getProjectId());
-				record.setTrialId(n.getTrialId());
-				record.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-				record.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
-				record.store();
-			}
+			moveContainers(sessionUser, parentId, containersToMove);
 
+			return Response.ok().build();
+		}
+		catch (StashException e)
+		{
+			return Response.status(e.getStatus().getStatusCode(), e.getMessage()).build();
+		}
+	}
+
+	public static void moveContainers(AuthenticationFilter.UserDetails sessionUser, Integer parentId, List<Integer> containersToMove)
+			throws SQLException, StashException
+	{
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
 			// For each existing item, move it to the new parent container
-			for (ViewTableContainers e : existingItems)
+			for (Integer containerId : containersToMove)
 			{
 				// Get source and target and check they exist
-				ContainersRecord existing = context.selectFrom(CONTAINERS).where(CONTAINERS.ID.eq(e.getContainerId())).fetchAny();
-				ContainersRecord target = context.selectFrom(CONTAINERS).where(CONTAINERS.ID.eq(cImport.getParentContainerId())).fetchAny();
+				ContainersRecord existing = context.selectFrom(CONTAINERS).where(CONTAINERS.ID.eq(containerId)).fetchAny();
+				ContainersRecord target = context.selectFrom(CONTAINERS).where(CONTAINERS.ID.eq(parentId)).fetchAny();
 				if (existing == null || target == null)
-					return Response.status(Response.Status.NOT_FOUND).build();
+					throw new StashException(Response.Status.NOT_FOUND);
 
 				TransferLogsRecord tl = context.newRecord(TRANSFER_LOGS);
 				tl.setContainerId(existing.getId());
@@ -81,11 +79,9 @@ public class ImportResource extends ContextResource
 				tl.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
 				tl.store();
 
-				existing.setParentContainerId(cImport.getParentContainerId());
+				existing.setParentContainerId(parentId);
 				existing.store(CONTAINERS.PARENT_CONTAINER_ID);
 			}
-
-			return Response.ok().build();
 		}
 	}
 }

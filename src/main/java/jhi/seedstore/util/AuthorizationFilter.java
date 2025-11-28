@@ -44,13 +44,9 @@ public class AuthorizationFilter implements ContainerRequestFilter
 			// Check if the user is allowed to execute the method
 			// The method annotations override the class annotations
 			if (methodRoles.isEmpty())
-			{
 				checkPermissions(classRoles, userDetails);
-			}
 			else
-			{
 				checkPermissions(methodRoles, userDetails);
-			}
 
 		}
 		catch (Exception e)

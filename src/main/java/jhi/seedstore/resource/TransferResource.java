@@ -2,8 +2,10 @@ package jhi.seedstore.resource;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
 import jhi.seedstore.Database;
+import jhi.seedstore.database.codegen.enums.UsersUserType;
 import jhi.seedstore.database.codegen.tables.pojos.*;
 import jhi.seedstore.database.codegen.tables.records.ContainersRecord;
 import jhi.seedstore.pojo.*;
@@ -11,6 +13,7 @@ import jhi.seedstore.resource.base.BaseResource;
 import jhi.seedstore.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
+import org.jooq.Record;
 
 import java.sql.*;
 import java.util.*;
@@ -21,13 +24,12 @@ import static jhi.seedstore.database.codegen.tables.ViewTableTransferEvents.*;
 import static jhi.seedstore.database.codegen.tables.ViewTableTransfers.*;
 
 @Path("transfer")
-@Secured
-@PermitAll
 public class TransferResource extends BaseResource
 {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UsersUserType.regular)
 	public Response postContainerTransfer(ContainerTransfer transfer)
 		throws SQLException
 	{
@@ -51,8 +53,8 @@ public class TransferResource extends BaseResource
 				return Response.status(Response.Status.EXPECTATION_FAILED).build();
 
 			// Create new entries in the transfer log
-			context.insertInto(TRANSFER_LOGS, TRANSFER_LOGS.CONTAINER_ID, TRANSFER_LOGS.SOURCE_ID, TRANSFER_LOGS.TARGET_ID, TRANSFER_LOGS.USER_ID)
-				   .select(DSL.select(CONTAINERS.ID, CONTAINERS.PARENT_CONTAINER_ID, DSL.inline(transfer.getTargetId(), Integer.class), DSL.inline(sessionUser.getId(), Integer.class))
+			context.insertInto(TRANSFER_LOGS, TRANSFER_LOGS.CONTAINER_ID, TRANSFER_LOGS.SOURCE_ID, TRANSFER_LOGS.TARGET_ID, TRANSFER_LOGS.USER_ID, TRANSFER_LOGS.CREATED_ON)
+				   .select(DSL.select(CONTAINERS.ID, CONTAINERS.PARENT_CONTAINER_ID, DSL.inline(transfer.getTargetId(), Integer.class), DSL.inline(sessionUser.getId(), Integer.class), DSL.now())
 							  .from(CONTAINERS)
 							  .where(CONTAINERS.PARENT_CONTAINER_ID.eq(transfer.getSourceId()))
 				   )
@@ -69,6 +71,8 @@ public class TransferResource extends BaseResource
 	@Path("/table")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured
+	@PermitAll
 	public PaginatedResult<List<ViewTableTransfers>> postContainerTable(PaginatedRequest request)
 		throws SQLException
 	{
@@ -84,7 +88,7 @@ public class TransferResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_TRANSFERS);
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ViewTableTransfers> result = setPaginationAndOrderBy(from)
 				.fetch()
@@ -100,6 +104,8 @@ public class TransferResource extends BaseResource
 	@Path("/event/table")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured
+	@PermitAll
 	public PaginatedResult<List<ViewTableTransferEvents>> postContainerEventTable(PaginatedRequest request)
 		throws SQLException
 	{
@@ -115,7 +121,7 @@ public class TransferResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_TRANSFER_EVENTS);
 
 			// Filter here!
-			filter(from, filters, true);
+			where(from, filters, true);
 
 			List<ViewTableTransferEvents> result = setPaginationAndOrderBy(from)
 				.fetch()

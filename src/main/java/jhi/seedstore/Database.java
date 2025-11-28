@@ -1,6 +1,6 @@
 package jhi.seedstore;
 
-import jhi.seedstore.database.codegen.SeedstoreDb;
+import jhi.seedstore.database.codegen.StashDb;
 import jhi.seedstore.util.*;
 import org.jooq.*;
 import org.jooq.conf.*;
@@ -280,7 +280,7 @@ public class Database
 		Settings settings = new Settings()
 			.withRenderMapping(new RenderMapping()
 				.withSchemata(
-					new MappedSchema().withInput(SeedstoreDb.SEEDSTORE_DB.getQualifiedName().first())
+					new MappedSchema().withInput(StashDb.STASH_DB.getQualifiedName().first())
 									  .withOutput(databaseName)));
 
 		return DSL.using(connection, SQLDialect.MYSQL, settings);

@@ -1,6 +1,7 @@
 package jhi.seedstore.util;
 
 import jakarta.annotation.Priority;
+import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.*;
@@ -11,6 +12,7 @@ import jakarta.ws.rs.ext.Provider;
 import jhi.seedstore.database.codegen.enums.UsersUserType;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
@@ -110,15 +112,18 @@ public class AuthenticationFilter implements ContainerRequestFilter
 			}
 		});
 
-//		Class<?> resourceClass = resourceInfo.getResourceClass();
-//		boolean isClassFree = resourceClass.getAnnotation(PermitAll.class) != null;
-//
-//		Method resourceMethod = resourceInfo.getResourceMethod();
-//		boolean isMethodFree = resourceMethod.getAnnotation(PermitAll.class) != null;
+		Class<?> resourceClass = resourceInfo.getResourceClass();
+		boolean isClassFree = resourceClass.getAnnotation(PermitAll.class) != null;
+
+		Method resourceMethod = resourceInfo.getResourceMethod();
+		boolean isMethodFree = resourceMethod.getAnnotation(PermitAll.class) != null;
 
 		try
 		{
-			validateToken(token);
+			if (token != null || (!isClassFree && !isMethodFree))
+			{
+				validateToken(token);
+			}
 		}
 		catch (Exception e)
 		{

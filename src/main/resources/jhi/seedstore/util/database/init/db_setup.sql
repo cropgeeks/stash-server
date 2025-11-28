@@ -113,14 +113,14 @@ CREATE TABLE `projects`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `transfer_logs`;
 CREATE TABLE `transfer_logs`  (
-  `transfer_event_id` varchar(64) NOT NULL,
+  `transfer_event_id` int(11) NOT NULL AUTO_INCREMENT,
   `container_id` int(11) NOT NULL,
   `source_id` int(11) NULL,
   `target_id` int(11) NULL,
   `user_id` int(11) NULL DEFAULT NULL,
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`transfer_event_id`, `container_id`) USING BTREE,
+  PRIMARY KEY (`transfer_event_id`) USING BTREE,
   INDEX `container_id`(`container_id`) USING BTREE,
   INDEX `source_id`(`source_id`) USING BTREE,
   INDEX `target_id`(`target_id`) USING BTREE,

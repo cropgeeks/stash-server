@@ -18,19 +18,19 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-@SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
 public class Containers implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer   id;
-    private String    barcode;
-    private String    description;
-    private Integer   containerTypeId;
-    private Integer   parentContainerId;
-    private Boolean   isActive;
-    private Integer   trialId;
-    private Integer   projectId;
+    private Integer id;
+    private String barcode;
+    private String description;
+    private Integer containerTypeId;
+    private Integer parentContainerId;
+    private Boolean isActive;
+    private Integer trialId;
+    private Integer projectId;
     private Timestamp createdOn;
     private Timestamp updatedOn;
 
@@ -50,14 +50,14 @@ public class Containers implements Serializable {
     }
 
     public Containers(
-        Integer   id,
-        String    barcode,
-        String    description,
-        Integer   containerTypeId,
-        Integer   parentContainerId,
-        Boolean   isActive,
-        Integer   trialId,
-        Integer   projectId,
+        Integer id,
+        String barcode,
+        String description,
+        Integer containerTypeId,
+        Integer parentContainerId,
+        Boolean isActive,
+        Integer trialId,
+        Integer projectId,
         Timestamp createdOn,
         Timestamp updatedOn
     ) {
@@ -71,6 +71,95 @@ public class Containers implements Serializable {
         this.projectId = projectId;
         this.createdOn = createdOn;
         this.updatedOn = updatedOn;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final Containers other = (Containers) obj;
+        if (this.id == null) {
+            if (other.id != null)
+                return false;
+        }
+        else if (!this.id.equals(other.id))
+            return false;
+        if (this.barcode == null) {
+            if (other.barcode != null)
+                return false;
+        }
+        else if (!this.barcode.equals(other.barcode))
+            return false;
+        if (this.description == null) {
+            if (other.description != null)
+                return false;
+        }
+        else if (!this.description.equals(other.description))
+            return false;
+        if (this.containerTypeId == null) {
+            if (other.containerTypeId != null)
+                return false;
+        }
+        else if (!this.containerTypeId.equals(other.containerTypeId))
+            return false;
+        if (this.parentContainerId == null) {
+            if (other.parentContainerId != null)
+                return false;
+        }
+        else if (!this.parentContainerId.equals(other.parentContainerId))
+            return false;
+        if (this.isActive == null) {
+            if (other.isActive != null)
+                return false;
+        }
+        else if (!this.isActive.equals(other.isActive))
+            return false;
+        if (this.trialId == null) {
+            if (other.trialId != null)
+                return false;
+        }
+        else if (!this.trialId.equals(other.trialId))
+            return false;
+        if (this.projectId == null) {
+            if (other.projectId != null)
+                return false;
+        }
+        else if (!this.projectId.equals(other.projectId))
+            return false;
+        if (this.createdOn == null) {
+            if (other.createdOn != null)
+                return false;
+        }
+        else if (!this.createdOn.equals(other.createdOn))
+            return false;
+        if (this.updatedOn == null) {
+            if (other.updatedOn != null)
+                return false;
+        }
+        else if (!this.updatedOn.equals(other.updatedOn))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+        result = prime * result + ((this.barcode == null) ? 0 : this.barcode.hashCode());
+        result = prime * result + ((this.description == null) ? 0 : this.description.hashCode());
+        result = prime * result + ((this.containerTypeId == null) ? 0 : this.containerTypeId.hashCode());
+        result = prime * result + ((this.parentContainerId == null) ? 0 : this.parentContainerId.hashCode());
+        result = prime * result + ((this.isActive == null) ? 0 : this.isActive.hashCode());
+        result = prime * result + ((this.trialId == null) ? 0 : this.trialId.hashCode());
+        result = prime * result + ((this.projectId == null) ? 0 : this.projectId.hashCode());
+        result = prime * result + ((this.createdOn == null) ? 0 : this.createdOn.hashCode());
+        result = prime * result + ((this.updatedOn == null) ? 0 : this.updatedOn.hashCode());
+        return result;
     }
 
     @Override

@@ -1,11 +1,13 @@
 package jhi.seedstore.resource.base;
 
-import jhi.seedstore.pojo.Filter;
+import jhi.seedstore.pojo.*;
 import jhi.seedstore.util.*;
 import org.jooq.*;
+import org.jooq.Record;
 import org.jooq.impl.DSL;
 
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -13,70 +15,125 @@ import java.util.stream.Collectors;
  */
 public interface IFilteredResource
 {
-	default <T extends Record> void filter(SelectConditionStep<T> step, Filter[] filters)
+	default <T extends Record> void having(SelectHavingConditionStep<T> step, FilterGroup[] filters)
 	{
-		filter(step, filters, false);
+		having(step, filters, false);
 	}
 
-	default <T extends Record> void filter(SelectJoinStep<T> step, Filter[] filters)
+	default <T extends Record> void having(SelectJoinStep<T> step, FilterGroup[] filters)
 	{
-		filter(step, filters, false);
+		having(step, filters, false);
 	}
 
-	default <T extends Record> void filter(SelectConditionStep<T> step, Filter[] filters, boolean jsonOperationAllowed)
+	default Condition recursive(FilterGroup[] filters, boolean jsonOperationAllowed)
 	{
-		if (filters != null && filters.length > 0)
+		Condition overall = null;
+		if (!CollectionUtils.isEmpty(filters))
 		{
-			Condition overall = filterIndividual(filters[0], jsonOperationAllowed);
-
-			for (int i = 1; i < filters.length; i++)
+			for (FilterGroup filterGroup : filters)
 			{
-				Condition condition = filterIndividual(filters[i], jsonOperationAllowed);
+				Condition child = recursive(filterGroup, jsonOperationAllowed);
 
-				if (condition != null)
+				if (child != null)
 				{
-					switch (filters[i - 1].getOperator())
+					if (overall == null)
 					{
-						case "and":
-							overall = overall.and(condition);
-							break;
-						case "or":
-							overall = overall.or(condition);
-							break;
+						overall = child;
+					}
+					else
+					{
+						if (filterGroup.getOperator() == FilterOperator.and)
+							overall = overall.and(child);
+						else
+							overall = overall.or(child);
 					}
 				}
 			}
+		}
+		return overall;
+	}
 
+	default <T extends Record> void having(SelectHavingConditionStep<T> step, FilterGroup[] filters, boolean jsonOperationAllowed)
+	{
+		Condition overall = recursive(filters, jsonOperationAllowed);
+		if (overall != null)
 			step.and(overall);
-		}
 	}
 
-	default <T extends Record> void filter(SelectJoinStep<T> step, Filter[] filters, boolean jsonOperationAllowed)
+	default <T extends Record> void having(SelectJoinStep<T> step, FilterGroup[] filters, boolean jsonOperationAllowed)
 	{
-		if (filters != null && filters.length > 0)
+		Condition overall = recursive(filters, jsonOperationAllowed);
+		if (overall != null)
+			step.having(overall);
+	}
+
+	default <T extends Record> void where(SelectConditionStep<T> step, FilterGroup[] filters)
+	{
+		where(step, filters, false);
+	}
+
+	default <T extends Record> void where(SelectJoinStep<T> step, FilterGroup[] filters)
+	{
+		where(step, filters, false);
+	}
+
+	default <T extends Record> void where(SelectConditionStep<T> step, FilterGroup[] filters, boolean jsonOperationAllowed)
+	{
+		Condition overall = recursive(filters, jsonOperationAllowed);
+		if (overall != null)
+			step.and(overall);
+	}
+
+	default <T extends Record> void where(SelectJoinStep<T> step, FilterGroup[] filters, boolean jsonOperationAllowed)
+	{
+		Condition overall = recursive(filters, jsonOperationAllowed);
+		if (overall != null)
+			step.where(overall);
+	}
+
+	default Condition recursive(FilterGroup filterGroup, boolean jsonOperationAllowed)
+	{
+		Condition overall = null;
+		if (!CollectionUtils.isEmpty(filterGroup.getFilterGroups()))
 		{
-			Condition overall = filterIndividual(filters[0], jsonOperationAllowed);
-
-			for (int i = 1; i < filters.length; i++)
+			for (FilterGroup filterGroupChild : filterGroup.getFilterGroups())
 			{
-				Condition condition = filterIndividual(filters[i], jsonOperationAllowed);
+				Condition child = recursive(filterGroupChild, jsonOperationAllowed);
 
-				if (condition != null)
+				if (overall == null)
 				{
-					switch (filters[i - 1].getOperator())
-					{
-						case "and":
-							overall = overall.and(condition);
-							break;
-						case "or":
-							overall = overall.or(condition);
-							break;
-					}
+					overall = child;
+				}
+				else
+				{
+					if (filterGroup.getOperator() == FilterOperator.and)
+						overall = overall.and(child);
+					else
+						overall = overall.or(child);
 				}
 			}
-
-			step.where(overall);
 		}
+		if (!CollectionUtils.isEmpty(filterGroup.getFilters()))
+		{
+			for (Filter filter : filterGroup.getFilters())
+			{
+				Condition child = filterIndividual(filter, jsonOperationAllowed);
+
+				if (overall == null)
+				{
+					overall = child;
+				}
+				else
+				{
+					if (filterGroup.getOperator() == FilterOperator.and)
+						overall = overall.and(child);
+					else
+						overall = overall.or(child);
+				}
+			}
+		}
+
+		return overall;
 	}
 
 	default Condition filterIndividual(Filter filter, boolean jsonOperationAllowed)
@@ -98,31 +155,36 @@ public interface IFilteredResource
 
 		switch (filter.getComparator())
 		{
-			case "isNull":
+			case FilterComparator.isNull:
 				return field.isNull();
-			case "isNotNull":
+			case FilterComparator.isNotNull:
 				return field.isNotNull();
-			case "equals":
+			case FilterComparator.equals:
 				return field.eq(first);
-			case "contains":
+			case FilterComparator.contains:
 				return DSL.lower(field).like("%" + (first == null ? "" : first.toLowerCase()) + "%");
-			case "between":
+			case FilterComparator.startsWith:
+				return DSL.lower(field).startsWith(first == null ? "" : first.toLowerCase());
+			case FilterComparator.endsWith:
+				return DSL.lower(field).endsWith(first == null ? "" : first.toLowerCase());
+			case FilterComparator.between:
 				return field.between(first, second);
-			case "greaterThan":
+			case FilterComparator.greaterThan:
 				return field.greaterThan(first);
-			case "greaterOrEquals":
+			case FilterComparator.greaterOrEquals:
 				return field.greaterOrEqual(first);
-			case "lessThan":
+			case FilterComparator.lessThan:
 				return field.lessThan(first);
-			case "lessOrEquals":
+			case FilterComparator.lessOrEquals:
 				return field.lessOrEqual(first);
-			case "jsonSearch":
+			case FilterComparator.jsonSearch:
 				if (jsonOperationAllowed)
 				{
 					List<Condition> conditions = values.stream()
+													   .filter(v -> !StringUtils.isEmpty(v))
 													   .map(v -> v.replaceAll("[^a-zA-Z0-9_-]", "")) // Replace all non letters and numbers
 													   .map(v -> DSL.condition("JSON_SEARCH(LOWER(" + field.getName() + "), 'one', LOWER('%" + v + "%')) IS NOT NULL"))
-													   .collect(Collectors.toList());
+													   .toList();
 
 					Condition result = conditions.get(0);
 
@@ -135,15 +197,16 @@ public interface IFilteredResource
 				}
 				else
 				{
+					Logger.getLogger("").warning("Trying to use a json operation, but not allowed: " + filter);
 					return null;
 				}
-			case "arrayContains":
+			case FilterComparator.arrayContains:
 				if (jsonOperationAllowed)
 				{
 					List<Condition> conditions = values.stream()
 													   .map(v -> v.replaceAll("[^a-zA-Z0-9_-]", "")) // Replace all non letters and numbers
 													   .map(v -> DSL.condition("JSON_CONTAINS(" + field.getName() + ", '" + v + "')"))
-													   .collect(Collectors.toList());
+													   .toList();
 
 					Condition result = conditions.get(0);
 
@@ -156,9 +219,10 @@ public interface IFilteredResource
 				}
 				else
 				{
+					Logger.getLogger("").warning("Trying to use a json operation, but not allowed: " + filter);
 					return null;
 				}
-			case "inSet":
+			case FilterComparator.inSet:
 				List<String> temp;
 
 				if (values.size() > 1)

@@ -2,30 +2,32 @@ package jhi.seedstore.resource;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
 import jhi.seedstore.Database;
+import jhi.seedstore.database.codegen.enums.UsersUserType;
 import jhi.seedstore.database.codegen.tables.pojos.*;
 import jhi.seedstore.database.codegen.tables.records.ProjectsRecord;
 import jhi.seedstore.pojo.*;
 import jhi.seedstore.resource.base.BaseResource;
 import jhi.seedstore.util.*;
 import org.jooq.*;
+import org.jooq.Record;
 
 import java.sql.*;
 import java.util.List;
 
 import static jhi.seedstore.database.codegen.tables.Projects.*;
-import static jhi.seedstore.database.codegen.tables.ViewTableContainers.*;
 
 @Path("project")
-@Secured
-@PermitAll
 public class ProjectResource extends BaseResource
 {
 	@GET
 	@Path("/{projectId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured
+	@PermitAll
 	public Projects getProject(@PathParam("projectId") Integer projectId)
 		throws SQLException
 	{
@@ -45,6 +47,7 @@ public class ProjectResource extends BaseResource
 	@Path("/{projectId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UsersUserType.admin)
 	public Response deleteProject(@PathParam("projectId") Integer projectId)
 		throws SQLException
 	{
@@ -61,8 +64,9 @@ public class ProjectResource extends BaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UsersUserType.admin)
 	public Response postProject(Projects project)
-		throws SQLException
+			throws SQLException
 	{
 		if (project == null || StringUtils.isEmpty(project.getName()))
 			return Response.status(Response.Status.BAD_REQUEST).build();
@@ -93,6 +97,8 @@ public class ProjectResource extends BaseResource
 	@Path("/table")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured
+	@PermitAll
 	public PaginatedResult<List<Projects>> postProjectTable(PaginatedRequest request)
 		throws SQLException
 	{
@@ -108,7 +114,7 @@ public class ProjectResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(PROJECTS);
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<Projects> result = setPaginationAndOrderBy(from)
 				.fetch()

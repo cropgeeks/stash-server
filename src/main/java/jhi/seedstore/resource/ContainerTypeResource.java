@@ -2,14 +2,17 @@ package jhi.seedstore.resource;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
 import jhi.seedstore.Database;
+import jhi.seedstore.database.codegen.enums.UsersUserType;
 import jhi.seedstore.database.codegen.tables.pojos.ContainerTypes;
 import jhi.seedstore.database.codegen.tables.records.ContainerTypesRecord;
 import jhi.seedstore.pojo.*;
 import jhi.seedstore.resource.base.BaseResource;
 import jhi.seedstore.util.*;
 import org.jooq.*;
+import org.jooq.Record;
 
 import java.sql.*;
 import java.util.List;
@@ -17,14 +20,14 @@ import java.util.List;
 import static jhi.seedstore.database.codegen.tables.ContainerTypes.*;
 
 @Path("containertype")
-@Secured
-@PermitAll
 public class ContainerTypeResource extends BaseResource
 {
 	@GET
 	@Path("/{containerTypeId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured
+	@PermitAll
 	public ContainerTypes getContainer(@PathParam("containerTypeId") Integer containerTypeId)
 		throws SQLException
 	{
@@ -44,8 +47,9 @@ public class ContainerTypeResource extends BaseResource
 	@Path("/{containerTypeId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UsersUserType.admin)
 	public Response deleteContainer(@PathParam("containerTypeId") Integer containerTypeId)
-		throws SQLException
+			throws SQLException
 	{
 		if (containerTypeId == null)
 			return Response.status(Response.Status.NOT_FOUND).build();
@@ -60,8 +64,9 @@ public class ContainerTypeResource extends BaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UsersUserType.admin)
 	public Response postContainer(ContainerTypes containerType)
-		throws SQLException
+			throws SQLException
 	{
 		if (containerType == null || StringUtils.isEmpty(containerType.getName()))
 			return Response.status(Response.Status.BAD_REQUEST).build();
@@ -74,6 +79,8 @@ public class ContainerTypeResource extends BaseResource
 
 			// Create new entry
 			ContainerTypesRecord record = context.newRecord(CONTAINER_TYPES, containerType);
+			record.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+			record.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
 			record.store();
 
 			// Return the id
@@ -85,6 +92,8 @@ public class ContainerTypeResource extends BaseResource
 	@Path("/table")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured
+	@PermitAll
 	public PaginatedResult<List<ContainerTypes>> postContainerTable(PaginatedRequest request)
 		throws SQLException
 	{
@@ -100,7 +109,7 @@ public class ContainerTypeResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(CONTAINER_TYPES);
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ContainerTypes> result = setPaginationAndOrderBy(from)
 				.fetch()

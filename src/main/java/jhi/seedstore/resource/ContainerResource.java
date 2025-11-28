@@ -2,14 +2,17 @@ package jhi.seedstore.resource;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
 import jhi.seedstore.Database;
+import jhi.seedstore.database.codegen.enums.UsersUserType;
 import jhi.seedstore.database.codegen.tables.pojos.*;
 import jhi.seedstore.database.codegen.tables.records.*;
 import jhi.seedstore.pojo.*;
 import jhi.seedstore.resource.base.BaseResource;
 import jhi.seedstore.util.*;
 import org.jooq.*;
+import org.jooq.Record;
 import org.jooq.impl.DSL;
 
 import java.sql.*;
@@ -17,26 +20,26 @@ import java.text.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static jhi.seedstore.database.codegen.tables.Attributes.*;
-import static jhi.seedstore.database.codegen.tables.ContainerAttributes.*;
-import static jhi.seedstore.database.codegen.tables.ContainerTypes.*;
-import static jhi.seedstore.database.codegen.tables.Containers.*;
-import static jhi.seedstore.database.codegen.tables.Projects.*;
-import static jhi.seedstore.database.codegen.tables.TransferLogs.*;
-import static jhi.seedstore.database.codegen.tables.Trials.*;
-import static jhi.seedstore.database.codegen.tables.ViewTableContainers.*;
+import static jhi.seedstore.database.codegen.tables.Attributes.ATTRIBUTES;
+import static jhi.seedstore.database.codegen.tables.ContainerAttributes.CONTAINER_ATTRIBUTES;
+import static jhi.seedstore.database.codegen.tables.ContainerTypes.CONTAINER_TYPES;
+import static jhi.seedstore.database.codegen.tables.Containers.CONTAINERS;
+import static jhi.seedstore.database.codegen.tables.Projects.PROJECTS;
+import static jhi.seedstore.database.codegen.tables.TransferLogs.TRANSFER_LOGS;
+import static jhi.seedstore.database.codegen.tables.Trials.TRIALS;
+import static jhi.seedstore.database.codegen.tables.ViewTableContainers.VIEW_TABLE_CONTAINERS;
 
 @Path("container")
-@Secured
-@PermitAll
 public class ContainerResource extends BaseResource
 {
 	@GET
 	@Path("/{containerId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured
+	@PermitAll
 	public ViewTableContainers getContainer(@PathParam("containerId") Integer containerId)
-		throws SQLException
+			throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{
@@ -54,8 +57,9 @@ public class ContainerResource extends BaseResource
 	@Path("/{containerId:\\d+}/clear")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UsersUserType.admin)
 	public Response emptyContainer(@PathParam("containerId") Integer containerId)
-		throws SQLException
+			throws SQLException
 	{
 		if (containerId == null)
 			return Response.status(Response.Status.NOT_FOUND).build();
@@ -88,8 +92,9 @@ public class ContainerResource extends BaseResource
 	@Path("/{containerId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UsersUserType.admin)
 	public Response deleteContainer(@PathParam("containerId") Integer containerId)
-		throws SQLException
+			throws SQLException
 	{
 		if (containerId == null)
 			return Response.status(Response.Status.NOT_FOUND).build();
@@ -102,14 +107,61 @@ public class ContainerResource extends BaseResource
 	}
 
 	@POST
+	@Path("/{containerId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UsersUserType.regular)
+	public Response postContainersIntoParent(@PathParam("containerId") Integer containerId, List<ViewTableContainers> containers)
+			throws SQLException
+	{
+		AuthenticationFilter.UserDetails sessionUser = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			Containers parent = context.selectFrom(CONTAINERS).where(CONTAINERS.ID.eq(containerId)).fetchAnyInto(Containers.class);
+
+			if (parent == null)
+				return Response.status(Response.Status.NOT_FOUND).build();
+
+			List<Integer> containerIds = addNewContainers(containers);
+
+			Integer parentId = parent.getId();
+
+			ImportResource.moveContainers(sessionUser, parentId, containerIds);
+
+			return Response.ok().build();
+		}
+		catch (StashException e)
+		{
+			return Response.status(e.getStatus().getStatusCode(), e.getMessage()).build();
+		}
+	}
+
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UsersUserType.regular)
 	public Response postContainer(List<ViewTableContainers> containers)
-		throws SQLException
+			throws SQLException
 	{
 		if (CollectionUtils.isEmpty(containers))
 			return Response.status(Response.Status.BAD_REQUEST).build();
 
+		try
+		{
+			return Response.ok(addNewContainers(containers)).build();
+		}
+		catch (StashException e)
+		{
+			return Response.status(e.getStatus().getStatusCode(), e.getMessage()).build();
+		}
+	}
+
+	private List<Integer> addNewContainers(List<ViewTableContainers> containers)
+			throws SQLException, StashException
+	{
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
@@ -120,26 +172,31 @@ public class ContainerResource extends BaseResource
 			{
 				// Payload empty or required field empty
 				if (container == null || StringUtils.isEmpty(container.getContainerBarcode()) || container.getContainerTypeId() == null || container.getContainerIsActive() == null)
-					return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "Either the container is null or the barcode or description aren't set or the container type or isActive state aren't set.").build();
+				{
+					throw new StashException(Response.Status.BAD_REQUEST, "Either the container is null or the barcode or description aren't set or the container type or isActive state aren't set.");
+				}
 
 				// Barcode or description too long
 				if (container.getContainerBarcode().length() > 100 || (container.getContainerDescription() != null && container.getContainerDescription().length() > 255))
-					return Response.status(Response.Status.REQUEST_ENTITY_TOO_LARGE).build();
+				{
+					throw new StashException(Response.Status.REQUEST_ENTITY_TOO_LARGE);
+				}
 
 				List<String> barcodes = containers.stream().map(ViewTableContainers::getContainerBarcode).collect(Collectors.toList());
 
 				int count = context.fetchCount(context.selectFrom(CONTAINERS).where(CONTAINERS.BARCODE.in(barcodes)));
 
 				if (count > 0)
-					return Response.status(Response.Status.CONFLICT).build();
+				{
+					throw new StashException(Response.Status.CONFLICT);
+				}
 			}
 
-			Map<String, Attributes> attributes = new HashMap<>();
+			Map<Integer, Attributes> attributes = new HashMap<>();
 			Set<Integer> typeIds = new HashSet<>();
 			Set<Integer> projectIds = new HashSet<>();
 			Set<Integer> trialIds = new HashSet<>();
 			Set<Integer> parentIds = new HashSet<>();
-			Set<String> attributeNames = new HashSet<>();
 			for (ViewTableContainers c : containers)
 			{
 				if (c.getContainerTypeId() != null) typeIds.add(c.getContainerTypeId());
@@ -150,19 +207,21 @@ public class ContainerResource extends BaseResource
 				{
 					for (ContainerAttributeValue a : c.getContainerAttributes())
 					{
-						if (a.getAttributeName() == null || StringUtils.isEmpty(a.getAttributeValue()))
-							return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "The attribute name or value of a specified attribute mapping is empty.").build();
+						if (a.getAttributeId() == null)
+						{
+							throw new StashException(Response.Status.BAD_REQUEST, "The attribute name or value of a specified attribute mapping is empty.");
+						}
 						else
 						{
-							Attributes attr = attributes.get(a.getAttributeName());
+							Attributes attr = attributes.get(a.getAttributeId());
 							if (attr == null)
 							{
-								attr = context.selectFrom(ATTRIBUTES).where(ATTRIBUTES.NAME.eq(a.getAttributeName())).fetchAnyInto(Attributes.class);
+								attr = context.selectFrom(ATTRIBUTES).where(ATTRIBUTES.ID.eq(a.getAttributeId())).fetchAnyInto(Attributes.class);
 
 								if (attr == null)
-									return Response.status(Response.Status.NOT_FOUND).build();
+									throw new StashException(Response.Status.NOT_FOUND);
 								else
-									attributes.put(attr.getName(), attr);
+									attributes.put(attr.getId(), attr);
 							}
 
 							switch (attr.getDatatype())
@@ -174,7 +233,7 @@ public class ContainerResource extends BaseResource
 									}
 									catch (NumberFormatException e)
 									{
-										return Response.status(Response.Status.EXPECTATION_FAILED.getStatusCode(), a.getAttributeValue()).build();
+										throw new StashException(Response.Status.EXPECTATION_FAILED, a.getAttributeValue());
 									}
 									break;
 								case date:
@@ -184,12 +243,10 @@ public class ContainerResource extends BaseResource
 									}
 									catch (ParseException e)
 									{
-										return Response.status(Response.Status.EXPECTATION_FAILED.getStatusCode(), a.getAttributeValue()).build();
+										throw new StashException(Response.Status.EXPECTATION_FAILED, a.getAttributeValue());
 									}
 									break;
 							}
-
-							attributeNames.add(a.getAttributeName());
 						}
 					}
 				}
@@ -200,13 +257,15 @@ public class ContainerResource extends BaseResource
 			boolean projectExists = context.fetchCount(context.selectFrom(PROJECTS).where(PROJECTS.ID.in(projectIds))) == projectIds.size();
 			boolean trialExists = context.fetchCount(context.selectFrom(TRIALS).where(TRIALS.ID.in(trialIds))) == trialIds.size();
 			boolean parentExists = context.fetchCount(context.selectFrom(CONTAINERS).where(CONTAINERS.ID.in(parentIds))) == parentIds.size();
-			boolean attributeExists = context.fetchCount(context.selectFrom(ATTRIBUTES).where(ATTRIBUTES.NAME.in(attributeNames))) == attributeNames.size();
 
-			if (!typeExists) return Response.status(Response.Status.NOT_FOUND.getStatusCode(), "Container type not found.").build();
-			if (!projectExists) return Response.status(Response.Status.NOT_FOUND.getStatusCode(), "Project not found.").build();
-			if (!trialExists) return Response.status(Response.Status.NOT_FOUND.getStatusCode(), "Trial not found.").build();
-			if (!parentExists) return Response.status(Response.Status.NOT_FOUND.getStatusCode(), "Parent container not found.").build();
-			if (!attributeExists) return Response.status(Response.Status.NOT_FOUND.getStatusCode(), "Referenced attribute not found.").build();
+			if (!typeExists)
+				throw new StashException(Response.Status.NOT_FOUND, "Container type not found.");
+			if (!projectExists)
+				throw new StashException(Response.Status.NOT_FOUND, "Project not found.");
+			if (!trialExists)
+				throw new StashException(Response.Status.NOT_FOUND, "Trial not found.");
+			if (!parentExists)
+				throw new StashException(Response.Status.NOT_FOUND, "Parent container not found.");
 
 			// Create new entries
 			List<Integer> ids = new ArrayList<>();
@@ -230,7 +289,7 @@ public class ContainerResource extends BaseResource
 					for (ContainerAttributeValue attributeValue : container.getContainerAttributes())
 					{
 						ContainerAttributesRecord a = context.newRecord(CONTAINER_ATTRIBUTES);
-						a.setAttributeId(attributes.get(attributeValue.getAttributeName()).getId());
+						a.setAttributeId(attributeValue.getAttributeId());
 						a.setContainerId(c.getId());
 						a.setAttributeValue(attributeValue.getAttributeValue());
 						a.store();
@@ -239,7 +298,7 @@ public class ContainerResource extends BaseResource
 			}
 
 			// Return the id
-			return Response.ok(ids).build();
+			return ids;
 		}
 	}
 
@@ -247,8 +306,10 @@ public class ContainerResource extends BaseResource
 	@Path("/table")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured
+	@PermitAll
 	public PaginatedResult<List<ViewTableContainers>> postContainerTable(PaginatedRequest request)
-		throws SQLException
+			throws SQLException
 	{
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -261,7 +322,7 @@ public class ContainerResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_CONTAINERS);
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ViewTableContainers> result = setPaginationAndOrderBy(from).fetch().into(ViewTableContainers.class);
 

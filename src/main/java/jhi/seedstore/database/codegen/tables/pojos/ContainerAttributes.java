@@ -18,14 +18,14 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-@SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
 public class ContainerAttributes implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer   attributeId;
-    private Integer   containerId;
-    private String    attributeValue;
+    private Integer attributeId;
+    private Integer containerId;
+    private String attributeValue;
     private Timestamp createdOn;
     private Timestamp updatedOn;
 
@@ -40,9 +40,9 @@ public class ContainerAttributes implements Serializable {
     }
 
     public ContainerAttributes(
-        Integer   attributeId,
-        Integer   containerId,
-        String    attributeValue,
+        Integer attributeId,
+        Integer containerId,
+        String attributeValue,
         Timestamp createdOn,
         Timestamp updatedOn
     ) {
@@ -51,6 +51,60 @@ public class ContainerAttributes implements Serializable {
         this.attributeValue = attributeValue;
         this.createdOn = createdOn;
         this.updatedOn = updatedOn;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final ContainerAttributes other = (ContainerAttributes) obj;
+        if (this.attributeId == null) {
+            if (other.attributeId != null)
+                return false;
+        }
+        else if (!this.attributeId.equals(other.attributeId))
+            return false;
+        if (this.containerId == null) {
+            if (other.containerId != null)
+                return false;
+        }
+        else if (!this.containerId.equals(other.containerId))
+            return false;
+        if (this.attributeValue == null) {
+            if (other.attributeValue != null)
+                return false;
+        }
+        else if (!this.attributeValue.equals(other.attributeValue))
+            return false;
+        if (this.createdOn == null) {
+            if (other.createdOn != null)
+                return false;
+        }
+        else if (!this.createdOn.equals(other.createdOn))
+            return false;
+        if (this.updatedOn == null) {
+            if (other.updatedOn != null)
+                return false;
+        }
+        else if (!this.updatedOn.equals(other.updatedOn))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.attributeId == null) ? 0 : this.attributeId.hashCode());
+        result = prime * result + ((this.containerId == null) ? 0 : this.containerId.hashCode());
+        result = prime * result + ((this.attributeValue == null) ? 0 : this.attributeValue.hashCode());
+        result = prime * result + ((this.createdOn == null) ? 0 : this.createdOn.hashCode());
+        result = prime * result + ((this.updatedOn == null) ? 0 : this.updatedOn.hashCode());
+        return result;
     }
 
     @Override
