@@ -2,6 +2,8 @@ package jhi.seedstore;
 
 import jhi.seedstore.database.codegen.StashDb;
 import jhi.seedstore.util.*;
+import org.flywaydb.core.Flyway;
+import org.flywaydb.core.api.*;
 import org.jooq.*;
 import org.jooq.conf.*;
 import org.jooq.impl.DSL;
@@ -171,6 +173,26 @@ public class Database
 			else
 			{
 				Logger.getLogger("").log(Level.INFO, "DATABASE EXISTS, NO NEED TO CREATE IT!");
+			}
+
+			// Run database updates
+			try
+			{
+				Logger.getLogger("").log(Level.INFO, "RUNNING FLYWAY on: " + databaseName);
+				Flyway flyway = Flyway.configure()
+									  .table("schema_version")
+									  .validateOnMigrate(false)
+									  .dataSource(getDatabaseUrl(false), username, password)
+									  .locations("classpath:jhi/seedstore/util/database/migration")
+									  .baselineOnMigrate(true)
+									  .load();
+
+				flyway.migrate();
+				flyway.repair();
+			}
+			catch (FlywayException e)
+			{
+				e.printStackTrace();
 			}
 
 			// Then create all views and stored procedures

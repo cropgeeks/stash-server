@@ -6,6 +6,7 @@ package jhi.seedstore.database.codegen.tables.pojos;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Map;
 
 
 import lombok.*;
@@ -23,32 +24,32 @@ public class ContainerAttributes implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer attributeId;
+    private Integer id;
     private Integer containerId;
-    private String attributeValue;
+    private Map<Integer,String> attributeValues;
     private Timestamp createdOn;
     private Timestamp updatedOn;
 
     public ContainerAttributes() {}
 
     public ContainerAttributes(ContainerAttributes value) {
-        this.attributeId = value.attributeId;
+        this.id = value.id;
         this.containerId = value.containerId;
-        this.attributeValue = value.attributeValue;
+        this.attributeValues = value.attributeValues;
         this.createdOn = value.createdOn;
         this.updatedOn = value.updatedOn;
     }
 
     public ContainerAttributes(
-        Integer attributeId,
+        Integer id,
         Integer containerId,
-        String attributeValue,
+        Map<Integer,String> attributeValues,
         Timestamp createdOn,
         Timestamp updatedOn
     ) {
-        this.attributeId = attributeId;
+        this.id = id;
         this.containerId = containerId;
-        this.attributeValue = attributeValue;
+        this.attributeValues = attributeValues;
         this.createdOn = createdOn;
         this.updatedOn = updatedOn;
     }
@@ -62,11 +63,11 @@ public class ContainerAttributes implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         final ContainerAttributes other = (ContainerAttributes) obj;
-        if (this.attributeId == null) {
-            if (other.attributeId != null)
+        if (this.id == null) {
+            if (other.id != null)
                 return false;
         }
-        else if (!this.attributeId.equals(other.attributeId))
+        else if (!this.id.equals(other.id))
             return false;
         if (this.containerId == null) {
             if (other.containerId != null)
@@ -74,11 +75,11 @@ public class ContainerAttributes implements Serializable {
         }
         else if (!this.containerId.equals(other.containerId))
             return false;
-        if (this.attributeValue == null) {
-            if (other.attributeValue != null)
+        if (this.attributeValues == null) {
+            if (other.attributeValues != null)
                 return false;
         }
-        else if (!this.attributeValue.equals(other.attributeValue))
+        else if (!this.attributeValues.equals(other.attributeValues))
             return false;
         if (this.createdOn == null) {
             if (other.createdOn != null)
@@ -99,9 +100,9 @@ public class ContainerAttributes implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((this.attributeId == null) ? 0 : this.attributeId.hashCode());
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
         result = prime * result + ((this.containerId == null) ? 0 : this.containerId.hashCode());
-        result = prime * result + ((this.attributeValue == null) ? 0 : this.attributeValue.hashCode());
+        result = prime * result + ((this.attributeValues == null) ? 0 : this.attributeValues.hashCode());
         result = prime * result + ((this.createdOn == null) ? 0 : this.createdOn.hashCode());
         result = prime * result + ((this.updatedOn == null) ? 0 : this.updatedOn.hashCode());
         return result;
@@ -111,9 +112,9 @@ public class ContainerAttributes implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder("ContainerAttributes (");
 
-        sb.append(attributeId);
+        sb.append(id);
         sb.append(", ").append(containerId);
-        sb.append(", ").append(attributeValue);
+        sb.append(", ").append(attributeValues);
         sb.append(", ").append(createdOn);
         sb.append(", ").append(updatedOn);
 

@@ -50,115 +50,101 @@ public class ContainersRecord extends UpdatableRecordImpl<ContainersRecord> {
     }
 
     /**
-     * Setter for <code>stash_db.containers.description</code>.
-     */
-    public void setDescription(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Getter for <code>stash_db.containers.description</code>.
-     */
-    public String getDescription() {
-        return (String) get(2);
-    }
-
-    /**
      * Setter for <code>stash_db.containers.container_type_id</code>.
      */
     public void setContainerTypeId(Integer value) {
-        set(3, value);
+        set(2, value);
     }
 
     /**
      * Getter for <code>stash_db.containers.container_type_id</code>.
      */
     public Integer getContainerTypeId() {
-        return (Integer) get(3);
+        return (Integer) get(2);
     }
 
     /**
      * Setter for <code>stash_db.containers.parent_container_id</code>.
      */
     public void setParentContainerId(Integer value) {
-        set(4, value);
+        set(3, value);
     }
 
     /**
      * Getter for <code>stash_db.containers.parent_container_id</code>.
      */
     public Integer getParentContainerId() {
-        return (Integer) get(4);
+        return (Integer) get(3);
     }
 
     /**
      * Setter for <code>stash_db.containers.is_active</code>.
      */
     public void setIsActive(Boolean value) {
-        set(5, value);
+        set(4, value);
     }
 
     /**
      * Getter for <code>stash_db.containers.is_active</code>.
      */
     public Boolean getIsActive() {
-        return (Boolean) get(5);
+        return (Boolean) get(4);
     }
 
     /**
      * Setter for <code>stash_db.containers.trial_id</code>.
      */
     public void setTrialId(Integer value) {
-        set(6, value);
+        set(5, value);
     }
 
     /**
      * Getter for <code>stash_db.containers.trial_id</code>.
      */
     public Integer getTrialId() {
-        return (Integer) get(6);
+        return (Integer) get(5);
     }
 
     /**
      * Setter for <code>stash_db.containers.project_id</code>.
      */
     public void setProjectId(Integer value) {
-        set(7, value);
+        set(6, value);
     }
 
     /**
      * Getter for <code>stash_db.containers.project_id</code>.
      */
     public Integer getProjectId() {
-        return (Integer) get(7);
+        return (Integer) get(6);
     }
 
     /**
      * Setter for <code>stash_db.containers.created_on</code>.
      */
     public void setCreatedOn(Timestamp value) {
-        set(8, value);
+        set(7, value);
     }
 
     /**
      * Getter for <code>stash_db.containers.created_on</code>.
      */
     public Timestamp getCreatedOn() {
-        return (Timestamp) get(8);
+        return (Timestamp) get(7);
     }
 
     /**
      * Setter for <code>stash_db.containers.updated_on</code>.
      */
     public void setUpdatedOn(Timestamp value) {
-        set(9, value);
+        set(8, value);
     }
 
     /**
      * Getter for <code>stash_db.containers.updated_on</code>.
      */
     public Timestamp getUpdatedOn() {
-        return (Timestamp) get(9);
+        return (Timestamp) get(8);
     }
 
     // -------------------------------------------------------------------------
@@ -184,12 +170,11 @@ public class ContainersRecord extends UpdatableRecordImpl<ContainersRecord> {
     /**
      * Create a detached, initialised ContainersRecord
      */
-    public ContainersRecord(Integer id, String barcode, String description, Integer containerTypeId, Integer parentContainerId, Boolean isActive, Integer trialId, Integer projectId, Timestamp createdOn, Timestamp updatedOn) {
+    public ContainersRecord(Integer id, String barcode, Integer containerTypeId, Integer parentContainerId, Boolean isActive, Integer trialId, Integer projectId, Timestamp createdOn, Timestamp updatedOn) {
         super(Containers.CONTAINERS);
 
         setId(id);
         setBarcode(barcode);
-        setDescription(description);
         setContainerTypeId(containerTypeId);
         setParentContainerId(parentContainerId);
         setIsActive(isActive);
@@ -209,7 +194,6 @@ public class ContainersRecord extends UpdatableRecordImpl<ContainersRecord> {
         if (value != null) {
             setId(value.getId());
             setBarcode(value.getBarcode());
-            setDescription(value.getDescription());
             setContainerTypeId(value.getContainerTypeId());
             setParentContainerId(value.getParentContainerId());
             setIsActive(value.getIsActive());

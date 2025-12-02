@@ -5,10 +5,11 @@ package jhi.seedstore.database.codegen.tables.records;
 
 
 import java.sql.Timestamp;
+import java.util.Map;
 
 import jhi.seedstore.database.codegen.tables.ContainerAttributes;
 
-import org.jooq.Record2;
+import org.jooq.Record1;
 import org.jooq.impl.UpdatableRecordImpl;
 
 
@@ -22,16 +23,16 @@ public class ContainerAttributesRecord extends UpdatableRecordImpl<ContainerAttr
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>stash_db.container_attributes.attribute_id</code>.
+     * Setter for <code>stash_db.container_attributes.id</code>.
      */
-    public void setAttributeId(Integer value) {
+    public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>stash_db.container_attributes.attribute_id</code>.
+     * Getter for <code>stash_db.container_attributes.id</code>.
      */
-    public Integer getAttributeId() {
+    public Integer getId() {
         return (Integer) get(0);
     }
 
@@ -50,17 +51,17 @@ public class ContainerAttributesRecord extends UpdatableRecordImpl<ContainerAttr
     }
 
     /**
-     * Setter for <code>stash_db.container_attributes.attribute_value</code>.
+     * Setter for <code>stash_db.container_attributes.attribute_values</code>.
      */
-    public void setAttributeValue(String value) {
+    public void setAttributeValues(Map<Integer,String> value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>stash_db.container_attributes.attribute_value</code>.
+     * Getter for <code>stash_db.container_attributes.attribute_values</code>.
      */
-    public String getAttributeValue() {
-        return (String) get(2);
+    public Map<Integer,String> getAttributeValues() {
+        return (Map<Integer,String>) get(2);
     }
 
     /**
@@ -96,8 +97,8 @@ public class ContainerAttributesRecord extends UpdatableRecordImpl<ContainerAttr
     // -------------------------------------------------------------------------
 
     @Override
-    public Record2<Integer, Integer> key() {
-        return (Record2) super.key();
+    public Record1<Integer> key() {
+        return (Record1) super.key();
     }
 
     // -------------------------------------------------------------------------
@@ -114,12 +115,12 @@ public class ContainerAttributesRecord extends UpdatableRecordImpl<ContainerAttr
     /**
      * Create a detached, initialised ContainerAttributesRecord
      */
-    public ContainerAttributesRecord(Integer attributeId, Integer containerId, String attributeValue, Timestamp createdOn, Timestamp updatedOn) {
+    public ContainerAttributesRecord(Integer id, Integer containerId, Map<Integer,String> attributeValues, Timestamp createdOn, Timestamp updatedOn) {
         super(ContainerAttributes.CONTAINER_ATTRIBUTES);
 
-        setAttributeId(attributeId);
+        setId(id);
         setContainerId(containerId);
-        setAttributeValue(attributeValue);
+        setAttributeValues(attributeValues);
         setCreatedOn(createdOn);
         setUpdatedOn(updatedOn);
         resetTouchedOnNotNull();
@@ -132,9 +133,9 @@ public class ContainerAttributesRecord extends UpdatableRecordImpl<ContainerAttr
         super(ContainerAttributes.CONTAINER_ATTRIBUTES);
 
         if (value != null) {
-            setAttributeId(value.getAttributeId());
+            setId(value.getId());
             setContainerId(value.getContainerId());
-            setAttributeValue(value.getAttributeValue());
+            setAttributeValues(value.getAttributeValues());
             setCreatedOn(value.getCreatedOn());
             setUpdatedOn(value.getUpdatedOn());
             resetTouchedOnNotNull();

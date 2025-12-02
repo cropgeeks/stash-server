@@ -7,6 +7,8 @@ package jhi.seedstore.database.codegen.tables.pojos;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import org.jooq.JSON;
+
 
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -26,13 +28,13 @@ public class ViewTableTransfers implements Serializable {
     private Integer transferEventId;
     private Integer containerId;
     private String containerBarcode;
-    private String containerDescription;
+    private JSON containerAttributes;
     private Integer sourceId;
     private String sourceBarcode;
-    private String sourceDescription;
+    private JSON sourceAttributes;
     private Integer targetId;
     private String targetBarcode;
-    private String targetDescription;
+    private JSON targetAttributes;
     private Integer userId;
     private String userName;
     private Timestamp createdOn;
@@ -44,13 +46,13 @@ public class ViewTableTransfers implements Serializable {
         this.transferEventId = value.transferEventId;
         this.containerId = value.containerId;
         this.containerBarcode = value.containerBarcode;
-        this.containerDescription = value.containerDescription;
+        this.containerAttributes = value.containerAttributes;
         this.sourceId = value.sourceId;
         this.sourceBarcode = value.sourceBarcode;
-        this.sourceDescription = value.sourceDescription;
+        this.sourceAttributes = value.sourceAttributes;
         this.targetId = value.targetId;
         this.targetBarcode = value.targetBarcode;
-        this.targetDescription = value.targetDescription;
+        this.targetAttributes = value.targetAttributes;
         this.userId = value.userId;
         this.userName = value.userName;
         this.createdOn = value.createdOn;
@@ -61,13 +63,13 @@ public class ViewTableTransfers implements Serializable {
         Integer transferEventId,
         Integer containerId,
         String containerBarcode,
-        String containerDescription,
+        JSON containerAttributes,
         Integer sourceId,
         String sourceBarcode,
-        String sourceDescription,
+        JSON sourceAttributes,
         Integer targetId,
         String targetBarcode,
-        String targetDescription,
+        JSON targetAttributes,
         Integer userId,
         String userName,
         Timestamp createdOn,
@@ -76,13 +78,13 @@ public class ViewTableTransfers implements Serializable {
         this.transferEventId = transferEventId;
         this.containerId = containerId;
         this.containerBarcode = containerBarcode;
-        this.containerDescription = containerDescription;
+        this.containerAttributes = containerAttributes;
         this.sourceId = sourceId;
         this.sourceBarcode = sourceBarcode;
-        this.sourceDescription = sourceDescription;
+        this.sourceAttributes = sourceAttributes;
         this.targetId = targetId;
         this.targetBarcode = targetBarcode;
-        this.targetDescription = targetDescription;
+        this.targetAttributes = targetAttributes;
         this.userId = userId;
         this.userName = userName;
         this.createdOn = createdOn;
@@ -116,11 +118,11 @@ public class ViewTableTransfers implements Serializable {
         }
         else if (!this.containerBarcode.equals(other.containerBarcode))
             return false;
-        if (this.containerDescription == null) {
-            if (other.containerDescription != null)
+        if (this.containerAttributes == null) {
+            if (other.containerAttributes != null)
                 return false;
         }
-        else if (!this.containerDescription.equals(other.containerDescription))
+        else if (!this.containerAttributes.equals(other.containerAttributes))
             return false;
         if (this.sourceId == null) {
             if (other.sourceId != null)
@@ -134,11 +136,11 @@ public class ViewTableTransfers implements Serializable {
         }
         else if (!this.sourceBarcode.equals(other.sourceBarcode))
             return false;
-        if (this.sourceDescription == null) {
-            if (other.sourceDescription != null)
+        if (this.sourceAttributes == null) {
+            if (other.sourceAttributes != null)
                 return false;
         }
-        else if (!this.sourceDescription.equals(other.sourceDescription))
+        else if (!this.sourceAttributes.equals(other.sourceAttributes))
             return false;
         if (this.targetId == null) {
             if (other.targetId != null)
@@ -152,11 +154,11 @@ public class ViewTableTransfers implements Serializable {
         }
         else if (!this.targetBarcode.equals(other.targetBarcode))
             return false;
-        if (this.targetDescription == null) {
-            if (other.targetDescription != null)
+        if (this.targetAttributes == null) {
+            if (other.targetAttributes != null)
                 return false;
         }
-        else if (!this.targetDescription.equals(other.targetDescription))
+        else if (!this.targetAttributes.equals(other.targetAttributes))
             return false;
         if (this.userId == null) {
             if (other.userId != null)
@@ -192,13 +194,13 @@ public class ViewTableTransfers implements Serializable {
         result = prime * result + ((this.transferEventId == null) ? 0 : this.transferEventId.hashCode());
         result = prime * result + ((this.containerId == null) ? 0 : this.containerId.hashCode());
         result = prime * result + ((this.containerBarcode == null) ? 0 : this.containerBarcode.hashCode());
-        result = prime * result + ((this.containerDescription == null) ? 0 : this.containerDescription.hashCode());
+        result = prime * result + ((this.containerAttributes == null) ? 0 : this.containerAttributes.hashCode());
         result = prime * result + ((this.sourceId == null) ? 0 : this.sourceId.hashCode());
         result = prime * result + ((this.sourceBarcode == null) ? 0 : this.sourceBarcode.hashCode());
-        result = prime * result + ((this.sourceDescription == null) ? 0 : this.sourceDescription.hashCode());
+        result = prime * result + ((this.sourceAttributes == null) ? 0 : this.sourceAttributes.hashCode());
         result = prime * result + ((this.targetId == null) ? 0 : this.targetId.hashCode());
         result = prime * result + ((this.targetBarcode == null) ? 0 : this.targetBarcode.hashCode());
-        result = prime * result + ((this.targetDescription == null) ? 0 : this.targetDescription.hashCode());
+        result = prime * result + ((this.targetAttributes == null) ? 0 : this.targetAttributes.hashCode());
         result = prime * result + ((this.userId == null) ? 0 : this.userId.hashCode());
         result = prime * result + ((this.userName == null) ? 0 : this.userName.hashCode());
         result = prime * result + ((this.createdOn == null) ? 0 : this.createdOn.hashCode());
@@ -213,13 +215,13 @@ public class ViewTableTransfers implements Serializable {
         sb.append(transferEventId);
         sb.append(", ").append(containerId);
         sb.append(", ").append(containerBarcode);
-        sb.append(", ").append(containerDescription);
+        sb.append(", ").append(containerAttributes);
         sb.append(", ").append(sourceId);
         sb.append(", ").append(sourceBarcode);
-        sb.append(", ").append(sourceDescription);
+        sb.append(", ").append(sourceAttributes);
         sb.append(", ").append(targetId);
         sb.append(", ").append(targetBarcode);
-        sb.append(", ").append(targetDescription);
+        sb.append(", ").append(targetAttributes);
         sb.append(", ").append(userId);
         sb.append(", ").append(userName);
         sb.append(", ").append(createdOn);

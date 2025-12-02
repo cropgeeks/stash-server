@@ -6,12 +6,15 @@ package jhi.seedstore.database.codegen.tables;
 
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Map;
 
+import jhi.seedstore.database.binding.ContainerAttributeValueBinding;
 import jhi.seedstore.database.codegen.StashDb;
 import jhi.seedstore.database.codegen.tables.records.ContainerAttributesRecord;
 
 import org.jooq.Condition;
 import org.jooq.Field;
+import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.PlainSQL;
 import org.jooq.QueryPart;
@@ -52,9 +55,9 @@ public class ContainerAttributes extends TableImpl<ContainerAttributesRecord> {
     }
 
     /**
-     * The column <code>stash_db.container_attributes.attribute_id</code>.
+     * The column <code>stash_db.container_attributes.id</code>.
      */
-    public final TableField<ContainerAttributesRecord, Integer> ATTRIBUTE_ID = createField(DSL.name("attribute_id"), SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<ContainerAttributesRecord, Integer> ID = createField(DSL.name("id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>stash_db.container_attributes.container_id</code>.
@@ -62,9 +65,9 @@ public class ContainerAttributes extends TableImpl<ContainerAttributesRecord> {
     public final TableField<ContainerAttributesRecord, Integer> CONTAINER_ID = createField(DSL.name("container_id"), SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>stash_db.container_attributes.attribute_value</code>.
+     * The column <code>stash_db.container_attributes.attribute_values</code>.
      */
-    public final TableField<ContainerAttributesRecord, String> ATTRIBUTE_VALUE = createField(DSL.name("attribute_value"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+    public final TableField<ContainerAttributesRecord, Map<Integer,String>> ATTRIBUTE_VALUES = createField(DSL.name("attribute_values"), SQLDataType.JSON.nullable(false), this, "", new ContainerAttributeValueBinding());
 
     /**
      * The column <code>stash_db.container_attributes.created_on</code>.
@@ -113,8 +116,13 @@ public class ContainerAttributes extends TableImpl<ContainerAttributesRecord> {
     }
 
     @Override
+    public Identity<ContainerAttributesRecord, Integer> getIdentity() {
+        return (Identity<ContainerAttributesRecord, Integer>) super.getIdentity();
+    }
+
+    @Override
     public UniqueKey<ContainerAttributesRecord> getPrimaryKey() {
-        return Internal.createUniqueKey(ContainerAttributes.CONTAINER_ATTRIBUTES, DSL.name("KEY_container_attributes_PRIMARY"), new TableField[] { ContainerAttributes.CONTAINER_ATTRIBUTES.ATTRIBUTE_ID, ContainerAttributes.CONTAINER_ATTRIBUTES.CONTAINER_ID }, true);
+        return Internal.createUniqueKey(ContainerAttributes.CONTAINER_ATTRIBUTES, DSL.name("KEY_container_attributes_PRIMARY"), new TableField[] { ContainerAttributes.CONTAINER_ATTRIBUTES.ID }, true);
     }
 
     @Override

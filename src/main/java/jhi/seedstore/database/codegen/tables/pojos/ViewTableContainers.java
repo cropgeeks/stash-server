@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Arrays;
 
-import jhi.seedstore.pojo.ContainerAttributeValue;
+import jhi.seedstore.pojo.ContainerAttributeTimeline;
 
 
 import lombok.*;
@@ -28,11 +28,9 @@ public class ViewTableContainers implements Serializable {
 
     private Integer containerId;
     private String containerBarcode;
-    private String containerDescription;
     private Integer containerTypeId;
     private Integer parentId;
     private String parentBarcode;
-    private String parentDescription;
     private Integer parentContainerTypeId;
     private Boolean containerIsActive;
     private Integer trialId;
@@ -41,7 +39,7 @@ public class ViewTableContainers implements Serializable {
     private Integer projectId;
     private String projectName;
     private String projectDescription;
-    private ContainerAttributeValue[] containerAttributes;
+    private ContainerAttributeTimeline[] containerAttributes;
     private Long subContainerCount;
     private Timestamp createdOn;
 
@@ -50,11 +48,9 @@ public class ViewTableContainers implements Serializable {
     public ViewTableContainers(ViewTableContainers value) {
         this.containerId = value.containerId;
         this.containerBarcode = value.containerBarcode;
-        this.containerDescription = value.containerDescription;
         this.containerTypeId = value.containerTypeId;
         this.parentId = value.parentId;
         this.parentBarcode = value.parentBarcode;
-        this.parentDescription = value.parentDescription;
         this.parentContainerTypeId = value.parentContainerTypeId;
         this.containerIsActive = value.containerIsActive;
         this.trialId = value.trialId;
@@ -71,11 +67,9 @@ public class ViewTableContainers implements Serializable {
     public ViewTableContainers(
         Integer containerId,
         String containerBarcode,
-        String containerDescription,
         Integer containerTypeId,
         Integer parentId,
         String parentBarcode,
-        String parentDescription,
         Integer parentContainerTypeId,
         Boolean containerIsActive,
         Integer trialId,
@@ -84,17 +78,15 @@ public class ViewTableContainers implements Serializable {
         Integer projectId,
         String projectName,
         String projectDescription,
-        ContainerAttributeValue[] containerAttributes,
+        ContainerAttributeTimeline[] containerAttributes,
         Long subContainerCount,
         Timestamp createdOn
     ) {
         this.containerId = containerId;
         this.containerBarcode = containerBarcode;
-        this.containerDescription = containerDescription;
         this.containerTypeId = containerTypeId;
         this.parentId = parentId;
         this.parentBarcode = parentBarcode;
-        this.parentDescription = parentDescription;
         this.parentContainerTypeId = parentContainerTypeId;
         this.containerIsActive = containerIsActive;
         this.trialId = trialId;
@@ -129,12 +121,6 @@ public class ViewTableContainers implements Serializable {
         }
         else if (!this.containerBarcode.equals(other.containerBarcode))
             return false;
-        if (this.containerDescription == null) {
-            if (other.containerDescription != null)
-                return false;
-        }
-        else if (!this.containerDescription.equals(other.containerDescription))
-            return false;
         if (this.containerTypeId == null) {
             if (other.containerTypeId != null)
                 return false;
@@ -152,12 +138,6 @@ public class ViewTableContainers implements Serializable {
                 return false;
         }
         else if (!this.parentBarcode.equals(other.parentBarcode))
-            return false;
-        if (this.parentDescription == null) {
-            if (other.parentDescription != null)
-                return false;
-        }
-        else if (!this.parentDescription.equals(other.parentDescription))
             return false;
         if (this.parentContainerTypeId == null) {
             if (other.parentContainerTypeId != null)
@@ -234,11 +214,9 @@ public class ViewTableContainers implements Serializable {
         int result = 1;
         result = prime * result + ((this.containerId == null) ? 0 : this.containerId.hashCode());
         result = prime * result + ((this.containerBarcode == null) ? 0 : this.containerBarcode.hashCode());
-        result = prime * result + ((this.containerDescription == null) ? 0 : this.containerDescription.hashCode());
         result = prime * result + ((this.containerTypeId == null) ? 0 : this.containerTypeId.hashCode());
         result = prime * result + ((this.parentId == null) ? 0 : this.parentId.hashCode());
         result = prime * result + ((this.parentBarcode == null) ? 0 : this.parentBarcode.hashCode());
-        result = prime * result + ((this.parentDescription == null) ? 0 : this.parentDescription.hashCode());
         result = prime * result + ((this.parentContainerTypeId == null) ? 0 : this.parentContainerTypeId.hashCode());
         result = prime * result + ((this.containerIsActive == null) ? 0 : this.containerIsActive.hashCode());
         result = prime * result + ((this.trialId == null) ? 0 : this.trialId.hashCode());
@@ -259,11 +237,9 @@ public class ViewTableContainers implements Serializable {
 
         sb.append(containerId);
         sb.append(", ").append(containerBarcode);
-        sb.append(", ").append(containerDescription);
         sb.append(", ").append(containerTypeId);
         sb.append(", ").append(parentId);
         sb.append(", ").append(parentBarcode);
-        sb.append(", ").append(parentDescription);
         sb.append(", ").append(parentContainerTypeId);
         sb.append(", ").append(containerIsActive);
         sb.append(", ").append(trialId);

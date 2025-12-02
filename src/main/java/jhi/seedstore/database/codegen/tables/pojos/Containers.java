@@ -25,7 +25,6 @@ public class Containers implements Serializable {
 
     private Integer id;
     private String barcode;
-    private String description;
     private Integer containerTypeId;
     private Integer parentContainerId;
     private Boolean isActive;
@@ -39,7 +38,6 @@ public class Containers implements Serializable {
     public Containers(Containers value) {
         this.id = value.id;
         this.barcode = value.barcode;
-        this.description = value.description;
         this.containerTypeId = value.containerTypeId;
         this.parentContainerId = value.parentContainerId;
         this.isActive = value.isActive;
@@ -52,7 +50,6 @@ public class Containers implements Serializable {
     public Containers(
         Integer id,
         String barcode,
-        String description,
         Integer containerTypeId,
         Integer parentContainerId,
         Boolean isActive,
@@ -63,7 +60,6 @@ public class Containers implements Serializable {
     ) {
         this.id = id;
         this.barcode = barcode;
-        this.description = description;
         this.containerTypeId = containerTypeId;
         this.parentContainerId = parentContainerId;
         this.isActive = isActive;
@@ -93,12 +89,6 @@ public class Containers implements Serializable {
                 return false;
         }
         else if (!this.barcode.equals(other.barcode))
-            return false;
-        if (this.description == null) {
-            if (other.description != null)
-                return false;
-        }
-        else if (!this.description.equals(other.description))
             return false;
         if (this.containerTypeId == null) {
             if (other.containerTypeId != null)
@@ -151,7 +141,6 @@ public class Containers implements Serializable {
         int result = 1;
         result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
         result = prime * result + ((this.barcode == null) ? 0 : this.barcode.hashCode());
-        result = prime * result + ((this.description == null) ? 0 : this.description.hashCode());
         result = prime * result + ((this.containerTypeId == null) ? 0 : this.containerTypeId.hashCode());
         result = prime * result + ((this.parentContainerId == null) ? 0 : this.parentContainerId.hashCode());
         result = prime * result + ((this.isActive == null) ? 0 : this.isActive.hashCode());
@@ -168,7 +157,6 @@ public class Containers implements Serializable {
 
         sb.append(id);
         sb.append(", ").append(barcode);
-        sb.append(", ").append(description);
         sb.append(", ").append(containerTypeId);
         sb.append(", ").append(parentContainerId);
         sb.append(", ").append(isActive);

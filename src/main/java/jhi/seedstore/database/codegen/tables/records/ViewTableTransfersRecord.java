@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 
 import jhi.seedstore.database.codegen.tables.ViewTableTransfers;
 
+import org.jooq.JSON;
 import org.jooq.impl.TableRecordImpl;
 
 
@@ -64,18 +65,18 @@ public class ViewTableTransfersRecord extends TableRecordImpl<ViewTableTransfers
 
     /**
      * Setter for
-     * <code>stash_db.view_table_transfers.container_description</code>.
+     * <code>stash_db.view_table_transfers.container_attributes</code>.
      */
-    public void setContainerDescription(String value) {
+    public void setContainerAttributes(JSON value) {
         set(3, value);
     }
 
     /**
      * Getter for
-     * <code>stash_db.view_table_transfers.container_description</code>.
+     * <code>stash_db.view_table_transfers.container_attributes</code>.
      */
-    public String getContainerDescription() {
-        return (String) get(3);
+    public JSON getContainerAttributes() {
+        return (JSON) get(3);
     }
 
     /**
@@ -107,17 +108,17 @@ public class ViewTableTransfersRecord extends TableRecordImpl<ViewTableTransfers
     }
 
     /**
-     * Setter for <code>stash_db.view_table_transfers.source_description</code>.
+     * Setter for <code>stash_db.view_table_transfers.source_attributes</code>.
      */
-    public void setSourceDescription(String value) {
+    public void setSourceAttributes(JSON value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>stash_db.view_table_transfers.source_description</code>.
+     * Getter for <code>stash_db.view_table_transfers.source_attributes</code>.
      */
-    public String getSourceDescription() {
-        return (String) get(6);
+    public JSON getSourceAttributes() {
+        return (JSON) get(6);
     }
 
     /**
@@ -149,17 +150,17 @@ public class ViewTableTransfersRecord extends TableRecordImpl<ViewTableTransfers
     }
 
     /**
-     * Setter for <code>stash_db.view_table_transfers.target_description</code>.
+     * Setter for <code>stash_db.view_table_transfers.target_attributes</code>.
      */
-    public void setTargetDescription(String value) {
+    public void setTargetAttributes(JSON value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>stash_db.view_table_transfers.target_description</code>.
+     * Getter for <code>stash_db.view_table_transfers.target_attributes</code>.
      */
-    public String getTargetDescription() {
-        return (String) get(9);
+    public JSON getTargetAttributes() {
+        return (JSON) get(9);
     }
 
     /**
@@ -232,19 +233,19 @@ public class ViewTableTransfersRecord extends TableRecordImpl<ViewTableTransfers
     /**
      * Create a detached, initialised ViewTableTransfersRecord
      */
-    public ViewTableTransfersRecord(Integer transferEventId, Integer containerId, String containerBarcode, String containerDescription, Integer sourceId, String sourceBarcode, String sourceDescription, Integer targetId, String targetBarcode, String targetDescription, Integer userId, String userName, Timestamp createdOn, Timestamp updatedOn) {
+    public ViewTableTransfersRecord(Integer transferEventId, Integer containerId, String containerBarcode, JSON containerAttributes, Integer sourceId, String sourceBarcode, JSON sourceAttributes, Integer targetId, String targetBarcode, JSON targetAttributes, Integer userId, String userName, Timestamp createdOn, Timestamp updatedOn) {
         super(ViewTableTransfers.VIEW_TABLE_TRANSFERS);
 
         setTransferEventId(transferEventId);
         setContainerId(containerId);
         setContainerBarcode(containerBarcode);
-        setContainerDescription(containerDescription);
+        setContainerAttributes(containerAttributes);
         setSourceId(sourceId);
         setSourceBarcode(sourceBarcode);
-        setSourceDescription(sourceDescription);
+        setSourceAttributes(sourceAttributes);
         setTargetId(targetId);
         setTargetBarcode(targetBarcode);
-        setTargetDescription(targetDescription);
+        setTargetAttributes(targetAttributes);
         setUserId(userId);
         setUserName(userName);
         setCreatedOn(createdOn);
@@ -262,13 +263,13 @@ public class ViewTableTransfersRecord extends TableRecordImpl<ViewTableTransfers
             setTransferEventId(value.getTransferEventId());
             setContainerId(value.getContainerId());
             setContainerBarcode(value.getContainerBarcode());
-            setContainerDescription(value.getContainerDescription());
+            setContainerAttributes(value.getContainerAttributes());
             setSourceId(value.getSourceId());
             setSourceBarcode(value.getSourceBarcode());
-            setSourceDescription(value.getSourceDescription());
+            setSourceAttributes(value.getSourceAttributes());
             setTargetId(value.getTargetId());
             setTargetBarcode(value.getTargetBarcode());
-            setTargetDescription(value.getTargetDescription());
+            setTargetAttributes(value.getTargetAttributes());
             setUserId(value.getUserId());
             setUserName(value.getUserName());
             setCreatedOn(value.getCreatedOn());

@@ -12,6 +12,7 @@ import jhi.seedstore.database.codegen.tables.ContainerAttributes;
 import jhi.seedstore.database.codegen.tables.ContainerTypes;
 import jhi.seedstore.database.codegen.tables.Containers;
 import jhi.seedstore.database.codegen.tables.Projects;
+import jhi.seedstore.database.codegen.tables.SchemaVersion;
 import jhi.seedstore.database.codegen.tables.TransferLogs;
 import jhi.seedstore.database.codegen.tables.Trials;
 import jhi.seedstore.database.codegen.tables.Users;
@@ -61,6 +62,7 @@ public class StashDb extends SchemaImpl {
             ContainerTypes.CONTAINER_TYPES,
             Containers.CONTAINERS,
             Projects.PROJECTS,
+            SchemaVersion.SCHEMA_VERSION,
             TransferLogs.TRANSFER_LOGS,
             Trials.TRIALS,
             Users.USERS,

@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2025-11-24 16:19:01.
+// Generated using typescript-generator version 3.2.1263 on 2025-12-02 13:44:17.
 
 export interface Attributes extends Serializable {
     id: number;
@@ -11,9 +11,9 @@ export interface Attributes extends Serializable {
 }
 
 export interface ContainerAttributes extends Serializable {
-    attributeId: number;
+    id: number;
     containerId: number;
-    attributeValue: string;
+    attributeValues: { [index: string]: string };
     createdOn: Date;
     updatedOn: Date;
 }
@@ -30,7 +30,6 @@ export interface ContainerTypes extends Serializable {
 export interface Containers extends Serializable {
     id: number;
     barcode: string;
-    description: string;
     containerTypeId: number;
     parentContainerId: number;
     isActive: boolean;
@@ -49,6 +48,19 @@ export interface Projects extends Serializable {
     endDate: Date;
     createdOn: Date;
     updatedOn: Date;
+}
+
+export interface SchemaVersion extends Serializable {
+    installedRank: number;
+    version: string;
+    description: string;
+    type: string;
+    script: string;
+    checksum: number;
+    installedBy: string;
+    installedOn: Date;
+    executionTime: number;
+    success: boolean;
 }
 
 export interface TransferLogs extends Serializable {
@@ -91,18 +103,10 @@ export interface Users extends Serializable {
 export interface ViewTableContainers extends Serializable {
     containerId: number;
     containerBarcode: string;
-    containerDescription: string;
     containerTypeId: number;
-    containerTypeName: string;
-    containerTypeDescription: string;
-    containerTypeIcon: string;
     parentId: number;
     parentBarcode: string;
-    parentDescription: string;
     parentContainerTypeId: number;
-    parentContainerTypeName: string;
-    parentContainerTypeDescription: string;
-    parentContainerTypeIcon: string;
     containerIsActive: boolean;
     trialId: number;
     trialName: string;
@@ -110,7 +114,7 @@ export interface ViewTableContainers extends Serializable {
     projectId: number;
     projectName: string;
     projectDescription: string;
-    containerAttributes: ContainerAttributeValue[];
+    containerAttributes: ContainerAttributeTimeline[];
     subContainerCount: number;
     createdOn: Date;
 }
@@ -134,13 +138,13 @@ export interface ViewTableTransfers extends Serializable {
     transferEventId: number;
     containerId: number;
     containerBarcode: string;
-    containerDescription: string;
+    containerAttributes: JSON;
     sourceId: number;
     sourceBarcode: string;
-    sourceDescription: string;
+    sourceAttributes: JSON;
     targetId: number;
     targetBarcode: string;
-    targetDescription: string;
+    targetAttributes: JSON;
     userId: number;
     userName: string;
     createdOn: Date;
@@ -163,6 +167,11 @@ export interface BasicUser {
     emailAddress: string;
     password: string;
     userType: UsersUserType;
+}
+
+export interface ContainerAttributeTimeline {
+    date: string;
+    attributeValues: { [index: string]: string };
 }
 
 export interface ContainerAttributeValue {
@@ -242,6 +251,12 @@ export interface UserPasswordUpdate {
 }
 
 export interface Serializable {
+}
+
+export interface JSON extends Data {
+}
+
+export interface Data extends Serializable {
 }
 
 export const enum FilterComparator {

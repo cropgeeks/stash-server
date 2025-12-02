@@ -7,7 +7,7 @@ package jhi.seedstore.database.codegen.tables.records;
 import java.sql.Timestamp;
 
 import jhi.seedstore.database.codegen.tables.ViewTableContainers;
-import jhi.seedstore.pojo.ContainerAttributeValue;
+import jhi.seedstore.pojo.ContainerAttributeTimeline;
 
 import org.jooq.impl.TableRecordImpl;
 
@@ -50,77 +50,45 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
     }
 
     /**
-     * Setter for
-     * <code>stash_db.view_table_containers.container_description</code>.
-     */
-    public void setContainerDescription(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Getter for
-     * <code>stash_db.view_table_containers.container_description</code>.
-     */
-    public String getContainerDescription() {
-        return (String) get(2);
-    }
-
-    /**
      * Setter for <code>stash_db.view_table_containers.container_type_id</code>.
      */
     public void setContainerTypeId(Integer value) {
-        set(3, value);
+        set(2, value);
     }
 
     /**
      * Getter for <code>stash_db.view_table_containers.container_type_id</code>.
      */
     public Integer getContainerTypeId() {
-        return (Integer) get(3);
+        return (Integer) get(2);
     }
 
     /**
      * Setter for <code>stash_db.view_table_containers.parent_id</code>.
      */
     public void setParentId(Integer value) {
-        set(4, value);
+        set(3, value);
     }
 
     /**
      * Getter for <code>stash_db.view_table_containers.parent_id</code>.
      */
     public Integer getParentId() {
-        return (Integer) get(4);
+        return (Integer) get(3);
     }
 
     /**
      * Setter for <code>stash_db.view_table_containers.parent_barcode</code>.
      */
     public void setParentBarcode(String value) {
-        set(5, value);
+        set(4, value);
     }
 
     /**
      * Getter for <code>stash_db.view_table_containers.parent_barcode</code>.
      */
     public String getParentBarcode() {
-        return (String) get(5);
-    }
-
-    /**
-     * Setter for
-     * <code>stash_db.view_table_containers.parent_description</code>.
-     */
-    public void setParentDescription(String value) {
-        set(6, value);
-    }
-
-    /**
-     * Getter for
-     * <code>stash_db.view_table_containers.parent_description</code>.
-     */
-    public String getParentDescription() {
-        return (String) get(6);
+        return (String) get(4);
     }
 
     /**
@@ -128,7 +96,7 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
      * <code>stash_db.view_table_containers.parent_container_type_id</code>.
      */
     public void setParentContainerTypeId(Integer value) {
-        set(7, value);
+        set(5, value);
     }
 
     /**
@@ -136,7 +104,7 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
      * <code>stash_db.view_table_containers.parent_container_type_id</code>.
      */
     public Integer getParentContainerTypeId() {
-        return (Integer) get(7);
+        return (Integer) get(5);
     }
 
     /**
@@ -144,7 +112,7 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
      * <code>stash_db.view_table_containers.container_is_active</code>.
      */
     public void setContainerIsActive(Boolean value) {
-        set(8, value);
+        set(6, value);
     }
 
     /**
@@ -152,77 +120,77 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
      * <code>stash_db.view_table_containers.container_is_active</code>.
      */
     public Boolean getContainerIsActive() {
-        return (Boolean) get(8);
+        return (Boolean) get(6);
     }
 
     /**
      * Setter for <code>stash_db.view_table_containers.trial_id</code>.
      */
     public void setTrialId(Integer value) {
-        set(9, value);
+        set(7, value);
     }
 
     /**
      * Getter for <code>stash_db.view_table_containers.trial_id</code>.
      */
     public Integer getTrialId() {
-        return (Integer) get(9);
+        return (Integer) get(7);
     }
 
     /**
      * Setter for <code>stash_db.view_table_containers.trial_name</code>.
      */
     public void setTrialName(String value) {
-        set(10, value);
+        set(8, value);
     }
 
     /**
      * Getter for <code>stash_db.view_table_containers.trial_name</code>.
      */
     public String getTrialName() {
-        return (String) get(10);
+        return (String) get(8);
     }
 
     /**
      * Setter for <code>stash_db.view_table_containers.trial_description</code>.
      */
     public void setTrialDescription(String value) {
-        set(11, value);
+        set(9, value);
     }
 
     /**
      * Getter for <code>stash_db.view_table_containers.trial_description</code>.
      */
     public String getTrialDescription() {
-        return (String) get(11);
+        return (String) get(9);
     }
 
     /**
      * Setter for <code>stash_db.view_table_containers.project_id</code>.
      */
     public void setProjectId(Integer value) {
-        set(12, value);
+        set(10, value);
     }
 
     /**
      * Getter for <code>stash_db.view_table_containers.project_id</code>.
      */
     public Integer getProjectId() {
-        return (Integer) get(12);
+        return (Integer) get(10);
     }
 
     /**
      * Setter for <code>stash_db.view_table_containers.project_name</code>.
      */
     public void setProjectName(String value) {
-        set(13, value);
+        set(11, value);
     }
 
     /**
      * Getter for <code>stash_db.view_table_containers.project_name</code>.
      */
     public String getProjectName() {
-        return (String) get(13);
+        return (String) get(11);
     }
 
     /**
@@ -230,7 +198,7 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
      * <code>stash_db.view_table_containers.project_description</code>.
      */
     public void setProjectDescription(String value) {
-        set(14, value);
+        set(12, value);
     }
 
     /**
@@ -238,23 +206,23 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
      * <code>stash_db.view_table_containers.project_description</code>.
      */
     public String getProjectDescription() {
-        return (String) get(14);
+        return (String) get(12);
     }
 
     /**
      * Setter for
      * <code>stash_db.view_table_containers.container_attributes</code>.
      */
-    public void setContainerAttributes(ContainerAttributeValue[] value) {
-        set(15, value);
+    public void setContainerAttributes(ContainerAttributeTimeline[] value) {
+        set(13, value);
     }
 
     /**
      * Getter for
      * <code>stash_db.view_table_containers.container_attributes</code>.
      */
-    public ContainerAttributeValue[] getContainerAttributes() {
-        return (ContainerAttributeValue[]) get(15);
+    public ContainerAttributeTimeline[] getContainerAttributes() {
+        return (ContainerAttributeTimeline[]) get(13);
     }
 
     /**
@@ -262,7 +230,7 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
      * <code>stash_db.view_table_containers.sub_container_count</code>.
      */
     public void setSubContainerCount(Long value) {
-        set(16, value);
+        set(14, value);
     }
 
     /**
@@ -270,21 +238,21 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
      * <code>stash_db.view_table_containers.sub_container_count</code>.
      */
     public Long getSubContainerCount() {
-        return (Long) get(16);
+        return (Long) get(14);
     }
 
     /**
      * Setter for <code>stash_db.view_table_containers.created_on</code>.
      */
     public void setCreatedOn(Timestamp value) {
-        set(17, value);
+        set(15, value);
     }
 
     /**
      * Getter for <code>stash_db.view_table_containers.created_on</code>.
      */
     public Timestamp getCreatedOn() {
-        return (Timestamp) get(17);
+        return (Timestamp) get(15);
     }
 
     // -------------------------------------------------------------------------
@@ -301,16 +269,14 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
     /**
      * Create a detached, initialised ViewTableContainersRecord
      */
-    public ViewTableContainersRecord(Integer containerId, String containerBarcode, String containerDescription, Integer containerTypeId, Integer parentId, String parentBarcode, String parentDescription, Integer parentContainerTypeId, Boolean containerIsActive, Integer trialId, String trialName, String trialDescription, Integer projectId, String projectName, String projectDescription, ContainerAttributeValue[] containerAttributes, Long subContainerCount, Timestamp createdOn) {
+    public ViewTableContainersRecord(Integer containerId, String containerBarcode, Integer containerTypeId, Integer parentId, String parentBarcode, Integer parentContainerTypeId, Boolean containerIsActive, Integer trialId, String trialName, String trialDescription, Integer projectId, String projectName, String projectDescription, ContainerAttributeTimeline[] containerAttributes, Long subContainerCount, Timestamp createdOn) {
         super(ViewTableContainers.VIEW_TABLE_CONTAINERS);
 
         setContainerId(containerId);
         setContainerBarcode(containerBarcode);
-        setContainerDescription(containerDescription);
         setContainerTypeId(containerTypeId);
         setParentId(parentId);
         setParentBarcode(parentBarcode);
-        setParentDescription(parentDescription);
         setParentContainerTypeId(parentContainerTypeId);
         setContainerIsActive(containerIsActive);
         setTrialId(trialId);
@@ -334,11 +300,9 @@ public class ViewTableContainersRecord extends TableRecordImpl<ViewTableContaine
         if (value != null) {
             setContainerId(value.getContainerId());
             setContainerBarcode(value.getContainerBarcode());
-            setContainerDescription(value.getContainerDescription());
             setContainerTypeId(value.getContainerTypeId());
             setParentId(value.getParentId());
             setParentBarcode(value.getParentBarcode());
-            setParentDescription(value.getParentDescription());
             setParentContainerTypeId(value.getParentContainerTypeId());
             setContainerIsActive(value.getContainerIsActive());
             setTrialId(value.getTrialId());

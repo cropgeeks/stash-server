@@ -88,6 +88,26 @@ public class ContainerResource extends BaseResource
 		}
 	}
 
+	@GET
+	@Path("/{containerId:\\d+}/attribute")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured
+	@PermitAll
+	public Response getContainerAttributes(@PathParam("containerId") Integer containerId)
+			throws SQLException
+	{
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			return Response.ok(context.selectFrom(CONTAINER_ATTRIBUTES)
+									  .where(CONTAINER_ATTRIBUTES.CONTAINER_ID.eq(containerId))
+									  .orderBy(CONTAINER_ATTRIBUTES.CREATED_ON.desc())
+									  .fetchInto(ContainerAttributes.class)).build();
+		}
+	}
+
 	@DELETE
 	@Path("/{containerId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -177,7 +197,7 @@ public class ContainerResource extends BaseResource
 				}
 
 				// Barcode or description too long
-				if (container.getContainerBarcode().length() > 100 || (container.getContainerDescription() != null && container.getContainerDescription().length() > 255))
+				if (container.getContainerBarcode().length() > 100)
 				{
 					throw new StashException(Response.Status.REQUEST_ENTITY_TOO_LARGE);
 				}
@@ -205,47 +225,61 @@ public class ContainerResource extends BaseResource
 				if (c.getParentId() != null) parentIds.add(c.getParentId());
 				if (!CollectionUtils.isEmpty(c.getContainerAttributes()))
 				{
-					for (ContainerAttributeValue a : c.getContainerAttributes())
+					for (ContainerAttributeTimeline a : c.getContainerAttributes())
 					{
-						if (a.getAttributeId() == null)
+						String date = a.getDate();
+
+						try
 						{
-							throw new StashException(Response.Status.BAD_REQUEST, "The attribute name or value of a specified attribute mapping is empty.");
+							sdf.parse(date);
 						}
-						else
+						catch (ParseException e)
 						{
-							Attributes attr = attributes.get(a.getAttributeId());
-							if (attr == null)
-							{
-								attr = context.selectFrom(ATTRIBUTES).where(ATTRIBUTES.ID.eq(a.getAttributeId())).fetchAnyInto(Attributes.class);
+							throw new StashException(Response.Status.EXPECTATION_FAILED, date);
+						}
 
-								if (attr == null)
-									throw new StashException(Response.Status.NOT_FOUND);
-								else
-									attributes.put(attr.getId(), attr);
+						for (Map.Entry<Integer, String> entry : a.getAttributeValues().entrySet())
+						{
+							if (entry.getKey() == null)
+							{
+								throw new StashException(Response.Status.BAD_REQUEST, "The attribute name or value of a specified attribute mapping is empty.");
 							}
-
-							switch (attr.getDatatype())
+							else
 							{
-								case numeric:
-									try
-									{
-										Double.parseDouble(a.getAttributeValue());
-									}
-									catch (NumberFormatException e)
-									{
-										throw new StashException(Response.Status.EXPECTATION_FAILED, a.getAttributeValue());
-									}
-									break;
-								case date:
-									try
-									{
-										sdf.parse(a.getAttributeValue());
-									}
-									catch (ParseException e)
-									{
-										throw new StashException(Response.Status.EXPECTATION_FAILED, a.getAttributeValue());
-									}
-									break;
+								Attributes attr = attributes.get(entry.getKey());
+								if (attr == null)
+								{
+									attr = context.selectFrom(ATTRIBUTES).where(ATTRIBUTES.ID.eq(entry.getKey())).fetchAnyInto(Attributes.class);
+
+									if (attr == null)
+										throw new StashException(Response.Status.NOT_FOUND);
+									else
+										attributes.put(attr.getId(), attr);
+								}
+
+								switch (attr.getDatatype())
+								{
+									case numeric:
+										try
+										{
+											Double.parseDouble(entry.getValue());
+										}
+										catch (NumberFormatException e)
+										{
+											throw new StashException(Response.Status.EXPECTATION_FAILED, entry.getValue());
+										}
+										break;
+									case date:
+										try
+										{
+											sdf.parse(entry.getValue());
+										}
+										catch (ParseException e)
+										{
+											throw new StashException(Response.Status.EXPECTATION_FAILED, entry.getValue());
+										}
+										break;
+								}
 							}
 						}
 					}
@@ -277,7 +311,7 @@ public class ContainerResource extends BaseResource
 				c.setTrialId(container.getTrialId());
 				c.setProjectId(container.getProjectId());
 				c.setIsActive(container.getContainerIsActive());
-				c.setDescription(container.getContainerDescription());
+//				c.setDescription(container.getContainerDescription());
 				c.setBarcode(container.getContainerBarcode());
 				c.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 				c.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
@@ -286,12 +320,21 @@ public class ContainerResource extends BaseResource
 
 				if (!CollectionUtils.isEmpty(container.getContainerAttributes()))
 				{
-					for (ContainerAttributeValue attributeValue : container.getContainerAttributes())
+					for (ContainerAttributeTimeline attributeValueDate : container.getContainerAttributes())
 					{
+						String date = attributeValueDate.getDate();
+
 						ContainerAttributesRecord a = context.newRecord(CONTAINER_ATTRIBUTES);
-						a.setAttributeId(attributeValue.getAttributeId());
 						a.setContainerId(c.getId());
-						a.setAttributeValue(attributeValue.getAttributeValue());
+						try
+						{
+							a.setCreatedOn(new Timestamp(sdf.parse(date).getTime()));
+						}
+						catch (ParseException e)
+						{
+							a.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+						}
+						a.setAttributeValues(attributeValueDate.getAttributeValues());
 						a.store();
 					}
 				}
@@ -322,7 +365,7 @@ public class ContainerResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_CONTAINERS);
 
 			// Filter here!
-			where(from, filters);
+			where(from, filters, true);
 
 			List<ViewTableContainers> result = setPaginationAndOrderBy(from).fetch().into(ViewTableContainers.class);
 

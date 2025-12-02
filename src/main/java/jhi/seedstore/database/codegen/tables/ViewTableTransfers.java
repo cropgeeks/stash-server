@@ -12,6 +12,7 @@ import jhi.seedstore.database.codegen.tables.records.ViewTableTransfersRecord;
 
 import org.jooq.Condition;
 import org.jooq.Field;
+import org.jooq.JSON;
 import org.jooq.Name;
 import org.jooq.PlainSQL;
 import org.jooq.QueryPart;
@@ -66,9 +67,9 @@ public class ViewTableTransfers extends TableImpl<ViewTableTransfersRecord> {
 
     /**
      * The column
-     * <code>stash_db.view_table_transfers.container_description</code>.
+     * <code>stash_db.view_table_transfers.container_attributes</code>.
      */
-    public final TableField<ViewTableTransfersRecord, String> CONTAINER_DESCRIPTION = createField(DSL.name("container_description"), SQLDataType.VARCHAR(255), this, "");
+    public final TableField<ViewTableTransfersRecord, JSON> CONTAINER_ATTRIBUTES = createField(DSL.name("container_attributes"), SQLDataType.JSON, this, "");
 
     /**
      * The column <code>stash_db.view_table_transfers.source_id</code>.
@@ -81,9 +82,9 @@ public class ViewTableTransfers extends TableImpl<ViewTableTransfersRecord> {
     public final TableField<ViewTableTransfersRecord, String> SOURCE_BARCODE = createField(DSL.name("source_barcode"), SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>stash_db.view_table_transfers.source_description</code>.
+     * The column <code>stash_db.view_table_transfers.source_attributes</code>.
      */
-    public final TableField<ViewTableTransfersRecord, String> SOURCE_DESCRIPTION = createField(DSL.name("source_description"), SQLDataType.VARCHAR(255), this, "");
+    public final TableField<ViewTableTransfersRecord, JSON> SOURCE_ATTRIBUTES = createField(DSL.name("source_attributes"), SQLDataType.JSON, this, "");
 
     /**
      * The column <code>stash_db.view_table_transfers.target_id</code>.
@@ -96,9 +97,9 @@ public class ViewTableTransfers extends TableImpl<ViewTableTransfersRecord> {
     public final TableField<ViewTableTransfersRecord, String> TARGET_BARCODE = createField(DSL.name("target_barcode"), SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>stash_db.view_table_transfers.target_description</code>.
+     * The column <code>stash_db.view_table_transfers.target_attributes</code>.
      */
-    public final TableField<ViewTableTransfersRecord, String> TARGET_DESCRIPTION = createField(DSL.name("target_description"), SQLDataType.VARCHAR(255), this, "");
+    public final TableField<ViewTableTransfersRecord, JSON> TARGET_ATTRIBUTES = createField(DSL.name("target_attributes"), SQLDataType.JSON, this, "");
 
     /**
      * The column <code>stash_db.view_table_transfers.user_id</code>.
@@ -125,7 +126,7 @@ public class ViewTableTransfers extends TableImpl<ViewTableTransfersRecord> {
     }
 
     private ViewTableTransfers(Name alias, Table<ViewTableTransfersRecord> aliased, Field<?>[] parameters, Condition where) {
-        super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.view("create view `view_table_transfers` as select `stash`.`transfer_logs`.`transfer_event_id` AS `transfer_event_id`,`c`.`id` AS `container_id`,`c`.`barcode` AS `container_barcode`,`c`.`description` AS `container_description`,`s`.`id` AS `source_id`,`s`.`barcode` AS `source_barcode`,`s`.`description` AS `source_description`,`t`.`id` AS `target_id`,`t`.`barcode` AS `target_barcode`,`t`.`description` AS `target_description`,`stash`.`users`.`id` AS `user_id`,`stash`.`users`.`name` AS `user_name`,`stash`.`transfer_logs`.`created_on` AS `created_on`,`stash`.`transfer_logs`.`updated_on` AS `updated_on` from ((((`stash`.`transfer_logs` left join `stash`.`containers` `c` on((`c`.`id` = `stash`.`transfer_logs`.`container_id`))) left join `stash`.`containers` `s` on((`s`.`id` = `stash`.`transfer_logs`.`source_id`))) left join `stash`.`containers` `t` on((`t`.`id` = `stash`.`transfer_logs`.`target_id`))) left join `stash`.`users` on((`stash`.`transfer_logs`.`user_id` = `stash`.`users`.`id`)))"), where);
+        super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.view("create view `view_table_transfers` as select `stash`.`transfer_logs`.`transfer_event_id` AS `transfer_event_id`,`c`.`id` AS `container_id`,`c`.`barcode` AS `container_barcode`,(select json_arrayagg(`x`.`json_obj`) from (select json_object('date',cast(`stash`.`container_attributes`.`created_on` as date),'attributeValues',`stash`.`container_attributes`.`attribute_values`) AS `json_obj` from `stash`.`container_attributes` where (`stash`.`container_attributes`.`container_id` = `c`.`id`) order by `stash`.`container_attributes`.`created_on` desc limit 1) `x`) AS `container_attributes`,`s`.`id` AS `source_id`,`s`.`barcode` AS `source_barcode`,(select json_arrayagg(`x`.`json_obj`) from (select json_object('date',cast(`stash`.`container_attributes`.`created_on` as date),'attributeValues',`stash`.`container_attributes`.`attribute_values`) AS `json_obj` from `stash`.`container_attributes` where (`stash`.`container_attributes`.`container_id` = `s`.`id`) order by `stash`.`container_attributes`.`created_on` desc limit 1) `x`) AS `source_attributes`,`t`.`id` AS `target_id`,`t`.`barcode` AS `target_barcode`,(select json_arrayagg(`x`.`json_obj`) from (select json_object('date',cast(`stash`.`container_attributes`.`created_on` as date),'attributeValues',`stash`.`container_attributes`.`attribute_values`) AS `json_obj` from `stash`.`container_attributes` where (`stash`.`container_attributes`.`container_id` = `t`.`id`) order by `stash`.`container_attributes`.`created_on` desc limit 1) `x`) AS `target_attributes`,`stash`.`users`.`id` AS `user_id`,`stash`.`users`.`name` AS `user_name`,`stash`.`transfer_logs`.`created_on` AS `created_on`,`stash`.`transfer_logs`.`updated_on` AS `updated_on` from ((((`stash`.`transfer_logs` left join `stash`.`containers` `c` on((`c`.`id` = `stash`.`transfer_logs`.`container_id`))) left join `stash`.`containers` `s` on((`s`.`id` = `stash`.`transfer_logs`.`source_id`))) left join `stash`.`containers` `t` on((`t`.`id` = `stash`.`transfer_logs`.`target_id`))) left join `stash`.`users` on((`stash`.`transfer_logs`.`user_id` = `stash`.`users`.`id`)))"), where);
     }
 
     /**

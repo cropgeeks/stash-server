@@ -128,7 +128,7 @@ public class UserResource extends BaseResource
 	public Response patchUserPasswordForced(@PathParam("userId") Integer userId, UserPasswordUpdate update)
 			throws SQLException
 	{
-		// Check all parameters have been proviced
+		// Check all parameters have been provided
 		if (update == null || StringUtils.isEmpty(update.getNewPassword()))
 			return Response.status(Response.Status.BAD_REQUEST).build();
 
@@ -168,7 +168,7 @@ public class UserResource extends BaseResource
 	public Response patchUserPassword(@PathParam("userId") Integer userId, UserPasswordUpdate update)
 		throws SQLException
 	{
-		// Check all parameters have been proviced
+		// Check all parameters have been provided
 		if (update == null || StringUtils.isAnyEmpty(update.getOldPassword(), update.getNewPassword()))
 			return Response.status(Response.Status.BAD_REQUEST).build();
 

@@ -63,11 +63,6 @@ public class Containers extends TableImpl<ContainersRecord> {
     public final TableField<ContainersRecord, String> BARCODE = createField(DSL.name("barcode"), SQLDataType.VARCHAR(100).nullable(false), this, "");
 
     /**
-     * The column <code>stash_db.containers.description</code>.
-     */
-    public final TableField<ContainersRecord, String> DESCRIPTION = createField(DSL.name("description"), SQLDataType.VARCHAR(255), this, "");
-
-    /**
      * The column <code>stash_db.containers.container_type_id</code>.
      */
     public final TableField<ContainersRecord, Integer> CONTAINER_TYPE_ID = createField(DSL.name("container_type_id"), SQLDataType.INTEGER.nullable(false), this, "");

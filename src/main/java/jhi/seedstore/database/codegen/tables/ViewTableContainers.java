@@ -7,10 +7,10 @@ package jhi.seedstore.database.codegen.tables;
 import java.sql.Timestamp;
 import java.util.Collection;
 
-import jhi.seedstore.database.binding.ContainerAttributeValueBinding;
+import jhi.seedstore.database.binding.ContainerAttributeValueTimelineBinding;
 import jhi.seedstore.database.codegen.StashDb;
 import jhi.seedstore.database.codegen.tables.records.ViewTableContainersRecord;
-import jhi.seedstore.pojo.ContainerAttributeValue;
+import jhi.seedstore.pojo.ContainerAttributeTimeline;
 
 import org.jooq.Condition;
 import org.jooq.Field;
@@ -62,12 +62,6 @@ public class ViewTableContainers extends TableImpl<ViewTableContainersRecord> {
     public final TableField<ViewTableContainersRecord, String> CONTAINER_BARCODE = createField(DSL.name("container_barcode"), SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column
-     * <code>stash_db.view_table_containers.container_description</code>.
-     */
-    public final TableField<ViewTableContainersRecord, String> CONTAINER_DESCRIPTION = createField(DSL.name("container_description"), SQLDataType.VARCHAR(255), this, "");
-
-    /**
      * The column <code>stash_db.view_table_containers.container_type_id</code>.
      */
     public final TableField<ViewTableContainersRecord, Integer> CONTAINER_TYPE_ID = createField(DSL.name("container_type_id"), SQLDataType.INTEGER.defaultValue(DSL.inline("0", SQLDataType.INTEGER)), this, "");
@@ -81,12 +75,6 @@ public class ViewTableContainers extends TableImpl<ViewTableContainersRecord> {
      * The column <code>stash_db.view_table_containers.parent_barcode</code>.
      */
     public final TableField<ViewTableContainersRecord, String> PARENT_BARCODE = createField(DSL.name("parent_barcode"), SQLDataType.VARCHAR(100), this, "");
-
-    /**
-     * The column
-     * <code>stash_db.view_table_containers.parent_description</code>.
-     */
-    public final TableField<ViewTableContainersRecord, String> PARENT_DESCRIPTION = createField(DSL.name("parent_description"), SQLDataType.VARCHAR(255), this, "");
 
     /**
      * The column
@@ -135,7 +123,7 @@ public class ViewTableContainers extends TableImpl<ViewTableContainersRecord> {
      * The column
      * <code>stash_db.view_table_containers.container_attributes</code>.
      */
-    public final TableField<ViewTableContainersRecord, ContainerAttributeValue[]> CONTAINER_ATTRIBUTES = createField(DSL.name("container_attributes"), SQLDataType.JSON, this, "", new ContainerAttributeValueBinding());
+    public final TableField<ViewTableContainersRecord, ContainerAttributeTimeline[]> CONTAINER_ATTRIBUTES = createField(DSL.name("container_attributes"), SQLDataType.JSON, this, "", new ContainerAttributeValueTimelineBinding());
 
     /**
      * The column
@@ -153,7 +141,7 @@ public class ViewTableContainers extends TableImpl<ViewTableContainersRecord> {
     }
 
     private ViewTableContainers(Name alias, Table<ViewTableContainersRecord> aliased, Field<?>[] parameters, Condition where) {
-        super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.view("create view `view_table_containers` as select `c`.`id` AS `container_id`,`c`.`barcode` AS `container_barcode`,`c`.`description` AS `container_description`,`ct`.`id` AS `container_type_id`,`cp`.`id` AS `parent_id`,`cp`.`barcode` AS `parent_barcode`,`cp`.`description` AS `parent_description`,`ctp`.`id` AS `parent_container_type_id`,`c`.`is_active` AS `container_is_active`,`stash`.`trials`.`id` AS `trial_id`,`stash`.`trials`.`name` AS `trial_name`,`stash`.`trials`.`description` AS `trial_description`,`stash`.`projects`.`id` AS `project_id`,`stash`.`projects`.`name` AS `project_name`,`stash`.`projects`.`description` AS `project_description`,(select json_arrayagg(json_object('attributeId',`stash`.`attributes`.`id`,'attributeName',`stash`.`attributes`.`name`,'attributeValue',`stash`.`container_attributes`.`attribute_value`)) from (`stash`.`container_attributes` left join `stash`.`attributes` on((`stash`.`attributes`.`id` = `stash`.`container_attributes`.`attribute_id`))) where (`stash`.`container_attributes`.`container_id` = `c`.`id`)) AS `container_attributes`,(select count(1) from `stash`.`containers` `sc` where (`sc`.`parent_container_id` = `c`.`id`)) AS `sub_container_count`,`c`.`created_on` AS `created_on` from (((((`stash`.`containers` `c` left join `stash`.`containers` `cp` on((`c`.`parent_container_id` = `cp`.`id`))) left join `stash`.`container_types` `ct` on((`c`.`container_type_id` = `ct`.`id`))) left join `stash`.`container_types` `ctp` on((`cp`.`container_type_id` = `ctp`.`id`))) left join `stash`.`trials` on((`stash`.`trials`.`id` = `c`.`trial_id`))) left join `stash`.`projects` on((`stash`.`projects`.`id` = `c`.`project_id`)))"), where);
+        super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.view("create view `view_table_containers` as select `c`.`id` AS `container_id`,`c`.`barcode` AS `container_barcode`,`ct`.`id` AS `container_type_id`,`cp`.`id` AS `parent_id`,`cp`.`barcode` AS `parent_barcode`,`ctp`.`id` AS `parent_container_type_id`,`c`.`is_active` AS `container_is_active`,`stash`.`trials`.`id` AS `trial_id`,`stash`.`trials`.`name` AS `trial_name`,`stash`.`trials`.`description` AS `trial_description`,`stash`.`projects`.`id` AS `project_id`,`stash`.`projects`.`name` AS `project_name`,`stash`.`projects`.`description` AS `project_description`,(select json_arrayagg(`x`.`json_obj`) from (select json_object('date',cast(`stash`.`container_attributes`.`created_on` as date),'attributeValues',`stash`.`container_attributes`.`attribute_values`) AS `json_obj` from `stash`.`container_attributes` where (`stash`.`container_attributes`.`container_id` = `c`.`id`) order by `stash`.`container_attributes`.`created_on` desc limit 1) `x`) AS `container_attributes`,(select count(1) from `stash`.`containers` `sc` where (`sc`.`parent_container_id` = `c`.`id`)) AS `sub_container_count`,`c`.`created_on` AS `created_on` from (((((`stash`.`containers` `c` left join `stash`.`containers` `cp` on((`c`.`parent_container_id` = `cp`.`id`))) left join `stash`.`container_types` `ct` on((`c`.`container_type_id` = `ct`.`id`))) left join `stash`.`container_types` `ctp` on((`cp`.`container_type_id` = `ctp`.`id`))) left join `stash`.`trials` on((`stash`.`trials`.`id` = `c`.`trial_id`))) left join `stash`.`projects` on((`stash`.`projects`.`id` = `c`.`project_id`)))"), where);
     }
 
     /**
