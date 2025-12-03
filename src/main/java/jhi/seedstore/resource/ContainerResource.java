@@ -109,6 +109,83 @@ public class ContainerResource extends BaseResource
 	}
 
 	@DELETE
+	@Path("/{containerId:\\d+}/attribute/{containerAttributeValuesId:\\d+}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UsersUserType.admin)
+	public Response postContainerAttributes(@PathParam("containerId") Integer containerId, @PathParam("containerAttributeValuesId") Integer containerAttributeValuesId)
+			throws SQLException
+	{
+		if (containerId == null || containerAttributeValuesId == null)
+			return Response.status(Response.Status.BAD_REQUEST).build();
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			ContainerAttributesRecord record = context.selectFrom(CONTAINER_ATTRIBUTES).where(CONTAINER_ATTRIBUTES.CONTAINER_ID.eq(containerId)).and(CONTAINER_ATTRIBUTES.ID.eq(containerAttributeValuesId)).fetchAny();
+
+			if (record == null)
+				return Response.status(Response.Status.BAD_REQUEST).build();
+
+			record.delete();
+
+			return Response.ok().build();
+		}
+	}
+
+	@POST
+	@Path("/{containerId:\\d+}/attribute")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UsersUserType.admin)
+	public Response postContainerAttributes(@PathParam("containerId") Integer containerId, ContainerAttributes containerAttributes)
+			throws SQLException
+	{
+		if (containerId == null || containerAttributes == null || containerAttributes.getContainerId() == null || containerAttributes.getAttributeValues() == null || containerAttributes.getAttributeValues().isEmpty() || !containerId.equals(containerAttributes.getContainerId()))
+			return Response.status(Response.Status.BAD_REQUEST).build();
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			// Check the requested container exists
+			Containers container = context.selectFrom(CONTAINERS).where(CONTAINERS.ID.eq(containerId)).fetchAnyInto(Containers.class);
+			if (container == null)
+				return Response.status(Response.Status.NOT_FOUND).build();
+
+			Map<Integer, String> containerAttributeValues = containerAttributes.getAttributeValues();
+
+			// Remove anything that isn't set (null, "", "   ", etc)
+			Iterator<Map.Entry<Integer, String>> iterator = containerAttributeValues.entrySet().iterator();
+			while (iterator.hasNext())
+			{
+				String value = iterator.next().getValue();
+
+				if (StringUtils.isEmpty(value))
+					iterator.remove();
+			}
+
+			// If no valid value is left, throw an error
+			if (containerAttributes.getAttributeValues().isEmpty())
+				return Response.status(Response.Status.BAD_REQUEST).build();
+
+			// Check all the attributes exist
+			Integer count = context.selectCount().from(ATTRIBUTES).where(ATTRIBUTES.ID.in(containerAttributes.getAttributeValues().keySet())).fetchAnyInto(Integer.class);
+			if (count == null || count != containerAttributes.getAttributeValues().size())
+				return Response.status(Response.Status.BAD_REQUEST).build();
+
+			// Finally save the result
+			ContainerAttributesRecord record = context.newRecord(CONTAINER_ATTRIBUTES, containerAttributes);
+			if (record.getCreatedOn() == null)
+				record.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+			record.store();
+
+			return Response.ok().build();
+		}
+	}
+
+	@DELETE
 	@Path("/{containerId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
